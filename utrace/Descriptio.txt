@@ -1,0 +1,5 @@
+Callbacks are made from safe points, where no locks are held, no special resources are pinned (usually), and the user-mode state of the thread is accessible.
+
+Problem accessing memory user space: 
+
+Although these functions behave like normal memcpy functions, a little extra care must be used when accessing user space from kernel code. The user pages being addressed might not be currently present in memory, and the virtual memory subsystem can put the process to sleep while the page is being transferred into place. This happens, for example, when the page must be retrieved from swap space. The net result for the driver writer is that any function that accesses user space must be reentrant, must be able to execute concurrently with other driver functions, and, in particular, must be in a position where it can legally sleep. We return to this subject in Chapter 5.
