@@ -13,4 +13,4 @@ build_document: build_no_bliography  bibliography
 	$(LATEX_BUILDER) report.tex
 
 clean :
-	rm -f *.brf *.blg *.lof *.log *.nlo *.aux *.toc *.pdf *.bbl
+	rm -f *.out  *.brf *.blg *.lof *.log *.nlo *.aux *.toc *.pdf *.bbl
