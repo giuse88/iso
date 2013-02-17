@@ -11,4 +11,4 @@ PWD := $(shell pwd)
 default:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
 clean:
-	rm -f *.mod.c *.ko *.o
+	rm -rf *.mod.c *.ko *.o Module.symvers modules.order .trace.* .tmp_versions   
