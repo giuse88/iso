@@ -1,2 +1,2 @@
-/home/giuseppe/Dropbox/MSc/ISO/kprobe/code/trace.ko
-/home/giuseppe/Dropbox/MSc/ISO/kprobe/code/trace.o
+/home/giuseppe/Dropbox/MSc/ISO/code/iso/kprobe/trace.ko
+/home/giuseppe/Dropbox/MSc/ISO/code/iso/kprobe/trace.o
