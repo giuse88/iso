@@ -1,0 +1,16 @@
+% ------------------------------------------------------------------------
+% SAMPLE BIBLIOGRAPHY FILE
+% ------------------------------------------------------------------------
+@INPROCEEDINGS{Garfinkel03ostia:a,
+    author = {Tal Garfinkel and Ben Pfaff and Mendel Rosenblum},
+    title = {Ostia: A Delegating Architecture for Secure System Call Interposition},
+    booktitle = {IN NDSS},
+    year = {2003},
+    publisher = {}
+}
+
+% ------------------------------------------------------------------------
+
+
+
+% ------------------------------------------------------------------------
