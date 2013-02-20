@@ -1,16 +1,115 @@
 \chapter{Kernel-based tracing mechanisms}
 
+A system call interceptor may be implemented within the operating system kernel, and all extension code runs in the kernel mode.
+Two different approach can be taken to develop a system call interceptor in the Linux Kernel. A new tracing infrastructure may be inserted in the kernel exposing its tracing functionalities to the user space as in the case of \textit{ptrace} or at kernel space as in the case of \textit{Utrace}. This approach required an massive kernel change and it is error-prone. A better approach may be to leverage on the instrumentation feature already provided by the kernel.These are are used mainly for debugging and tracing purposes but they can be effectively used for implementing a system call interceptor. A Kernel instrumentation tool is a mechanism that allows to insert a extra code, usually reported as \textit{extension code}, into a specific location in the kernel code. When this point is hit, the extension code is executed.   
+ 
+There are two type of the kernel instrumentation:
+	\begin{description}
+	\item[Dynamic] the instrumentation code is inserted in the specific location on the fly. Kprobes \nocite{Sudhanshu:2006:Online}
+	\item[Static] Kernel makers used in LTTng .
+	\end{description}
+	
+Another method used to be use widely [Jail, Janus] to implement a kernel interceptor was to overwrite the addresses within the Kernel system call table\footnote{Kernel structure \textit{sys\_call\_table} which contains pointers to all system calls.} with address that point to the respective instrumented system call.
+
+When a instrumented system call is called, it executes the instrumentation code and then it invokes the actual system call. Typically the instrumentation code is executed before and after the execution of a system call. 
+However, this method is not available any more because the system call table is not accessible since the Linux version 2.6, unless some hacks are used to retrieve its address.  
+
+ 
+The primary advantages of a kernel based approach is low overhead due to the intercepting mechanism. The overhead for a system call interposition is determined completely by the extension code. Moreover, the kernel code runs at the highest privilege level and as such, can access all kernel structure as well as the address space of a user-space process. However, the power afforded by a kernel-mode intercepting mechanism entails some serious consequences. The extension code is executed at kernel level which is a more restricted environment than an application. Developing for this environment requires a deep knowledge regarding the kernel architecture that may not be common. Some assumption and structure that works at user space may not work in the kernel space (such as dynamic memory allocation). This make a kernel developing more complicated and error-prone respect to a user space approach. Introducing an error in the kernel has more serious consequences than an application error, because it may compromise the entire system. In addition a system call interceptor based on the kernel requires super user privilege to be installed that may make it difficult to be used in a multi-user environment.
+
+Other problem the code is not easily portable, think of the different ABI between differen archtecture , we have this problem in both utrace and kprobes
+
+In the rest of this chapter presents the Utrace architecture as as kernel enhancement event though this is not supported by Linux. But it provides a good example and it important to understand it. 
+The second part of thi chapter introduce the use of kprobe and its architecture by explaying how it can be used to implement a system call interceptor.  
+
+%%%%%PROBLEM%%%%%%%%%%%%%%%%%
+I need to point out the difference between kernel approach or kernel enchantment. 
+it is not clear.  
+
 \section{Utrace}
-Why has not Utrace been introduced in the mainline of Kernel Linux? 
-\subsection{Design}
-\subsection{Limit and pitfall}
-\section{Kernel enhancements}
-\subsection{Design}
-\subsection{Limit and pitfall}
+Utrace has been developed principally in order to overcome the ptrace’s limitations, especially those regarding performance and race conditions. Utrace is an in-kernel API which can be used to build kernel-based tracing mechanisms. It has been used as kernel tracing mechanism to implement a secure sandbox for web application in \nocite{OcvtavianPurdila:2006:Utrace}, or as base for as virtualization mechanism in KMview \nocite{RenzoDavoli:2007:Online}.  
 
+The first difference with ptrace is that Utrace does not interact at all with user space, its interface its available only in the kernel space and all the extension code runs at kernel level. This implementation choice has been taken in order to avoid the overhead due to the context switch between user space and kernel space which is the major cause of low performance in ptrace.
+ 
+The actors in an Utrace tracing mechanism are threads and tracing engines. A tracing engine is utrace's basic control unit, it is a piece of code defining the actions to be taken as consequences of an event occurring in the traced thread, such as invoking a system call. Typically, the utrace client is defined within a kernel module, and it establishes an engine for each thread of interest.
+
+The Utrace interface provides the following basic facilities to build up an efficient tracing mechanism: 
+\begin{description}
+\item[Event reporting:]
+		Utrace clients can register callbacks to be run when the traced thread issues a specific event of interest, i.e. system call entry/exit, exit, clone,etc.
+\item[Thread Control:]
+		The utrace client has full control of the running thread. It can inject signal, prevent a thread from running and abort a system call.   
+\item[Thread machine state access:]
+		While the client is  in a callback function, it can investigate the internal thread 's state by reading/writing the thread’s CPU registers and its memory space.	
+\end{description}
+
+Utrace operates by inserting tracepoints at strategic point in the kernel code. When one of this points is hit by the traced kernel the callback associated with that event takes place. This callback, though happening in the context of the user process,  occurs when this process is executing in the kernel space.  
+
+\subsection{Setting up a System call interceptor mechanism using Utrace}
+ 
+CALLBACK function are called in safe points
+
+The utrace client must be implemented in a kernel module in order to be able to access to the utrace interface. So, the mechanism will be activated when the module is loaded and deactivated when the module is removed. The tracing mechanism must ensure that a callback function is executed when the entry/exit system call event is triggered during the execution of the traced process.
+
+A Utrace mechanism starts out by attaching an engine to a tread.
+
+\begin{lstlisting}
+utrace_attach_task
+utrace_attach_pid
+\end{lstlisting}
+
+Calling one of these function with the flag UTRACE\_ATTACH\_CREATE the engine is attached to the thread identified using its task\_struck or PID. The structure utrace\_engine\_ops defines the callbacks function. In the case of a system call interceptorn, the callback function of out interest are those reagarding the entry/exit of a system call. 
+
+Once the engine has been attached, the SYSENTRY and SYSEXIT need to be set in the engine. This can be accomplished using the following function :
+\begin{lstlisting}
+utrace_set_events_pid
+utrace_set_events_pid
+\end{lstlisting}
+Now, each time the traced process attempts to invoke a system the callbacks will be executed. During the execution of the callback function the tread is put in a QUIESCENCE status. This means that is stopped and will not start running when we are accessing its status. Each callback takes as argument the task\_struct which represents the state of traced process before the event has been triggered. Retrieving information from this structure such as system call number arguments is a cumbersome operation as it depends on the convention used to pass parameter between different function which is different from architecture to another architecture see \ref{appendix:A}. The thread then can be resumed or aborted depending in the value returned by this function. 
+
+% ACCESSING VALUES 
+As we said before the utrace code runs on kernel mode, one of the important characteristic of a system call is to retrieve both direct and indirect arguments of a system call. The direct arguments can be retrieved from the CPU register. While the indirect one are in user space in the memory space of the traced process and only their address can be retrieved from the CPU registers. The kernel provides two routine which allow to read from and write to the address space of a user process. Using these the values can be coppied in the memeory space and analysed. 
+
+% CLONE 
+The system call interceptor, described so far it does not handle the case when the traced process spawns a new process. Utrace provide an event and its associated callback to handle this situation. If the traced process attempts to invoke a fork/clone system call, the CLONE event callback is called when the new child thread has been created but not yet started running (Note that this is the solution proposed in the previous chapter for ptrace in case of multi thread application).The newly thread cannot be scheduled until the CLONE tracing callback return. 
+This allows the tracing mechanism to create a new tracing engine and attach it to the newly process, ensuring that all system calls are correctly intercepted and analysed. 
+ 
+The main advantages of utrace is : 
+
+The utrace seems a good solution for implementing a system call interceptor, but it has some drabckacks. The main kernel drackwan is that a tracing mechanism developed using utrace is not portable among different system and the fact that it interface. This plus the fact that it interface is only kernel base caused that Utrace has been abandoned and never joined in the kernel main line. 
+
+
+\section{Kernel Probes}
+%Introduction 
+Kprobe \citep{Kprobes:2006} is a simple lightweight instrumentation mechanism developed by IBM and it has been introduced in Linux Kernel Version 2.6.9. Kprobes allows a user to dynamically insert a \textit{probepoint}\footnote{Probepoint is the address where the instrumentation is registered } is a specific kernel location. When a probepoint is hit a user-defined handler is executed. This will be executed in the context of the process where the probepoit has been hit. Kprobes has been mainly used for debugging purposes because a debug routine can be inserted easily in the kernel without recompiling it, for kernel tracing in SystemTap\citep{SystemTap:Online}, performance evaluation, fault-injection,etc.  
 % ------------------------------------------------------------------------
+%How does it works? 
+%-------------------------------------------------------------------------
+\par
+Kprobes operates by overwriting the first byte of the probed instruction with a breakpoint instruction (e.g., int3 on i386 and x86\_64). The original instruction is copied into a separate region of memory.When the probed point is hit by the CPU a trap fault occurs, the CPU register are saved and the control passes to the Kprobes manager via the kernel notification chain\footnote{The kernel notification chain is the communication systems used within the Linux kernel, it follows a \textbf{Publish-subscribe} model.}.
+Then, the Kprobes manager executes a user-defined routine \textit{pre\_handler}. After that, the original instruction must be executed. This is run in single-step mode out of the normal program flow. This solution called \textit{"single-step out of line"} or  \textit{"execute out of line"} (XOL) allows a probe mechanism to work with multiple processes at the same time. 
+When the execution of the probed instruction is completed, the control returns to the kprobes manager which executes  a user-defiend post\_handler. A nice description of the kernel probes can be found at \citep{Sudhanshu:2006:Online}.  
+%-------------------------------------------------------------------------
+%How can we put it in place
+%-------------------------------------------------------------------------
+\par
+A probe point can be registered using the function \textit{register\_kprobe()} specifying the address where the probe is to be inserted and what  handlers is to be called when the probe point is hit. Recently,the possibility to insert probe point through symbolic name has been introduced in the kernel. This facility is particularly useful as a routine can be probed just using its name.
+Currently three different types of kprobes are supported : 
 
-%%% Local Variables: 
+\begin{description}
+\item[Kprobe] Kprobe can be inserted at any location within the kernel. 
+\item[Jprobe] Jprobe is inserted at entry point of a kernel function and it provides a  convenient way to access the function's arguments. 
+\item[Kretprobe] Kretprobe , usually called return probe, is inserted at the end point of a kernel function.  
+\end{description}
+%--------------------------------------------------------------------------
+%Over Head introduced by Kprobes
+%--------------------------------------------------------------------------
+The over head introduced using kprobes is to be taken into account when the performance is a important part of an application. The overhead is principally due to the execution of two exeception for each probe instruction. A series of kprobes, called kprobe-booster, has been developed and integrated in the kernel to reduce this overhead. Their implementation rely on the fact that the post\_handler is not always used and, if so,  the second exception can be avoided using a jump instruction. This enehancement reduces by half the overhead due to kprobe instrumentation. This result was easily imaginable because the number of execpetion has halved. A further improvement has been proposed in \citep{Djprobe:2007} where jump instructions are used instead of the break instruction. They claim to have achieved performance 5 times better than a normal probe.   
+
+\subsection{System call interceptor using kernel probes}
+Multithread pallication 
+how do you deal with this case?
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
 %%% End: 
