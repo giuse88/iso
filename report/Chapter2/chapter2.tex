@@ -1,33 +1,41 @@
 \chapter{Kernel-based tracing mechanisms}
+\label{kernel_mode}
 
-A system call interceptor may be implemented within the operating system kernel, and all extension code runs in the kernel mode.
-Two different approach can be taken to develop a system call interceptor in the Linux Kernel. A new tracing infrastructure may be inserted in the kernel exposing its tracing functionalities to the user space as in the case of \textit{ptrace} or at kernel space as in the case of \textit{Utrace}. This approach required an massive kernel change and it is error-prone. A better approach may be to leverage on the instrumentation feature already provided by the kernel.These are are used mainly for debugging and tracing purposes but they can be effectively used for implementing a system call interceptor. A Kernel instrumentation tool is a mechanism that allows to insert a extra code, usually reported as \textit{extension code}, into a specific location in the kernel code. When this point is hit, the extension code is executed.   
+Kernel tracing mechanisms were originally developed in response to the limitations of the existing tracing mechanisms such as ptrace. Since the early 2000, several sandbox tools have been developed using a system call interceptor implemented within the kernel \cite{Janus,Noordende_asecure,systrace,Garfinkel03ostia:a} either using a kernel enhancement (ptrace++) or a kernel module (mod\_janus).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% KERNEL MODIFICATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Two different approaches can be taken to develop a system call interceptor in the Linux kernel. As the source of the kernel is available, a completely new tracing infrastructure might be introduced in the kernel exposing its tracing functionalities to user space as in the case of \textit{ptrace} or at kernel space as in the case of\textit{utrace}. This approach requires a massive change in the kernel source that is difficult to implement and error-prone due to the complexity of the kernel. Furthermore, it is not a portable solution as it will not be inserted into the Linux source (see case utrace),and thus it should be dispatched as kernel patch which is not easy to install and require to compile the entire kernel. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% KERNEL MODULE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+An easier approach is to insert the tracing mechanism within a kernel module. It simplifies the installation process because it needs only to be compiled and loaded in memory. It also has the benefit that the tracing mechanism can be activated when the module is loaded and deactivated when it is removed. In fact, this is the implementation choice widely used for building up  kernel-based interceptors \cite{Janus,Noordende_asecure,systrace}. 
+
+
+Inserting code in the kernel space is always a risky operation because there is the possibility to introduce some bugs which may compromise the whole system. In order to reduce this eventuality, an \textbf{hybrid interposition architecture} has been firstly developed in \cite{Janus}. Then it has become the prominent approach to build kernel-based interceptor. The attribute hybrid is due to the fact that it is not a fully kernel based implementation, as it is composed of two components : a kernel-level enhancement and a user-level process monitor. The kernel-level enforcement is the core of the system call interceptor as its main task is to provide to the monitor process a means of controlling the system calls made by another program. 
+
+This usually was accomplished by overwriting  the address of a system calls within the system call table\footnote{Kernel structure \textit{sys\_call\_table} which contains addresses of system call handlers.} with the address of the respective instrumented system calls.An instrumented system call runs a pre-call and post-call routine as well as calling the old system call. The extra routines executed are usually referred to as \textbf{extension code} and allow tracing component to have a full control of the system call. It can prevent a system call to be execute, access its parameters or return values.
+
+These methods rely on the fact the system call table is modifiable. Since kernel 2.6, this possibility has been removed, the address of the system call table is not accessible and the pages on which it is contained are now read-only. However, different tricks\footnote{For example. the address of the system call table can be retrieved from the file /boot/System.map} to overwrite the system call table exist, but they are not a reliable solution for implementing a system call interceptor.
+
+A solution for this problem may be to use the instrumentation features provided by the kernel instead of modifying the system call table. Instrumentation features are used mainly for debugging and tracing purposes but they can be effectively used for implementing a system call interceptor as well. A Kernel instrumentation tool is a mechanism that allows for a extra code, usually called as \textit{extension code}, to be insert into a specific location in the kernel code. When this point is hit, the extension code associated is executed.
  
 There are two type of the kernel instrumentation:
 	\begin{description}
-	\item[Dynamic] the instrumentation code is inserted in the specific location on the fly. Kprobes \nocite{Sudhanshu:2006:Online}
-	\item[Static] Kernel makers used in LTTng .
+	\item[Dynamic] the instrumentation code is inserted in the specific location at run time. Kprobes \cite{Sudhanshu:2006:Online}
+	\item[Static]  the point and the instrumentation code is declared in the source file. Kernel makers/trace point used in LTTng \cite{lttng} .
 	\end{description}
 	
-Another method used to be use widely [Jail, Janus] to implement a kernel interceptor was to overwrite the addresses within the Kernel system call table\footnote{Kernel structure \textit{sys\_call\_table} which contains pointers to all system calls.} with address that point to the respective instrumented system call.
+%%%%%%%%%%%%%%%%%%% KENRNEL APPROACH 
+The primary advantages of a kernel based approach is low overhead due to the intercepting mechanism. The overhead for a system call interposition is determined completely by the extension code executed. Moreover, the kernel code runs at the highest privilege level and as such, can access all kernel structure as well as the address space of a user-space process avoiding the overhead due to the context switch. However, the power afforded by a kernel-mode intercepting mechanism entails some drawbacks. The primary one is that the extension code, as it runs at kernel-level, must respect the constrains of this environment. In this environment some assumption commonly used in user-space may not be true in kernel space [ such us such as dynamic memory allocation].This make a kernel developing complicated and error-prone. Introducing an error in the kernel has serious consequences, because it may compromise the entire system or introduce security flaws. In addition a system call interceptor based on the kernel requires super user privilege to be installed that may make it difficult to be used in a multi-user environment.
 
-When a instrumented system call is called, it executes the instrumentation code and then it invokes the actual system call. Typically the instrumentation code is executed before and after the execution of a system call. 
-However, this method is not available any more because the system call table is not accessible since the Linux version 2.6, unless some hacks are used to retrieve its address.  
+Other factor that make this approach cumbersome for implementing a system call interceptor is that the code is not easily portable among different architecture or kernel version. The process state represented by the status of its register is architecture dependent, the ABI used to pass arguments across different kernel functions may depend on the Kernel version. Therefore a system call interceptor realized using a kernel mechanism needs to be adapted for the architecture of interest.
 
- 
-The primary advantages of a kernel based approach is low overhead due to the intercepting mechanism. The overhead for a system call interposition is determined completely by the extension code. Moreover, the kernel code runs at the highest privilege level and as such, can access all kernel structure as well as the address space of a user-space process. However, the power afforded by a kernel-mode intercepting mechanism entails some serious consequences. The extension code is executed at kernel level which is a more restricted environment than an application. Developing for this environment requires a deep knowledge regarding the kernel architecture that may not be common. Some assumption and structure that works at user space may not work in the kernel space (such as dynamic memory allocation). This make a kernel developing more complicated and error-prone respect to a user space approach. Introducing an error in the kernel has more serious consequences than an application error, because it may compromise the entire system. In addition a system call interceptor based on the kernel requires super user privilege to be installed that may make it difficult to be used in a multi-user environment.
+In the remainder of this chapter the models previously introduced are explained in better details. The first model presented is \textit{Utrace}, it is a kernel tracing architecture initially implemented as kernel enhancement to replace ptrace. Although, this has never been inserted in the main line of Linux kernel, it is an interesting prototype which is worth analysing [the interesting thing is the performance].  
+The third and the forth chapter introduce two different model of hybrid interposition architecture. The first is implemented using a filtering architecture the second using a delegating one. The last part introduces the use of kernel instrumentation mechanism, it is mainly focus on the Kprobe architecture explaining how this mechanism can be used to instrument system call in order to build up an efficient kernel-based system call interceptor. 
 
-Other problem the code is not easily portable, think of the different ABI between differen archtecture , we have this problem in both utrace and kprobes
 
-In the rest of this chapter presents the Utrace architecture as as kernel enhancement event though this is not supported by Linux. But it provides a good example and it important to understand it. 
-The second part of thi chapter introduce the use of kprobe and its architecture by explaying how it can be used to implement a system call interceptor.  
-
-%%%%%PROBLEM%%%%%%%%%%%%%%%%%
-I need to point out the difference between kernel approach or kernel enchantment. 
-it is not clear.  
 
 \section{Utrace}
-Utrace has been developed principally in order to overcome the ptrace’s limitations, especially those regarding performance and race conditions. Utrace is an in-kernel API which can be used to build kernel-based tracing mechanisms. It has been used as kernel tracing mechanism to implement a secure sandbox for web application in \nocite{OcvtavianPurdila:2006:Utrace}, or as base for as virtualization mechanism in KMview \nocite{RenzoDavoli:2007:Online}.  
+Utrace has been developed principally in order to overcome the ptrace’s limitations, especially those regarding performance and race conditions. Utrace is an in-kernel API which can be used to build kernel-based tracing mechanisms. It has been used to implement a secure sandbox for web application in \cite{OcvtavianPurdila:2006:Utrace}, or as base for as virtualization mechanism in KMview \cite{RenzoDavoli:2007:Online}.  
 
 The first difference with ptrace is that Utrace does not interact at all with user space, its interface its available only in the kernel space and all the extension code runs at kernel level. This implementation choice has been taken in order to avoid the overhead due to the context switch between user space and kernel space which is the major cause of low performance in ptrace.
  
@@ -43,51 +51,162 @@ The Utrace interface provides the following basic facilities to build up an effi
 		While the client is  in a callback function, it can investigate the internal thread 's state by reading/writing the thread’s CPU registers and its memory space.	
 \end{description}
 
-Utrace operates by inserting tracepoints at strategic point in the kernel code. When one of this points is hit by the traced kernel the callback associated with that event takes place. This callback, though happening in the context of the user process,  occurs when this process is executing in the kernel space.  
+Utrace operates by inserting tracepoints at strategic point in the kernel code ( these are called SAFE point more info) .  When one of this points is hit by the traced kernel the callback associated with that event takes place. This callback, though happening in the context of the user process,  occurs when this process is executing in the kernel space.  
 
 \subsection{Setting up a System call interceptor mechanism using Utrace}
  
-CALLBACK function are called in safe points
 
 The utrace client must be implemented in a kernel module in order to be able to access to the utrace interface. So, the mechanism will be activated when the module is loaded and deactivated when the module is removed. The tracing mechanism must ensure that a callback function is executed when the entry/exit system call event is triggered during the execution of the traced process.
 
 A Utrace mechanism starts out by attaching an engine to a tread.
 
+\lstset{language=C,caption={Synopsis utrace\_attached\_engine},label=DescriptiveLabel}
 \begin{lstlisting}
-utrace_attach_task
-utrace_attach_pid
+struct utrace_attached_engine * utrace_attach_task (struct task_struct * target, 
+													int flags,
+													const struct utrace_engine_ops *ops,
+													void * data);
 \end{lstlisting}
 
-Calling one of these function with the flag UTRACE\_ATTACH\_CREATE the engine is attached to the thread identified using its task\_struck or PID. The structure utrace\_engine\_ops defines the callbacks function. In the case of a system call interceptorn, the callback function of out interest are those reagarding the entry/exit of a system call. 
+Calling one of these function with the flag UTRACE\_ATTACH\_CREATE the engine is attached to the thread identified using its task\_struck or PID. The structure utrace\_engine\_ops defines the callbacks function. In the case of a system call interceptor, the callback function of interest are those regarding the entry/exit of a system call. 
 
 Once the engine has been attached, the SYSENTRY and SYSEXIT need to be set in the engine. This can be accomplished using the following function :
+
+\lstset{language=C,caption={Synopsis utrace\_set\_events\_task},label=DescriptiveLabel}
 \begin{lstlisting}
-utrace_set_events_pid
-utrace_set_events_pid
+int utrace_set_events (    struct task_struct *,
+                           struct utrace_engine *,
+                           unsigned long eventmask);
 \end{lstlisting}
-Now, each time the traced process attempts to invoke a system the callbacks will be executed. During the execution of the callback function the tread is put in a QUIESCENCE status. This means that is stopped and will not start running when we are accessing its status. Each callback takes as argument the task\_struct which represents the state of traced process before the event has been triggered. Retrieving information from this structure such as system call number arguments is a cumbersome operation as it depends on the convention used to pass parameter between different function which is different from architecture to another architecture see \ref{appendix:A}. The thread then can be resumed or aborted depending in the value returned by this function. 
+
+Once the setting phase is completes, each time the traced process attempts to invoke a system the callbacks will be executed. During the execution of the callback function the tread is put in a QUIESCENCE status. This means that is stopped and will not start running when its status is accessed. Each callback takes as argument the task\_struct which represents the state of traced process before the event has been triggered. Retrieving information from this structure such as system call number arguments depends on the architecture on the CPU architecture ( i.g. x86 and x86\_64 have different registers). The thread then can be resumed or aborted depending in the value returned by this function. 
 
 % ACCESSING VALUES 
-As we said before the utrace code runs on kernel mode, one of the important characteristic of a system call is to retrieve both direct and indirect arguments of a system call. The direct arguments can be retrieved from the CPU register. While the indirect one are in user space in the memory space of the traced process and only their address can be retrieved from the CPU registers. The kernel provides two routine which allow to read from and write to the address space of a user process. Using these the values can be coppied in the memeory space and analysed. 
+One of the important characteristic of a system call is to retrieve both direct and indirect arguments of a system call. The direct arguments can be retrieved from the CPU register. While the indirect ones are in the address space of the traced process and only their address can be retrieved from the CPU registers. The kernel provides two routine which allow to read ( copy\_from\_user) from and write (copy\_to\_user) to the address space of a user process. Using these routines a value can be copied in the kernel space and analysed. 
 
 % CLONE 
 The system call interceptor, described so far it does not handle the case when the traced process spawns a new process. Utrace provide an event and its associated callback to handle this situation. If the traced process attempts to invoke a fork/clone system call, the CLONE event callback is called when the new child thread has been created but not yet started running (Note that this is the solution proposed in the previous chapter for ptrace in case of multi thread application).The newly thread cannot be scheduled until the CLONE tracing callback return. 
 This allows the tracing mechanism to create a new tracing engine and attach it to the newly process, ensuring that all system calls are correctly intercepted and analysed. 
  
-The main advantages of utrace is : 
+The main advantages of utrace is its performance. [Nice some examples]. Even though utrace seems a good solution for implementing a system call interceptor, it has been harshly criticized due to its kernel-based model. It suffers, as all kernel-based mechanisms, of the no-portability problem. It was intended to be a the ptrace killer application, but this is not happened because its interface can be used only within the kernel. A user need to have a base knowledge about kernel programming to write even an easy interceptor, which is not a common skill. These arguments caused the abandonment of utrace's development and it has never joined in the kernel main line. 
 
-The utrace seems a good solution for implementing a system call interceptor, but it has some drabckacks. The main kernel drackwan is that a tracing mechanism developed using utrace is not portable among different system and the fact that it interface. This plus the fact that it interface is only kernel base caused that Utrace has been abandoned and never joined in the kernel main line. 
+\section{Kernel hybrid interposition architecture}
+\label{interceptor_mechanism}
+
+The first kernel hybrid interposition mechanism has been implemented in  the second version of Janus sandbox \cite{Janus} to provide a means of monitoring and modifying the system calls made by the sandboxed process. The necessity to develop a new interceptor mechanism raised from the limitation of ptrace in effectively aborting a system call. Before the enhancement introduced to support UML \citep{UML_1,UML_2}, the only way offered by ptrace to prevent a system call from being executed was to terminate the entire program. This, obviously, was not a feasible solution for a sandbox tool because some false-threats can be thrown even though there is not any real threat. 
+Event though the sandbox implemented with this intercepting mechanism is prone to vulnerabilities[ref], the same interceptor mechanism has been reproduced in other sandoxes tools such as MapBox \cite{MapBox}, SysTrace \cite{systrace} with some improvements. 
+
+An hybrid system call interceptor is composed of a tracing engine which completely resides within the kernel whose task is to track all system calls made of the traced program. It allows a monitor process to access the tracing features through an easy interface in user space .Typically the communication between the monitor process and the tracing engine takes place via a char device, for example in mod\_janus is /dev/fcap. Once the tracing mechanism has been correctly set up all trap events associated with the traced can be retrieved by the monitor process through a select or poll system call. As in the case of ptrace, a relevant overhead is introduced due to the context switch between user space and kernel space. However, in the case of a kernel interceptor mechanism, this shortcoming can be mitigated by leveraging on power and flexibility of this method . For example, it allows a fine-grained control over the system calls allowing a monitor process to intercept only certain calls while leaving the other unmonitored decreasing the overall overhead.  
+ 
+This may look not a good choice for auditing or record-replay purpose because all system call and their parameters need to be recorded. That is true, but another important characteristic of a kernel interceptor mechanism is its flexibility.  If we want to use this kind of interceptor for record-replay purpose, the monitor mechanism can be inserted within the kernel space reducing the overhead just to the execution of the extension code. 
+ 
+As describe in the previous few line the kernel approach is extremely powerful and flexible, though placing an entire system call interceptor in a kernel is not a trivial process and it can introduces errors and new vulnerabilities that can compromise the entire system. 
+
+In the remainder of this section we analyses the system call interceptor implemented in in the second version of Janus sandbox. This has been chosen because other system call interceptors are implemented in a similar fashion and its source code is available on line. 
+
+%===================== SETING UP THE TRACING MECHANIMS =============================================
+The entire system call interceptor is implemented within a kernel module called mod\_janus. To be able to use it the module must be loaded inside the kernel memory. One the module is correctly loaded in memory, the system call table is saved and a char device is created in the dev directory.
+This char device is used to carry out the communication between the intercepting engine within the kernel and the the monitor process in user space.
+
+Before starting tracing a process, the monitoring process need to allocate the resource for supporting the tracing operations. This is accomplished by calling the open system call on the char device /dev/fcap, which returns a descriptor representing a monitor structure that can be used to track a process. Once the monitor has been created, the monitor process is attached to the traced process by issuing a request via ioctl with parameter BIND and the descriptor of the monitor previously created. Furthermore, this function takes two additional parameters that give the possibility to the monitor process to specify for which system call entry/exit it will be notified. This is the first difference and improvement respect to the tracing mechanism provided by ptrace, which is based on an approach of all-or-nothing.  
+
+%=============================== INSTALLING TRAP POINTS =============================================
+The system call interceptor is installed by overwriting the system call's addresses within the system call table with the address of a redirecting routine. The main task of this routine is to perform some preliminary checks ( such as whether the process is already traced) and redirect the program flow to the tracing engine. 
+This must be really concise and fast as it is invoked even by programs that are not being traced. It is usually implemented with few lines of assembler code.An interesting example of such routine can be found in the Janus source [ref source] in the file ent.S. 
+
+When a program issue a system call that has been replaced with the routine, the system call is not executed and the control flow is redirected to the tracing engine. The first check taking place here is whether there is a a monitor associate with this process. If the result is positive a request for a EVENT\_CALL\_ENTER is issued, otherwise the real system call is executed. Let's consider the case of the system call has been called by a traced program.When the event EVENT\_CALL\_ENTER is issued the traced program is put in a deep sleep as well as notify this event to the monitor process to its next call to either select or pool system call.  The event type then can be retrieved with a read system call on the file description. 
+While being in a sleep state the traced process can be accessed by the monitor process, as in the case of ptrace there are several different ways to access the memory of the tracee process, those one presented in the section \ref{memory_access} are still valid also in this case. However, for completeness of the subject we reported the method adopted by Janus. When the process is stopped the monitor process can request access to the system call's arguments by issuing a request via ioctl with argument FC\_IOCTL\_FETCH\_ARG. 
+When the monitor calls this function, it must specify the argument to be retrieved, its type\footnote{ type indicates the type of the argument being requested, for example TYPE\_SCALAR will store a scalar argument in the destination buffer, while TYPE\_STRING will store a string} and a user space buffer on which the argument will be stored. Particularly interesting is the type TYPE\_PATH\_FOLLOW, when this option is specified the path name returned is expanded and canonicalized by the kernel preventing race condition on the path name \cite{race_condition}.
+
+Once the monitor has terminated its operation on the tracee process its execution can be resumed or denied specifying the right argument on a write request on the descriptor. If the tracee process is allowed to continue the system call is executed. Moreover, if a exit trap for this system call has been specified a similar sequence of event as that one describe above takes place when the execution of the system call is completed. The only difference is that the event issued is the EVEN\_CALL\_EXIT.
+
+An exception of the previous approach is the fork/clone system call. The exit point of this system call is always trapped, the pid of the newly created process is retrieved from the task structure of the father (field p\_cptr) and then it is stopped before it can make any system call. This allows the monitor process to start monitoring this process as well.   
+
+(I am not sure about this the code looks like there is a temporal windows within the child process might invoke some system calls) 
+
+It is worth mentioning the concurrent strategy adopted in this intercepting model. The monitor process can handle multithread application using a multiplexing model, in which a single monitor listens to the events associated to all threads of interest at the same time. This model may be implemented by creating a set of file descriptors on which all thread descriptors are inserted. Then the select function may be used to listen to the pending requests on these file descriptors.  This implementation choice has been made because it would  significantly reduce overhead over load. However, as showed in \cite{Garfinkel03ostia:a}, this reduces the scalability of the system as the single monitor becomes the performance bottle neck.  
+
+
+\section{Kernel delegating  architecture}
+
+The interceptor model presented in \ref{interceptor_mechanism} suffers of a series of security problems ( race condition [ref] ) which makes its design and implementation substantially error prone to race conditions. This is due to the fact the action of checking a resource such as the system call parameters and the action of use is not an atomic operation therefore the resource may change between the two moments. This is usually called TOCTOU race condition.  In order to overcome the limit of this architecture an alternative  intercepting architecture has been developed  in \cite{Garfinkel03ostia:a}. It is usually referred as \textit{delegating architecture}. 
+
+A delegating architecture is composed of tree main components. 
+
+\begin{description}	
+	\item[Kernel module:] A small kernel module whose task is to prevent system calls made by the traced program from being executed. Furthermore, it also provides a
+						 trampoline instruction that redirects the system call back to the emulation library. ( This can be easily accomplished overwriting the system call table
+						 for example). 
+	
+	\item[Emulation library:] The emulation library resides in the program's address space. 
+							 When a system call is made by the traced program, the trampoline instruction within the kernel module is hit and a call back to the specific 		
+							 handler in the emulation library is issued. Then, the emulation library converts this system call request into a IPC request to the agent.
+							 In addition, to boost up subsequent system calls from the same point in the program execution, the handler analyses the instructions, if they have 
+							 the expected form, applies a runtime patch to jump directly to the handler. This avoids the expensive context switch from user space to kernel space 
+							 and back for subsequent system calls.\\
+							 This library needs to be installed in the program's address space before the program starts running,so that all its system calls are intercepted and
+							 executed through the agent. The solution adopted in \citep{Garfinkel03ostia:a} is to modify the ELF loader so that the program is loaded in memory
+							 only after that the emulation library has been installed. \\
+							 The communication between emulation library and an agent take place over a UNIX domain socket. This communication model has been chosen because it 
+							 allows a file descriptor to be passed between the process and the agent. This is a crucial feature as it allows delegation of accesses to resources
+							  (i.g. open files and socket), while permitting the process to use them directly. 
+							  			  
+	\item[User-level agent]  The user-level agent is responsible for handling request for system calls from the emulation library. This is the most [delicate] and complex 
+							 component, it must executes system calls on behalf of the traced process as well as providing a normal system call interface, as the monitored
+							 process should not be aware to be tracked. However, the Linux system call interface is rather complex and accomplish this is not an easy task. 
+							 In \citep{Garfinkel03ostia:a} the only system calls analysed are those  allowed in an sandboxed environment, and this does not offer a
+							 comprehensive view of all issues which may raise using this system call interceptor. For example, the case where the traced process invokes a mmap 
+							 system call is not analysed. This may raise an issue because the new memory is attached to the process who invoked the system call, which is the 
+							 agent in a delegating sandbox. We try to cover all problems linked to the delegation agent by subdividing the system call in subgroup and providing
+							  an possible implementation which should not be bound to sandboxing environment. 
+							 
+							 System calls fall in few subcategories : 
+							 
+							 \begin{description}
+							 \item[Process context dependent] There are few system calls that they result is bound to the execution context, as the agent resides in a different 
+							 								  execution context this rises an issues. For example, in the case of the client calls mmap this must be executed 
+							 								  by the agent, but the new memory space is attached to memory of the caller that in this case is the agent. 
+							 								  For this case, a possible solution is that the agent modifies the argument of mmap so that the new memory area 
+							 								  is shared between the two processes. [there may be more problematic cases].   
+							 								
+							 \item[Resource access] In Linux resources are accessed via descriptors. Applications starts with an file descriptor space containing only
+							 						input,output and error file descriptors. To grant access to an additional resource the monitored process must execute a 
+							 						system call (i.g. open, socket), that then will be intercepted and executed by the agent. The resulting descriptor is
+							 						passed to the monitored process via Unix domain socket. Once the resource has been correctly opened, the monitor process 
+							 						can modify the object referred to by the descriptor by passing it to the agent, for example this happens in the case of 
+							 						ioctl or bind system call. 
+							 						
+							 \item[Id management]    The process's identity is represented by the user and group id.  To perform accesses on the process's behalf the agent must
+							 						 assume the identity of the monitored process. This is accomplished by reproducing the identity state of the client within 
+							 						  the agent, and all system calls (setgid, getuid ) update this internal state.
+							 						  When the agent performs a call on the client behalf's, it assumes the identity saved in this internal state.  
+							 						
+							 \item[Signals]        The monitored process's signal are send by delegating the call to the kill system call to the agent. 
+							 
+							 \item[Spawn new process] When the client process invokes a system call such as clone or fork, the emulation library notifies this to the agent. The 
+							 						  agent then spawns a new agent process and returns a new domain socket to communicate with the newly agent.Finally, the
+							 						  monitor process via the emulation library calls into the kernel to execute new fork. 
+							 
+							 \end{description}
+	
+\end{description}
+
+This model has been mainly developed to overcome the securities issues in the filtering model. The structure of the delegating model itself solves the problem linked to the TOCTOU as the system call are invoked from the agent which resides in a different address space from the monitored process. This make impossible for an the multithread process to change the argument of a system call after this has been delegated to the agent.
+[More info]
+[More info about the overhead due to the delegation] 
+
 
 
 \section{Kernel Probes}
+\label{kernel_probes}
 %Introduction 
-Kprobe \citep{Kprobes:2006} is a simple lightweight instrumentation mechanism developed by IBM and it has been introduced in Linux Kernel Version 2.6.9. Kprobes allows a user to dynamically insert a \textit{probepoint}\footnote{Probepoint is the address where the instrumentation is registered } is a specific kernel location. When a probepoint is hit a user-defined handler is executed. This will be executed in the context of the process where the probepoit has been hit. Kprobes has been mainly used for debugging purposes because a debug routine can be inserted easily in the kernel without recompiling it, for kernel tracing in SystemTap\citep{SystemTap:Online}, performance evaluation, fault-injection,etc.  
+Kprobe \citep{Kprobes:2006} is a simple lightweight instrumentation mechanism developed by IBM and it has been introduced in Linux Kernel Version 2.6.9. Kprobes allows a user to dynamically insert a \textit{probepoint}\footnote{Probepoint is the address where the instrumentation is registered } in a specific kernel location. When a probepoint is hit a user-defined handler is executed. This will be executed in the context of the process where the probepoit has been hit. Kprobes has been mainly used for debugging purposes because a debug routine can be inserted easily in the kernel without recompiling it, for kernel tracing application as SystemTap\citep{SystemTap:Online}, for performance evaluation, for fault-injection,etc.  
 % ------------------------------------------------------------------------
 %How does it works? 
 %-------------------------------------------------------------------------
 \par
 Kprobes operates by overwriting the first byte of the probed instruction with a breakpoint instruction (e.g., int3 on i386 and x86\_64). The original instruction is copied into a separate region of memory.When the probed point is hit by the CPU a trap fault occurs, the CPU register are saved and the control passes to the Kprobes manager via the kernel notification chain\footnote{The kernel notification chain is the communication systems used within the Linux kernel, it follows a \textbf{Publish-subscribe} model.}.
-Then, the Kprobes manager executes a user-defined routine \textit{pre\_handler}. After that, the original instruction must be executed. This is run in single-step mode out of the normal program flow. This solution called \textit{"single-step out of line"} or  \textit{"execute out of line"} (XOL) allows a probe mechanism to work with multiple processes at the same time. 
+Then, the Kprobes manager executes a user-defined routine \textit{pre\_handler}. After that, the original instruction must be executed. This is run in single-step mode out of the normal program flow. This solution called \textit{"single-step out of line"} or  \textit{"execute out of line"} (XOL) allows a probe mechanism to work with multiple processes at the same time. [more info] 
 When the execution of the probed instruction is completed, the control returns to the kprobes manager which executes  a user-defiend post\_handler. A nice description of the kernel probes can be found at \citep{Sudhanshu:2006:Online}.  
 %-------------------------------------------------------------------------
 %How can we put it in place
@@ -104,11 +223,12 @@ Currently three different types of kprobes are supported :
 %--------------------------------------------------------------------------
 %Over Head introduced by Kprobes
 %--------------------------------------------------------------------------
-The over head introduced using kprobes is to be taken into account when the performance is a important part of an application. The overhead is principally due to the execution of two exeception for each probe instruction. A series of kprobes, called kprobe-booster, has been developed and integrated in the kernel to reduce this overhead. Their implementation rely on the fact that the post\_handler is not always used and, if so,  the second exception can be avoided using a jump instruction. This enehancement reduces by half the overhead due to kprobe instrumentation. This result was easily imaginable because the number of execpetion has halved. A further improvement has been proposed in \citep{Djprobe:2007} where jump instructions are used instead of the break instruction. They claim to have achieved performance 5 times better than a normal probe.   
+The over head introduced using kprobes is to be taken into account when the performance is a important part of an application. The overhead is principally due to the execution of two exceptions for each probe instruction. A series of kprobes, called kprobe-booster, has been developed and integrated in the kernel to reduce this overhead. Their implementation rely on the fact that the post\_handler is not always used and, if so,  the second exception can be avoided using a jump instruction. This enhancement reduces by half the overhead due to kprobe instrumentation. This result was easily imaginable because the number of execpetion has been halved. A further improvement has been proposed in \citep{Djprobe:2007} where jump instructions are used instead of the break instruction. They claim to have achieved performance 5 times better than a normal probe.   
 
 \subsection{System call interceptor using kernel probes}
-Multithread pallication 
-how do you deal with this case?
+
+[to write]
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"

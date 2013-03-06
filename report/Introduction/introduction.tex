@@ -3,22 +3,104 @@
 Chpter introduction 
 
 \section{System Call interceptor}
-%What’s the problem we are trying to solve? 
-Applications are often vulnerable to buffer overflows, back doors and logic errors which may permit attackers to compromise the application and, depending on the kind of application, they may compromise the entire system. Current operating systems do not provide a sufficient fine-grained mechanism to protect a user from these threats.  The Linux protection model stems from the UNIX one which is based on a discretionary access control DAC, where all programs executed by a user inherit his permission for accessing resources. This model is simple and quite effective, but it is inadequate to the modern operating system because it does not provide any protection against malicious code and flawed.  Several different enhancements have been developed to fill the security gaps in Linux systems, such as SeLinux, LMS (Linux security modules), Audit etc. which offer a more fine-grained control.  However, none of them provide a definitive solution for this problem; rather they address a singular problem, such as? 
-How do we solve it?
-I should introduce the concept of untrusted and trusted software. 
-A widely used approach to improve the operating system security is to confine untrusted code into a controlled environment called sandbox.  The concept of Sandboxing was firstly introduced in [1] as software technique for preventing an untrusted code from escaping its fault domain. They achieved this result by inserting an instruction which set the correct segment of an address before each unsafe instruction.  Nevertheless, this definition is not adapted to describe modern sandbox implemented by using a different technique such as system call interposition. A better and more general definition of sandboxing can be found in [2] as : 
-A technique for creating confined execution environment for running untrusted programs on the same machine.
-One of the core sandbox mechanisms for executing potentially unsafe code is system call interposition. The increment of interest in OS-based intrusion confinement in recent years has brought several new approaches to implement this mechanism.  All these approaches are based on the following observation about attacks: regardless of the nature of an attack, the target system can be compromised only via system calls made by unsafe running processes. It is thus possible to identify and prevent the damage if every system calls made by unsafe processes can be monitored, and launch action to preempt any damage; e.g. abort system call, change its parameters or even terminate the process.
- A system call interceptor is a mechanism which allows a trusted process, which will be called MONITOR, to intercept all system calls made by untrusted process before that the kernel proceeds with executing the system calls. 
+%%What’s the problem we are trying to solve? 
+%Applications are often vulnerable to buffer overflows, back doors and logic errors which may permit attackers to compromise the application and, depending on the kind of application, they may compromise the entire system. Current operating systems do not provide a sufficient fine-grained mechanism to protect a user from these threats.  The Linux protection model stems from the UNIX one which is based on a discretionary access control DAC, where all programs executed by a user inherit his permission for accessing resources. This model is simple and quite effective, but it is inadequate to the modern operating system because it does not provide any protection against malicious code and flawed.  Several different enhancements have been developed to fill the security gaps in Linux systems, such as SeLinux, LMS (Linux security modules), Audit etc. which offer a more fine-grained control.  However, none of them provide a definitive solution for this problem; rather they address a singular problem, such as? 
+%How do we solve it?
+%I should introduce the concept of untrusted and trusted software. 
+%A widely used approach to improve the operating system security is to confine untrusted code into a controlled environment called sandbox.  The concept of Sandboxing was firstly introduced in [1] as software technique for preventing an untrusted code from escaping its fault domain. They achieved this result by inserting an instruction which set the correct segment of an address before each unsafe instruction.  Nevertheless, this definition is not adapted to describe modern sandbox implemented by using a different technique such as system call interposition. A better and more general definition of sandboxing can be found in [2] as : 
+%A technique for creating confined execution environment for running untrusted programs on the same machine.
+%One of the core sandbox mechanisms for executing potentially unsafe code is system call interposition. The increment of interest in OS-based intrusion confinement in recent years has brought several new approaches to implement this mechanism.  All these approaches are based on the following observation about attacks: regardless of the nature of an attack, the target system can be compromised only via system calls made by unsafe running processes. It is thus possible to identify and prevent the damage if every system calls made by unsafe processes can be monitored, and launch action to preempt any damage; e.g. abort system call, change its parameters or even terminate the process.
+% A system call interceptor is a mechanism which allows a trusted process, which will be called MONITOR, to intercept all system calls made by untrusted process before that the kernel proceeds with executing the system calls. 
 
-\section{Different approaches }
+
+%%%NICE 
+
+
+%NEW INTRDOCUTION
+Regardless the nature of an application,resources (such us files,socket, shared memory etc) can be accessed only via the system call interface exposed by the operating system.
+The sequence of system calls invoked fully characterised the application's behaviour, that then can be monitored and regulated. \\
+
+A \textbf{system call interceptor} is a powerful technique for investigating all system calls invoked by a program. It usually works by interposing a third agent,called \textit{monitor},between the operating system and the application of interest. This third agent is able to trace and regulate all application's interactions with the operating system.\\
+
+
+The applicability area of a system call interceptor is rather broad spreading from debugging application such as GDB and auditing (record-replay) to security enhancements (sandboxes,intrusion detection) and virtualisation(UML). In the rest of this section we try to cover all possible applications of a system call interceptor.  
+
+\begin{description}
+\item[Debugging] 
+\item[Security enhancement]
+\item[Virtualisation] 
+
+\end{description}
+The first kind of system call interceptor as been introduced for debugging purposes  as tracing routine provided by the operating system. An example of this is ptrace [chapter1]. This tracing routine provides a mean of analysing requested issued by the program in order to help the developer to find a bug in the application. 
+
+
+Presenting a  detailed analysis of LINUX for the purpose of building interposition tools. 
+
+%Security Purpose 
+DETECTION and CONFINAMENT 
+
+There has been a lot of research to improve a system call interception in terms of security and performance because it is the base mechanism for security tools such as sandboxes and introduction detection[ref].The resource control provides by an operating system is usually based on a discretionary access control DAC ( Linux, UNIX-like system) model, where all programs executed by a user inherit his permission for accessing resources. This model is simple and quite effective, though it does not provided any protection against malicious code (back-door) and flaws (buffer overflow). Sandboxing software [ ostia, jailer, sfi, systrace] have been developed to overcome these shortcomings. A sandbox provides a fine-grained control for the resource access by the sandboxed program. These software use a system call interceptor to monitor all system calls made by the sandboxed program and check them against a policies file which constrain a program to a correct behaviour. If one of this policy check fails the system in not executed and the possible malicious action is prevent. 
+\\
+A system call interceptor is widely used to . 
+
+% 
+Introduction detection via analysis of system call traces has received attention throughout recently years [ref]. The problem of a system call tracer is similar to that of a sandboxing tool previously described. The "viewer" is only interested in analysing what calls an application makes in order to find out anomalous system call sequences which may  identify an introduction in the system \cite{introd_detection}. 
+
+
+
+%%DEBUG PURPOSE 
+As the system call sequence fully characterized the application's behaviour, in the case of an appliation's crash the system call can be reocrder and reproduced that crush in an debugging environment  in order to find out the cause.  [Where is it used] 
+
+%MULTI VERSION CONTROL 
+Multi-variant code execution is a run time monitor technique that finds out and prevents malicious code from executing. The idea behind this method is to run two or more slightly different version of the same application in lockstep.At certain synchronization point their behaviour is compared against each other and if a divergence is found, a notification is raised. In multi variant execution,the invocation of a system call is a synchronization point as all variants must make the exact same system call with the same arguments. When one of these attempts to make a system call, this is intercepted by a monitor process that then try to synchronize these with all the different calls within a temporal window \cite{orchestra} + PROF. 
+
+
+%VIRTUALISATION
+A system call interceptor has been successfully used to implement a kernel hypervisor  in \cite{UML_1, UML_2}. UML is a virtualisation technology which enables multiple linux Systems to run as an user application within a normal Linux system. The system call interceptor is used to redirect all system calls made by a program to the guest kernel. This software is used to kernel debugging and for sandboxing application. 
+
+%PORTABLE CODE  
+Another interesting application of a system call interceptor is in \cite{CDE}.
+CDE creates automatically portable software package using a system call interceptor to track the execution of x86-Linux and collect all data,code and environment required to run it in another Linux machine.  
+
+Why is it important. ? \\ 
+
+Where can it be used ? \\
+%record-replay  papers interecept
+%sand box thousand of papers 
+%introsution dectetion AUDIT	from anom 
+%virtualisation  paper SYSM EMU and chinise odule in the kernel
+%Portable code GOOGLE 
+%Multi version exectuion Orchestra and P
+
+\section{State of art in the system call interceptor}
+State of art/different type \\  
+% introduce the different way of realizing a system call interceptor 
+% ptrace
+% kernel enhancement 
+% binary rewritting 
+% seccomp bpf 
 Five different approach may be used to implement a system call interceptor in Linux :
-•	Kernel trace tool:  The kernel provides features such as ptrace and utrace for tracing and debugging programs. Although this features has been design for debugging purpose, they can be used to successfully build up a system call interceptor in user space without kernel modification (Utrace needs to write a module). Can I use proc to intercept a sytem call?  
-•	Binary rewriting:  Binary rewriting consists of modifying the binary program to insert new instructions which allow intercepting the system call made by that modified program. This techniques can be applied both statically as well as dynamically and can be done in a number of different ways, e.g. full binary rewriting, selectively rewriting only sensitive instructions, rewriting only system call instructions.
-•	Seccomp mode-based mechanisms: is a simple sandboxing mechanism provided by the kernel. It is consist of two system calls seccomp and seccomp-bpf. 
-•	Kernel/User probes: Probe points are abstract names given to identify a particular place in kernel/user code, or a particular event that may occur at any time. A handler routine which collects debugging and performance information can be specified to be executed when one of these points is hit. 
-•	Custom kernel modification/modules: The source kernel of Linux may be modified to implement a specific system call or mechanism which allows us to build up safe and efficient system call interceptor. A similar result can be achieved also writing a kernel module. Both solutions are executed in kernel space, though the later does require neither to compile nor to patch the kernel, it is thus more portable.  
+\begin{description}
+
+\item[library]	A library approach was the first used for implementing a system call interceptor [ref]. It relies on the fact that system call are accessed via  wrapper functions, within the glibc library. A system call interceptor can thus be realised by linking the application of interest to a different library which contains an instrumented version of the wrapper functions. This approach has been implemented in \cite{plashglibc}. Its major benefit is that its performance are almost the same as no instrumented application, but it can be easily bypassed invoking directly a system call using low level mechanism.  
+
+
+\item[Kernel trace tool] The kernel provides features such as ptrace and utrace for tracing and debugging programs. Although this features has been design for debugging purpose, they can be used to successfully build up a system call interceptor in user space without kernel modification (Utrace needs to write a module). 
+
+\item[Binary rewriting]  Binary rewriting consists of modifying the binary program to insert new instructions which allow intercepting the system call made by that modified program. This techniques can be applied both statically as well as dynamically and can be done in a number of different ways, e.g. full binary rewriting, selectively rewriting only sensitive instructions, rewriting only system call instructions.
+
+\item[Seccomp mode-based] mechanisms: is a simple sandboxing mechanism provided by the kernel. It is consist of two system calls seccomp and seccomp-bpf.
+ 
+\item[Kernel enhancement] Following a kernel based implementation, the system call interceptor is implemented within the operating kernel, and all the extension code is executed in kernel mode. A system call interceptor may be inserted modifying the source kernel \cite{Noordende_asecure} or it can be uploaded via a kernel module \cite{Janus}. Both solutions offer the same power in terms what can be accomplished within the extension code, though the later does require neither to compile nor to patch the kernel, it is thus more portable. The kernel approach is exposed in more details in \ref{kernel_mode}.
+ 
+
+
+
+\end{description}
+
+\section{ Issues}
+
+conflicts paramenters
 
 \section{Requirements}
 So far we have provided a general introduction to all possible mechanisms Linux provided to implement a complete system call interceptor, further all of them will be extended explening how a system call interceptor can be implemented using it, providing real example in which such mechanism has been used.
@@ -29,7 +111,16 @@ A system call interceptor requires a minimum number of capabilities to be effect
 •	Preventing the system call execution: when a system call is invoked with unsafe parameters such as open(“/etc/passwd”);. The system call interceptor must have a means of aborting its execution without aborting the entire process and setting a proper return value i.g. EPERM. 
 •	Monitoring all children:  The system call interceptor must intercept and monitor all children of the traced processor. It is crucial that the children of a sandboxed process must be constrained to the father's policy rules.
 •	Dealing with multithread application: another important requirement it the possibility to trace all threads of the traced application efficiently, without stopping them if not necessary. 
-Why characteristics should a System call interceptor have?  \section{Design goal} 
+Why characteristics should a System call interceptor have? 
+
+
+\section{Design goal} 
+-flexibility 
+-compatibility 
+-security
+-deployability
+-performance
+
 -Security 
 -realiability 
 -sdfd
@@ -48,7 +139,19 @@ QUESTION :
 	< security, portability, configurability.>
 4	How can we asses them? How can we compare them?
 A fault domain is a set of hardware components – computers, switches, and more – that share a single point of failure
-. 
+
+
+Design GOAL  \\
+% 
+
+Issues. \\ 
+% the proble which affects a system call interceptor 
+% papers for this. 
+OVERHEAD 
+
+Remain Document structure  \\ 
+% introduce the different part of the document 
+
  ----------------------------------------------------------------------
 %%% Local Variables: 
 %%% mode: latex
