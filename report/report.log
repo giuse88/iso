@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2013.1.15)  6 MAR 2013 00:08
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2013.1.15)  6 MAR 2013 00:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -625,30 +625,29 @@ Missing character: There is no Ã in font cmr10!
 Missing character: There is no  in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¡ in font cmr10!
-)
+ [23
+
+])
 
 Package natbib Warning: There were undefined citations.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 86.
-[23
-
-]
+[24]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 86.
  (./report.aux (./Abstract/abstract.aux) (./Introduction/introduction.aux)
-(./Chapter1/chapter1.aux) (./Chapter2/chapter2.aux))
+(./Chapter1/chapter1.aux) (./Chapter2/chapter2.aux)
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 86.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 86.
-
-
-Package rerunfilecheck Warning: File `report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `report.out':
-(rerunfilecheck)             Before: 451B5BFBB49090CC5BB4D1938A5F45B8;1619
-(rerunfilecheck)             After:  A2E2830D9AA9B77688E8D5A6282BF8F5;1618.
+Package rerunfilecheck Info: File `report.out' has not changed.
+(rerunfilecheck)             Checksum: A2E2830D9AA9B77688E8D5A6282BF8F5;1618.
 Package rerunfilecheck Info: File `report.brf' has not changed.
 (rerunfilecheck)             Checksum: E86DEA154226B56252B22E8593598461;1577.
+
 
 LaTeX Warning: There were undefined references.
 
@@ -658,10 +657,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 86.
  ) 
 Here is how much of TeX's memory you used:
- 8727 strings out of 495027
- 124880 string characters out of 3181743
+ 8734 strings out of 495027
+ 124962 string characters out of 3181743
  257228 words of memory out of 3000000
- 11653 multiletter control sequences out of 15000+200000
+ 11658 multiletter control sequences out of 15000+200000
  14554 words of font info for 54 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
  39i,12n,51p,1495b,1239s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -675,10 +674,10 @@ onts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on report.pdf (30 pages, 274209 bytes).
+Output written on report.pdf (31 pages, 275538 bytes).
 PDF statistics:
- 429 PDF objects out of 1000 (max. 8388607)
- 379 compressed objects within 4 object streams
- 88 named destinations out of 1000 (max. 500000)
+ 435 PDF objects out of 1000 (max. 8388607)
+ 384 compressed objects within 4 object streams
+ 90 named destinations out of 1000 (max. 500000)
  198 words of extra memory for PDF output out of 10000 (max. 10000000)
 

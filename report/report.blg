@@ -5,10 +5,6 @@ A level-1 auxiliary file: Abstract/abstract.aux
 A level-1 auxiliary file: Introduction/introduction.aux
 A level-1 auxiliary file: Chapter1/chapter1.aux
 A level-1 auxiliary file: Chapter2/chapter2.aux
-White space in argument---line 39 of file Chapter2/chapter2.aux
- : \citation{Noordende_asecure
- :                             ,systrace}
-I'm skipping whatever remains of this command
 The style file: plain.bst
 Database file #1: References/references.bib
 Warning--entry type for "Sudhanshu:2006:Online" isn't style-file defined
@@ -35,45 +31,45 @@ Warning--empty booktitle in OcvtavianPurdila:2006:Utrace
 Warning--empty journal in Janus
 Warning--empty year in Janus
 Warning--empty year in Noordende_asecure
-You've used 17 entries,
+You've used 18 entries,
             2118 wiz_defined-function locations,
-            580 strings with 6144 characters,
-and the built_in function-call counts, 4327 in all, are:
-= -- 373
-> -- 201
-< -- 1
-+ -- 85
-- -- 64
-* -- 233
-:= -- 729
-add.period$ -- 44
-call.type$ -- 17
-change.case$ -- 82
+            587 strings with 6326 characters,
+and the built_in function-call counts, 4742 in all, are:
+= -- 413
+> -- 219
+< -- 2
++ -- 92
+- -- 70
+* -- 259
+:= -- 791
+add.period$ -- 47
+call.type$ -- 18
+change.case$ -- 88
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 187
-empty$ -- 391
-format.name$ -- 64
-if$ -- 895
+cite$ -- 31
+duplicate$ -- 206
+empty$ -- 427
+format.name$ -- 70
+if$ -- 988
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 13
-newline$ -- 81
-num.names$ -- 32
-pop$ -- 145
+int.to.str$ -- 18
+missing$ -- 14
+newline$ -- 86
+num.names$ -- 34
+pop$ -- 154
 preamble$ -- 1
-purify$ -- 66
+purify$ -- 71
 quote$ -- 0
-skip$ -- 136
+skip$ -- 150
 stack$ -- 0
-substring$ -- 134
-swap$ -- 21
-text.length$ -- 1
+substring$ -- 158
+swap$ -- 28
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 68
+type$ -- 72
 warning$ -- 13
-while$ -- 36
-width$ -- 19
-write$ -- 148
-(There was 1 error message)
+while$ -- 41
+width$ -- 20
+write$ -- 159
+(There were 19 warnings)
