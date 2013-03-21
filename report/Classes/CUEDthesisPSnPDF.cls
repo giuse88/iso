@@ -7,35 +7,35 @@
 %\NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{CUEDthesisPSnPDF}[2010/07/14 v1.1 CUED thesis class]
 %-------------------------- initial code -----------------------
-\newif\ifCU@bookmode
-\CU@bookmodetrue
+%\newif\ifCU@bookmode
+%\CU@bookmodetrue
+%
+%\DeclareOption{report}{\CU@bookmodefalse}
+%\DeclareOption{book}{\CU@bookmodetrue}
+%\ProcessOptions\relax%
+%
+%\ifCU@bookmode
+%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}%
+%\ProcessOptions\relax%
+%\ifx\pdfoutput\undefined%
+%   \LoadClass[dvips, a4paper]{book}%
+% 
+%\else%
+%   \LoadClass[pdftex, a4paper]{book}%
+%\fi%
+%\else
+%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}%
+%\ProcessOptions\relax%
+%\ifx\pdfoutput\undefined%
+%  \LoadClass[dvips, a4paper]{report}%
+%\else%
+%  \LoadClass[pdftex, a4paper]{report}%
+%\fi%
+%%\renewcommand{\refname}{References}%
+%\fi
 
-\DeclareOption{report}{\CU@bookmodefalse}
-\DeclareOption{book}{\CU@bookmodetrue}
-\ProcessOptions\relax%
+\LoadClass[pdftex, a4paper]{report}
 
-\ifCU@bookmode
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}%
-\ProcessOptions\relax%
-\ifx\pdfoutput\undefined%
-   \LoadClass[dvips, a4paper]{book}%
- 
-\else%
-   \LoadClass[pdftex, a4paper]{book}%
-\fi%
-\else
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}%
-\ProcessOptions\relax%
-\ifx\pdfoutput\undefined%
-  \LoadClass[dvips, a4paper]{report}%
-\else%
-  \LoadClass[pdftex, a4paper]{report}%
-\fi%
-%\renewcommand{\refname}{References}%
-\fi
-
-%\DeclareOption{book}{%
-%}%
 \usepackage{setspace}
 \usepackage{tocbibind}
 \usepackage{amssymb}
@@ -63,145 +63,145 @@
 \renewcommand{\bibname}{References}
 % note that this doesn't do much if you later define another bibliography style 
 
-
-% Nomenclature
-\usepackage{nomencl}
-\makenomenclature
-\renewcommand\nomgroup[1]{%
-  \ifthenelse{\equal{#1}{A}}{%
-   \item[\textbf{Roman Symbols}] }{%             A - Roman
-    \ifthenelse{\equal{#1}{G}}{%
-     \item[\textbf{Greek Symbols}]}{%             G - Greek
-      \ifthenelse{\equal{#1}{R}}{%
-        \item[\textbf{Superscripts}]}{%              R - Superscripts
-          \ifthenelse{\equal{#1}{S}}{%
-           \item[\textbf{Subscripts}]}{{%             S - Subscripts
-	    \ifthenelse{\equal{#1}{X}}{%
-	     \item[\textbf{Other Symbols}]}{{%    X - Other Symbols
-	    \ifthenelse{\equal{#1}{Z}}{%
-	     \item[\textbf{Acronyms}]}%              Z - Acronyms
-              			{{}}}}}}}}}}
-
-\ifpdf
-%-->
-%--> Google.com search "hyperref options"
-%--> 
-%--> http://www.ai.mit.edu/lab/sysadmin/latex/documentation/latex/hyperref/manual.pdf
-%--> http://www.chemie.unibas.ch/~vogtp/LaTeX2PDFLaTeX.pdf 
-%--> http://www.uni-giessen.de/partosch/eurotex99/ oberdiek/print/sli4a4col.pdf
-%--> http://me.in-berlin.de/~miwie/tex-refs/html/latex-packages.html
-%-->
-    \usepackage[ pdftex, plainpages = false, pdfpagelabels, 
-                 pdfpagelayout = OneColumn, % display single page, advancing flips the page - Sasa Tomic
-                 bookmarks,
-                 bookmarksopen = true,
-                 bookmarksnumbered = true,
-                 breaklinks = true,
-                 linktocpage,
-                 pagebackref,
-                 colorlinks = true,
-                 linkcolor = blue,
-                 urlcolor  = blue,
-                 citecolor = red,
-                 anchorcolor = green,
-                 hyperindex = true,
-                 hyperfigures
-                 ]{hyperref} 
-%    \usepackage[pdftex]{graphicx}
-%    \DeclareGraphicsExtensions{.png, .jpg, .pdf}
-
-    \pdfcompresslevel=9
-    \graphicspath{{ThesisFigs/PNG/}{ThesisFigs/PDF/}{ThesisFigs/}}
-\else
-    \usepackage[ dvips, 
-                 bookmarks,
-                 bookmarksopen = true,
-                 bookmarksnumbered = true,
-                 breaklinks = true,
-                 linktocpage,
-                 pagebackref,
-                 colorlinks = true,
-                 linkcolor = blue,
-                 urlcolor  = blue,
-                 citecolor = red,
-                 anchorcolor = green,
-                 hyperindex = true,
-                 hyperfigures
-                 ]{hyperref}
-
-    %\usepackage{epsfig}
-    \usepackage{graphicx}
-    \DeclareGraphicsExtensions{.eps, .ps}
-    \graphicspath{{ThesisFigs/EPS/}{ThesisFigs/}}
-\fi
-
-%define the page size including an offset for binding
-%\setlength{\topmargin}{0.0in}
-%\setlength{\oddsidemargin}{0in}
-%\setlength{\evensidemargin}{0in}
-%\setlength{\textheight}{700pt}
-%\setlength{\textwidth}{500pt}
-
-
-%A4 settings
-\ifpdf
-   \pdfpageheight=297mm
-   \pdfpagewidth=210mm
-\else
-   \setlength{\paperheight}{297mm}
-   \setlength{\paperwidth}{210mm}
-\fi
-
-\setlength{\hoffset}{0.00cm}
-\setlength{\voffset}{0.00cm}
-
-\setlength{\evensidemargin}{1.96cm}
-%\setlength{\oddsidemargin}{-0.54cm}
-\setlength{\topmargin}{1mm}
-\setlength{\headheight}{1.36cm}
-\setlength{\headsep}{1.00cm}
-\setlength{\textheight}{20.84cm}
-\setlength{\textwidth}{14.5cm}
-\setlength{\marginparsep}{1mm}
-\setlength{\marginparwidth}{3cm}
-\setlength{\footskip}{2.36cm}
-
-\pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\thechapter. #1 }}{}}
-\renewcommand{\sectionmark}[1]{}
-\fancyhf{}
-\fancyhead[RO]{\bfseries\rightmark}
-\fancyhead[LE]{\bfseries\leftmark}
-\fancyfoot[C]{\thepage}
-\renewcommand{\headrulewidth}{0.5pt}
-\renewcommand{\footrulewidth}{0pt}
-\addtolength{\headheight}{0.5pt}
-\fancypagestyle{plain}{
-  \fancyhead{}
-  \renewcommand{\headrulewidth}{0pt}
-}
-
-\newcommand{\submittedtext}{{A thesis submitted for the degree of}}
+%
+%% Nomenclature
+%\usepackage{nomencl}
+%\makenomenclature
+%\renewcommand\nomgroup[1]{%
+%  \ifthenelse{\equal{#1}{A}}{%
+%   \item[\textbf{Roman Symbols}] }{%             A - Roman
+%    \ifthenelse{\equal{#1}{G}}{%
+%     \item[\textbf{Greek Symbols}]}{%             G - Greek
+%      \ifthenelse{\equal{#1}{R}}{%
+%        \item[\textbf{Superscripts}]}{%              R - Superscripts
+%          \ifthenelse{\equal{#1}{S}}{%
+%           \item[\textbf{Subscripts}]}{{%             S - Subscripts
+%	    \ifthenelse{\equal{#1}{X}}{%
+%	     \item[\textbf{Other Symbols}]}{{%    X - Other Symbols
+%	    \ifthenelse{\equal{#1}{Z}}{%
+%	     \item[\textbf{Acronyms}]}%              Z - Acronyms
+%              			{{}}}}}}}}}}
+%
+%\ifpdf
+%%-->
+%%--> Google.com search "hyperref options"
+%%--> 
+%%--> http://www.ai.mit.edu/lab/sysadmin/latex/documentation/latex/hyperref/manual.pdf
+%%--> http://www.chemie.unibas.ch/~vogtp/LaTeX2PDFLaTeX.pdf 
+%%--> http://www.uni-giessen.de/partosch/eurotex99/ oberdiek/print/sli4a4col.pdf
+%%--> http://me.in-berlin.de/~miwie/tex-refs/html/latex-packages.html
+%%-->
+%    \usepackage[ pdftex, plainpages = false, pdfpagelabels, 
+%                 pdfpagelayout = OneColumn, % display single page, advancing flips the page - Sasa Tomic
+%                 bookmarks,
+%                 bookmarksopen = true,
+%                 bookmarksnumbered = true,
+%                 breaklinks = true,
+%                 linktocpage,
+%                 pagebackref,
+%                 colorlinks = true,
+%                 linkcolor = blue,
+%                 urlcolor  = blue,
+%                 citecolor = red,
+%                 anchorcolor = green,
+%                 hyperindex = true,
+%                 hyperfigures
+%                 ]{hyperref} 
+%%    \usepackage[pdftex]{graphicx}
+%%    \DeclareGraphicsExtensions{.png, .jpg, .pdf}
+%
+%    \pdfcompresslevel=9
+%    \graphicspath{{ThesisFigs/PNG/}{ThesisFigs/PDF/}{ThesisFigs/}}
+%\else
+%    \usepackage[ dvips, 
+%                 bookmarks,
+%                 bookmarksopen = true,
+%                 bookmarksnumbered = true,
+%                 breaklinks = true,
+%                 linktocpage,
+%                 pagebackref,
+%                 colorlinks = true,
+%                 linkcolor = blue,
+%                 urlcolor  = blue,
+%                 citecolor = red,
+%                 anchorcolor = green,
+%                 hyperindex = true,
+%                 hyperfigures
+%                 ]{hyperref}
+%
+%    %\usepackage{epsfig}
+%    \usepackage{graphicx}
+%    \DeclareGraphicsExtensions{.eps, .ps}
+%    \graphicspath{{ThesisFigs/EPS/}{ThesisFigs/}}
+%\fi
+%
+%%define the page size including an offset for binding
+%%\setlength{\topmargin}{0.0in}
+%%\setlength{\oddsidemargin}{0in}
+%%\setlength{\evensidemargin}{0in}
+%%\setlength{\textheight}{700pt}
+%%\setlength{\textwidth}{500pt}
 %
 %
-% DECLARATIONS
+%%A4 settings
+%\ifpdf
+%   \pdfpageheight=297mm
+%   \pdfpagewidth=210mm
+%\else
+%   \setlength{\paperheight}{297mm}
+%   \setlength{\paperwidth}{210mm}
+%\fi
 %
-% These macros are used to declare arguments needed for the
-% construction of the title page and other preamble.
-
-% The year and term the degree will be officially conferred
-\def\degreedate#1{\gdef\@degreedate{#1}}
-% The full (unabbreviated) name of the degree
-\def\degree#1{\gdef\@degree{#1}}
-% The name of your college or department(eg. Trinity, Pembroke, Maths, Physics)
-\def\collegeordept#1{\gdef\@collegeordept{#1}}
-% The name of your University
-\def\university#1{\gdef\@university{#1}}
-% Defining the crest
-\def\crest#1{\gdef\@crest{#1}}
-
-% These macros define an environment for front matter that is always 
-% single column even in a double-column document.
+%\setlength{\hoffset}{0.00cm}
+%\setlength{\voffset}{0.00cm}
+%
+%\setlength{\evensidemargin}{1.96cm}
+%%\setlength{\oddsidemargin}{-0.54cm}
+%\setlength{\topmargin}{1mm}
+%\setlength{\headheight}{1.36cm}
+%\setlength{\headsep}{1.00cm}
+%\setlength{\textheight}{20.84cm}
+%\setlength{\textwidth}{14.5cm}
+%\setlength{\marginparsep}{1mm}
+%\setlength{\marginparwidth}{3cm}
+%\setlength{\footskip}{2.36cm}
+%
+%\pagestyle{fancy}
+%\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\thechapter. #1 }}{}}
+%\renewcommand{\sectionmark}[1]{}
+%\fancyhf{}
+%\fancyhead[RO]{\bfseries\rightmark}
+%\fancyhead[LE]{\bfseries\leftmark}
+%\fancyfoot[C]{\thepage}
+%\renewcommand{\headrulewidth}{0.5pt}
+%\renewcommand{\footrulewidth}{0pt}
+%\addtolength{\headheight}{0.5pt}
+%\fancypagestyle{plain}{
+%  \fancyhead{}
+%  \renewcommand{\headrulewidth}{0pt}
+%}
+%
+%\newcommand{\submittedtext}{{A thesis submitted for the degree of}}
+%%
+%%
+%% DECLARATIONS
+%%
+%% These macros are used to declare arguments needed for the
+%% construction of the title page and other preamble.
+%
+%% The year and term the degree will be officially conferred
+%\def\degreedate#1{\gdef\@degreedate{#1}}
+%% The full (unabbreviated) name of the degree
+%\def\degree#1{\gdef\@degree{#1}}
+%% The name of your college or department(eg. Trinity, Pembroke, Maths, Physics)
+%\def\collegeordept#1{\gdef\@collegeordept{#1}}
+%% The name of your University
+%\def\university#1{\gdef\@university{#1}}
+%% Defining the crest
+%\def\crest#1{\gdef\@crest{#1}}
+%
+%% These macros define an environment for front matter that is always 
+%% single column even in a double-column document.
 
 \newenvironment{alwayssingle}{%
        \@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
