@@ -5,3 +5,13 @@ kprobe/*.o
 utrace/*.ko
 utrace/*.o 
 
+report/*.brf 
+report/*.blg 
+report/*.lof 
+report/*.log 
+report/*.nlo 
+report/*.aux 
+report/*.toc 
+report/*.pdf 
+report/*.bbl
+report/*.out 

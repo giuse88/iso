@@ -93,7 +93,7 @@ The main advantages of utrace is its performance. [Nice some examples]. Even tho
 \section{Kernel hybrid interposition architecture}
 \label{interceptor_mechanism}
 
-The first kernel hybrid interposition mechanism has been implemented in  the second version of Janus sandbox \cite{Janus} to provide a means of monitoring and modifying the system calls made by the sandboxed process. The necessity to develop a new interceptor mechanism raised from the limitation of ptrace in effectively aborting a system call. Before the enhancement introduced to support UML \citep{UML_1,UML_2}, the only way offered by ptrace to prevent a system call from being executed was to terminate the entire program. This, obviously, was not a feasible solution for a sandbox tool because some false-threats can be thrown even though there is not any real threat. 
+The first kernel hybrid interposition mechanism has been implemented in  the second version of Janus sandbox \cite{Janus} to provide a means of monitoring and modifying the system calls made by the sandboxed process. The necessity to develop a new interceptor mechanism raised from the limitation of ptrace in effectively aborting a system call. Before the enhancement introduced to support UML \cite{UML_1,UML_2}, the only way offered by ptrace to prevent a system call from being executed was to terminate the entire program. This, obviously, was not a feasible solution for a sandbox tool because some false-threats can be thrown even though there is not any real threat. 
 Event though the sandbox implemented with this intercepting mechanism is prone to vulnerabilities[ref], the same interceptor mechanism has been reproduced in other sandoxes tools such as MapBox \cite{MapBox}, SysTrace \cite{systrace} with some improvements. 
 
 An hybrid system call interceptor is composed of a tracing engine which completely resides within the kernel whose task is to track all system calls made of the traced program. It allows a monitor process to access the tracing features through an easy interface in user space .Typically the communication between the monitor process and the tracing engine takes place via a char device, for example in mod\_janus is /dev/fcap. Once the tracing mechanism has been correctly set up all trap events associated with the traced can be retrieved by the monitor process through a select or poll system call. As in the case of ptrace, a relevant overhead is introduced due to the context switch between user space and kernel space. However, in the case of a kernel interceptor mechanism, this shortcoming can be mitigated by leveraging on power and flexibility of this method . For example, it allows a fine-grained control over the system calls allowing a monitor process to intercept only certain calls while leaving the other unmonitored decreasing the overall overhead.  
@@ -145,7 +145,7 @@ A delegating architecture is composed of tree main components.
 							 the expected form, applies a runtime patch to jump directly to the handler. This avoids the expensive context switch from user space to kernel space 
 							 and back for subsequent system calls.\\
 							 This library needs to be installed in the program's address space before the program starts running,so that all its system calls are intercepted and
-							 executed through the agent. The solution adopted in \citep{Garfinkel03ostia:a} is to modify the ELF loader so that the program is loaded in memory
+							 executed through the agent. The solution adopted in \cite{Garfinkel03ostia:a} is to modify the ELF loader so that the program is loaded in memory
 							 only after that the emulation library has been installed. \\
 							 The communication between emulation library and an agent take place over a UNIX domain socket. This communication model has been chosen because it 
 							 allows a file descriptor to be passed between the process and the agent. This is a crucial feature as it allows delegation of accesses to resources
@@ -154,7 +154,7 @@ A delegating architecture is composed of tree main components.
 	\item[User-level agent]  The user-level agent is responsible for handling request for system calls from the emulation library. This is the most [delicate] and complex 
 							 component, it must executes system calls on behalf of the traced process as well as providing a normal system call interface, as the monitored
 							 process should not be aware to be tracked. However, the Linux system call interface is rather complex and accomplish this is not an easy task. 
-							 In \citep{Garfinkel03ostia:a} the only system calls analysed are those  allowed in an sandboxed environment, and this does not offer a
+							 In \cite{Garfinkel03ostia:a} the only system calls analysed are those  allowed in an sandboxed environment, and this does not offer a
 							 comprehensive view of all issues which may raise using this system call interceptor. For example, the case where the traced process invokes a mmap 
 							 system call is not analysed. This may raise an issue because the new memory is attached to the process who invoked the system call, which is the 
 							 agent in a delegating sandbox. We try to cover all problems linked to the delegation agent by subdividing the system call in subgroup and providing
@@ -200,14 +200,14 @@ This model has been mainly developed to overcome the securities issues in the fi
 \section{Kernel Probes}
 \label{kernel_probes}
 %Introduction 
-Kprobe \citep{Kprobes:2006} is a simple lightweight instrumentation mechanism developed by IBM and it has been introduced in Linux Kernel Version 2.6.9. Kprobes allows a user to dynamically insert a \textit{probepoint}\footnote{Probepoint is the address where the instrumentation is registered } in a specific kernel location. When a probepoint is hit a user-defined handler is executed. This will be executed in the context of the process where the probepoit has been hit. Kprobes has been mainly used for debugging purposes because a debug routine can be inserted easily in the kernel without recompiling it, for kernel tracing application as SystemTap\citep{SystemTap:Online}, for performance evaluation, for fault-injection,etc.  
+Kprobe \cite{Kprobes:2006} is a simple lightweight instrumentation mechanism developed by IBM and it has been introduced in Linux Kernel Version 2.6.9. Kprobes allows a user to dynamically insert a \textit{probepoint}\footnote{Probepoint is the address where the instrumentation is registered } in a specific kernel location. When a probepoint is hit a user-defined handler is executed. This will be executed in the context of the process where the probepoit has been hit. Kprobes has been mainly used for debugging purposes because a debug routine can be inserted easily in the kernel without recompiling it, for kernel tracing application as SystemTap\cite{SystemTap:Online}, for performance evaluation, for fault-injection,etc.  
 % ------------------------------------------------------------------------
 %How does it works? 
 %-------------------------------------------------------------------------
 \par
 Kprobes operates by overwriting the first byte of the probed instruction with a breakpoint instruction (e.g., int3 on i386 and x86\_64). The original instruction is copied into a separate region of memory.When the probed point is hit by the CPU a trap fault occurs, the CPU register are saved and the control passes to the Kprobes manager via the kernel notification chain\footnote{The kernel notification chain is the communication systems used within the Linux kernel, it follows a \textbf{Publish-subscribe} model.}.
 Then, the Kprobes manager executes a user-defined routine \textit{pre\_handler}. After that, the original instruction must be executed. This is run in single-step mode out of the normal program flow. This solution called \textit{"single-step out of line"} or  \textit{"execute out of line"} (XOL) allows a probe mechanism to work with multiple processes at the same time. [more info] 
-When the execution of the probed instruction is completed, the control returns to the kprobes manager which executes  a user-defiend post\_handler. A nice description of the kernel probes can be found at \citep{Sudhanshu:2006:Online}.  
+When the execution of the probed instruction is completed, the control returns to the kprobes manager which executes  a user-defiend post\_handler. A nice description of the kernel probes can be found at \cite{Sudhanshu:2006:Online}.  
 %-------------------------------------------------------------------------
 %How can we put it in place
 %-------------------------------------------------------------------------
@@ -223,12 +223,14 @@ Currently three different types of kprobes are supported :
 %--------------------------------------------------------------------------
 %Over Head introduced by Kprobes
 %--------------------------------------------------------------------------
-The over head introduced using kprobes is to be taken into account when the performance is a important part of an application. The overhead is principally due to the execution of two exceptions for each probe instruction. A series of kprobes, called kprobe-booster, has been developed and integrated in the kernel to reduce this overhead. Their implementation rely on the fact that the post\_handler is not always used and, if so,  the second exception can be avoided using a jump instruction. This enhancement reduces by half the overhead due to kprobe instrumentation. This result was easily imaginable because the number of execpetion has been halved. A further improvement has been proposed in \citep{Djprobe:2007} where jump instructions are used instead of the break instruction. They claim to have achieved performance 5 times better than a normal probe.   
+The over head introduced using kprobes is to be taken into account when the performance is a important part of an application. The overhead is principally due to the execution of two exceptions for each probe instruction. A series of kprobes, called kprobe-booster, has been developed and integrated in the kernel to reduce this overhead. Their implementation rely on the fact that the post\_handler is not always used and, if so,  the second exception can be avoided using a jump instruction. This enhancement reduces by half the overhead due to kprobe instrumentation. This result was easily imaginable because the number of execpetion has been halved. A further improvement has been proposed in \cite{Djprobe:2007} where jump instructions are used instead of the break instruction. They claim to have achieved performance 5 times better than a normal probe.   
 
 \subsection{System call interceptor using kernel probes}
 
 [to write]
 
+\section{Seccomb-bpf}
+[to write]
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
