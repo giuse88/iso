@@ -1,16 +1,73 @@
 %------------------------------------------------------------------------
 % SYSTEM CALL REFERENCES 
 %------------------------------------------------------------------------
-
-@online{clone,
+@ONLINE{clone,
   author = {Linux man-page Project},
   title = {Linux Programmer's Manual CLONE},
-  year = 2013,
+  year = {2013},
   urldate = {2013},
-  howpublished = "\url{http://web.archive.org/web/20080207010024/http://www.808multimedia.com/winnt/kernel.htm}",
+  howpublished = "\url{http://man7.org/linux/man-pages/man2/__clone2.2.html}"
  
 }
 
+
+@ONLINE{ptrace, 
+	author={Linux man-page Project}, 
+	title = {Linux Programmer's Manual CLONE},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://man7.org/linux/man-pages/man2/ptrace.2.html}"
+}
+
+
+@ONLINE{cross_memory_attach_syscall, 
+	author={Linux man-page Project}, 
+	title = {Linux Programmer's Manual CLONE},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://man7.org/linux/man-pages/man2/process_vm_readv.2.html}"
+}
+
+
+@ONLINE{cross_memory_attach, 
+	author={Linux man-page Project}, 
+	title = {Linux Programmer's Manual CLONE},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://lwn.net/Articles/405346/}"
+}
+
+
+@inproceedings{mx:icse13,
+author = {Petr Hosek, Cristian Cadar},
+title = {Safe Software Updates via Multi-version Execution},
+booktitle = {International Conference on Software Engineering (ICSE 2013)},
+year = {2013},
+month = {5},
+location = {San Francisco, California, USA},
+}
+
+
+
+%PTRACE
+
+
+@ONLINE{ptrace_seize, 
+	author={Tejun Heo}, 
+	title = {Linux mailing list},
+ 	year = {2011},
+ 	urldate = {2011},
+  	howpublished = "\url{http://thread.gmane.org/gmane.linux.kernel/1107045}"
+}
+
+
+@ONLINE{mem_vul, 
+	author={Jake Edge}, 
+	title = {A /proc/PID/mem vulnerability},
+ 	year = { 2012},
+ 	urldate = { 2012},
+  	howpublished = "\url{http://lwn.net/Articles/476947/}"
+}
 
 
 
@@ -49,6 +106,7 @@ publisher = {IEEE Computer Society},
 address = {Los Alamitos, CA, USA},
 }
 
+%%%%PTRACE VIRTUALISATION 
 @article{UML_1, 
 title={User-Mode Linux},
 author={Jeﬀ Dike},
@@ -60,6 +118,26 @@ title={Linux as a Hyper Visor},
 author={Jeﬀ Dike},
 year={2001},
 }
+
+@article{goanna,
+ author =       {C. P. Wright and R. Spillane and G. Sivathanu and E. Zadok},
+ title =        {Extending ACID Semantics to the File System},
+ journal =      {ACM Transactions on Storage (TOS)},
+ year =         {2007},
+ month =        {June},
+ volume =       {3},
+ number =       {2},
+ pages =        {1-42},
+}
+
+@Book{system_V_abi,
+ALTauthor = {Michael Matz, Jan Hubika , Andreas Jaeger , Mark Mitchell},
+ALTeditor = {•},
+title = {System V Application Binary Interface},
+publisher = {•},
+year = {2005},
+}
+
 
 @article{CDE, 
 title={CDE: Using System Call Interposition to Automatically Create Portable Software Packages},
@@ -148,3 +226,5 @@ year={2006},
     year = {2000},
     pages = {1--17}
 }
+
+

@@ -1,0 +1,87 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: report.aux
+A level-1 auxiliary file: Abstract/abstract.aux
+A level-1 auxiliary file: Acknowledgement/acknowledgement.aux
+A level-1 auxiliary file: Introduction/introduction.aux
+A level-1 auxiliary file: Chapter1/chapter1.aux
+A level-1 auxiliary file: Chapter2/chapter2.aux
+A level-1 auxiliary file: Chapter3/chapter3.aux
+A level-1 auxiliary file: Chapter4/chapter4.aux
+A level-1 auxiliary file: Appendix1/appendix1.aux
+A level-1 auxiliary file: Appendix2/appendix2.aux
+The style file: plain.bst
+Database file #1: References/references.bib
+Warning--entry type for "clone" isn't style-file defined
+--line 4 of file References/references.bib
+Warning--entry type for "ptrace" isn't style-file defined
+--line 14 of file References/references.bib
+Warning--entry type for "ptrace_seize" isn't style-file defined
+--line 55 of file References/references.bib
+Warning--entry type for "mem_vul" isn't style-file defined
+--line 64 of file References/references.bib
+Warning--entry type for "Sudhanshu:2006:Online" isn't style-file defined
+--line 149 of file References/references.bib
+Warning--string name "april" is undefined
+--line 152 of file References/references.bib
+Warning--entry type for "RenzoDavoli:2007:Online" isn't style-file defined
+--line 157 of file References/references.bib
+Warning--entry type for "SystemTap:Online" isn't style-file defined
+--line 186 of file References/references.bib
+Warning--entry type for "plashglibc" isn't style-file defined
+--line 191 of file References/references.bib
+Warning--I didn't find a database entry for "race_condition"
+Warning--to sort, need author or key in SystemTap:Online
+Warning--empty journal in lttng
+Warning--empty journal in UML_2
+Warning--empty journal in UML_1
+Warning--empty journal in CDE
+Warning--empty booktitle in Kprobes:2006
+Warning--empty journal in systrace
+Warning--empty year in systrace
+Warning--empty booktitle in Djprobe:2007
+Warning--empty booktitle in OcvtavianPurdila:2006:Utrace
+Warning--empty journal in Janus
+Warning--empty year in Janus
+Warning--empty year in Noordende_asecure
+You've used 24 entries,
+            2118 wiz_defined-function locations,
+            618 strings with 7101 characters,
+and the built_in function-call counts, 6174 in all, are:
+= -- 546
+> -- 277
+< -- 2
++ -- 117
+- -- 88
+* -- 327
+:= -- 1033
+add.period$ -- 65
+call.type$ -- 24
+change.case$ -- 115
+chr.to.int$ -- 0
+cite$ -- 37
+duplicate$ -- 259
+empty$ -- 567
+format.name$ -- 88
+if$ -- 1296
+int.to.chr$ -- 0
+int.to.str$ -- 24
+missing$ -- 16
+newline$ -- 116
+num.names$ -- 46
+pop$ -- 199
+preamble$ -- 1
+purify$ -- 92
+quote$ -- 0
+skip$ -- 192
+stack$ -- 0
+substring$ -- 201
+swap$ -- 35
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 96
+warning$ -- 13
+while$ -- 54
+width$ -- 26
+write$ -- 220
+(There were 23 warnings)
