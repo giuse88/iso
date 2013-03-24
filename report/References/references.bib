@@ -1,5 +1,5 @@
 %------------------------------------------------------------------------
-% SYSTEM CALL REFERENCES 
+% SYSTEM CALLS REFERENCES 
 %------------------------------------------------------------------------
 @ONLINE{clone,
   author = {Linux man-page Project},
@@ -9,7 +9,6 @@
   howpublished = "\url{http://man7.org/linux/man-pages/man2/__clone2.2.html}"
  
 }
-
 
 @ONLINE{ptrace, 
 	author={Linux man-page Project}, 
@@ -28,28 +27,43 @@
   	howpublished = "\url{http://man7.org/linux/man-pages/man2/process_vm_readv.2.html}"
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%REFERENCE TO SOFTWARE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-@ONLINE{cross_memory_attach, 
-	author={Linux man-page Project}, 
-	title = {Linux Programmer's Manual CLONE},
+@ONLINE{strace, 
+	author={Paul Kranenburg}, 
+	title = {Strace},
  	year = {2013},
  	urldate = {2013},
+  	howpublished = "\url{http://sourceforge.net/projects/strace/}"
+}
+
+%%SYSTEM TAP KPROBE
+@ONLINE {SystemTap:Online, 
+url = {http://sourceware.org/systemtap/},
+}
+%KPROBE OVERHEAD 
+
+@ONLINE{plashglibc,
+author={Mark Seaborn},
+title={PlashGLibc},
+year={2008},
+url={http://plash.beasts.org/wiki/PlashGlibc},
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JOURNAL ARTICLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@ONLINE{cross_memory_attach, 
+	author={Jonathan Corbet}, 
+	title = {Fast interprocess messaging},
+ 	year = {2010},
+ 	urldate = {2010},
   	howpublished = "\url{http://lwn.net/Articles/405346/}"
 }
-
-
-@inproceedings{mx:icse13,
-author = {Petr Hosek, Cristian Cadar},
-title = {Safe Software Updates via Multi-version Execution},
-booktitle = {International Conference on Software Engineering (ICSE 2013)},
-year = {2013},
-month = {5},
-location = {San Francisco, California, USA},
-}
-
-
-
-%PTRACE
 
 
 @ONLINE{ptrace_seize, 
@@ -69,6 +83,22 @@ location = {San Francisco, California, USA},
   	howpublished = "\url{http://lwn.net/Articles/476947/}"
 }
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PAPERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+@inproceedings{mx:icse13,
+author = {Petr Hosek, Cristian Cadar},
+title = {Safe Software Updates via Multi-version Execution},
+booktitle = {International Conference on Software Engineering (ICSE 2013)},
+year = {2013},
+month = {5},
+location = {San Francisco, California, USA},
+}
 
 
 
@@ -154,6 +184,12 @@ year = {2005},
 url = {http://lwn.net/Articles/132196/}
 }
 
+
+@ARTICLE{Lttng, 
+title={The LTTng tracer: A low impact performance andbehavior monitor for GNU/Linux}, 
+author={Mathieu Desnoyers and Michel R. Dagenais},
+year={2006},
+}
 @ONLINE {RenzoDavoli:2007:Online, 
 author = {Renzo Davoli},
 title = {KMview {@ONLINE}},
@@ -182,25 +218,14 @@ url = {http://wiki.virtualsquare.org/wiki/index.php/KMview}
     year = {2007},
     publisher = {}
 }
-%%SYSTEM TAP KPROBE
-@ONLINE {SystemTap:Online, 
-url = {http://sourceware.org/systemtap/},
-}
-%KPROBE OVERHEAD 
 
-@ONLINE{plashglibc,
-author={Mark Seaborn},
-title={PlashGLibc},
-year={2008},
-url={http://plash.beasts.org/wiki/PlashGlibc},
-}
 %TANEBAU
 @INPROCEEDINGS{Noordende_asecure,
     author = {Guido Van ’t Noordende and Ádám Balogh and Rutger Hofman and Frances M. T. Brazier and Andrew S. Tanenbaum},
     title = {A secure jailing system for confining untrusted applications},
     booktitle = {International Conference on Security and Cryptography (SECRYPT},
     year = {},
-    pages = {28--31}
+    pages = {28-31}
 }
 %JANUS THESIS 
 @ARTICLE{Janus, 
@@ -212,11 +237,30 @@ author={David A. Wagner},
 title={Improving Host Security with System Call Policies},
 author={Pervos}, 
 }
+@inproceedings{sfi,
+ author = {Wahbe, Robert and Lucco, Steven and Anderson, Thomas E. and Graham, Susan L.},
+ title = {Efficient software-based fault isolation},
+ booktitle = {Proceedings of the fourteenth ACM symposium on Operating systems principles},
+ series = {SOSP '93},
+ year = {1993},
+ isbn = {0-89791-632-8},
+ location = {Asheville, North Carolina, USA},
+ pages = {203--216},
+ numpages = {14},
+ url = {http://doi.acm.org/10.1145/168619.168635},
+ doi = {10.1145/168619.168635},
+ acmid = {168635},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
 
-@ARTICLE{Lttng, 
-title={The LTTng tracer: A low impact performance andbehavior monitor for GNU/Linux}, 
-author={Mathieu Desnoyers and Michel R. Dagenais},
-year={2006},
+@ARTICLE{Kosoresow97intrusiondetection,
+    author = {Andrew P. Kosoresow and Steven A. Hofmeyr},
+    title = {Intrusion detection via system call traces},
+    journal = {IEEE Software},
+    year = {1997},
+    volume = {14},
+    pages = {35--42}
 }
 
 @INPROCEEDINGS{MapBox,
@@ -227,4 +271,21 @@ year={2006},
     pages = {1--17}
 }
 
+@inproceedings{mvupdates:hotswup12,
+author = {Cristian Cadar, Petr Hosek},
+title = {Multi-Version Software Updates},
+booktitle = {Workshop on Hot Topics in Software Upgrades (HotSWUp 2012),},
+year = {2012},
+month = {6},
+location = {Zurich, Switzerland},
+}
+
+@INPROCEEDINGS{Saito05jockey:a,
+    author = {Yasushi Saito},
+    title = {Jockey: A user-space library for record-replay debugging},
+    booktitle = {In AADEBUG’05: Proceedings of the sixth international symposium on Automated analysis-driven debugging},
+    year = {2005},
+    pages = {69--76},
+    publisher = {ACM Press}
+}
 

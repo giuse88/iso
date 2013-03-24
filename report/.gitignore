@@ -1,0 +1,13 @@
+*.out 
+*.brf 
+*.blg 
+*.lof 
+*.log 
+*.nlo 
+*.aux 
+*.toc 
+*.pdf 
+*.bbl 
+*.gz 
+*.lol 
+*.dvi  

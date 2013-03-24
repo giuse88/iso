@@ -1,3 +1,107 @@
+%------------------------------------------------------------------------
+% SYSTEM CALLS REFERENCES 
+%------------------------------------------------------------------------
+@ONLINE{clone,
+  author = {Linux man-page Project},
+  title = {Linux Programmer's Manual CLONE},
+  year = {2013},
+  urldate = {2013},
+  howpublished = "\url{http://man7.org/linux/man-pages/man2/__clone2.2.html}"
+ 
+}
+
+@ONLINE{ptrace, 
+	author={Linux man-page Project}, 
+	title = {Linux Programmer's Manual CLONE},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://man7.org/linux/man-pages/man2/ptrace.2.html}"
+}
+
+
+@ONLINE{cross_memory_attach_syscall, 
+	author={Linux man-page Project}, 
+	title = {Linux Programmer's Manual CLONE},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://man7.org/linux/man-pages/man2/process_vm_readv.2.html}"
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%REFERENCE TO SOFTWARE 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@ONLINE{strace, 
+	author={Paul Kranenburg}, 
+	title = {Strace},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://sourceforge.net/projects/strace/}"
+}
+
+%%SYSTEM TAP KPROBE
+@ONLINE {SystemTap:Online, 
+url = {http://sourceware.org/systemtap/},
+}
+%KPROBE OVERHEAD 
+
+@ONLINE{plashglibc,
+author={Mark Seaborn},
+title={PlashGLibc},
+year={2008},
+url={http://plash.beasts.org/wiki/PlashGlibc},
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JOURNAL ARTICLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@ONLINE{cross_memory_attach, 
+	author={Jonathan Corbet}, 
+	title = {Fast interprocess messaging},
+ 	year = {2010},
+ 	urldate = {2010},
+  	howpublished = "\url{http://lwn.net/Articles/405346/}"
+}
+
+
+@ONLINE{ptrace_seize, 
+	author={Tejun Heo}, 
+	title = {Linux mailing list},
+ 	year = {2011},
+ 	urldate = {2011},
+  	howpublished = "\url{http://thread.gmane.org/gmane.linux.kernel/1107045}"
+}
+
+
+@ONLINE{mem_vul, 
+	author={Jake Edge}, 
+	title = {A /proc/PID/mem vulnerability},
+ 	year = { 2012},
+ 	urldate = { 2012},
+  	howpublished = "\url{http://lwn.net/Articles/476947/}"
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PAPERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+@inproceedings{mx:icse13,
+author = {Petr Hosek, Cristian Cadar},
+title = {Safe Software Updates via Multi-version Execution},
+booktitle = {International Conference on Software Engineering (ICSE 2013)},
+year = {2013},
+month = {5},
+location = {San Francisco, California, USA},
+}
+
+
+
 % ------------------------------------------------------------------------
 % SAMPLE BIBLIOGRAPHY FILE
 % ------------------------------------------------------------------------
@@ -8,9 +112,172 @@
     year = {2003},
     publisher = {}
 }
-
 % ------------------------------------------------------------------------
 
+@INPROCEEDINGS{orchestra,
+    author = {Babak Salamat and Todd Jackson and Andreas Gal and Michael Franz},
+    title = {Orchestra: Intrusion detection using parallel execution and monitoring of program variants in userspace},
+    booktitle = {In Proceedings of the European Conference on Computer Systems},
+    year = {2009}
+}
 
 
-% ------------------------------------------------------------------------
+@article{introd_detection,
+author = {Federico Maggi and Matteo Matteucci and Stefano Zanero},
+title = {Detecting Intrusions through System Call Sequence and Argument Analysis},
+journal ={IEEE Transactions on Dependable and Secure Computing},
+volume = {7},
+number = {4},
+issn = {1545-5971},
+year = {2010},
+pages = {381-395},
+doi = {http://doi.ieeecomputersociety.org/10.1109/TDSC.2008.69},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+}
+
+%%%%PTRACE VIRTUALISATION 
+@article{UML_1, 
+title={User-Mode Linux},
+author={Jeﬀ Dike},
+year={2001},
+}
+
+@article{UML_2, 
+title={Linux as a Hyper Visor},
+author={Jeﬀ Dike},
+year={2001},
+}
+
+@article{goanna,
+ author =       {C. P. Wright and R. Spillane and G. Sivathanu and E. Zadok},
+ title =        {Extending ACID Semantics to the File System},
+ journal =      {ACM Transactions on Storage (TOS)},
+ year =         {2007},
+ month =        {June},
+ volume =       {3},
+ number =       {2},
+ pages =        {1-42},
+}
+
+@Book{system_V_abi,
+ALTauthor = {Michael Matz, Jan Hubika , Andreas Jaeger , Mark Mitchell},
+ALTeditor = {•},
+title = {System V Application Binary Interface},
+publisher = {•},
+year = {2005},
+}
+
+
+@article{CDE, 
+title={CDE: Using System Call Interposition to Automatically Create Portable Software Packages},
+author={Philip J. Guo and Dawson Engler},
+year={2011},
+}
+
+%KERNEL MECHANISM 
+@ONLINE{Sudhanshu:2006:Online,
+author = {Sudhanshu,Goswami},
+title = {An introduction to KProbes {@ONLINE}},
+month = april,
+year = {2005},
+url = {http://lwn.net/Articles/132196/}
+}
+
+
+@ARTICLE{Lttng, 
+title={The LTTng tracer: A low impact performance andbehavior monitor for GNU/Linux}, 
+author={Mathieu Desnoyers and Michel R. Dagenais},
+year={2006},
+}
+@ONLINE {RenzoDavoli:2007:Online, 
+author = {Renzo Davoli},
+title = {KMview {@ONLINE}},
+month = oct,
+year = {2007},
+url = {http://wiki.virtualsquare.org/wiki/index.php/KMview}
+}
+
+%% UTRACE SAND BOX 
+@INPROCEEDINGS{OcvtavianPurdila:2006:Utrace,
+    author = {Ocvtavian Purdila and Andreas Terzis},
+    title = {A Dynamic Browser Containment Environment for Countering Web-Base Malware},
+    year = {2006},
+    publisher = {}
+}
+%% KPROBES 
+@INPROCEEDINGS{Kprobes:2006,
+    author = {Ananth Mavinakayanahalli and Prasanna Panchamukhi and Jim Keniston},
+    title = {Probing the Guts of Kprobes},
+    year = {2006},
+    publisher = {}
+}
+@INPROCEEDINGS{Djprobe:2007,
+    author = {Djprobe—Kernel probing with the smallest overhead},
+    title = {Masami Hiramatsu and Satoshi Oshima},
+    year = {2007},
+    publisher = {}
+}
+
+%TANEBAU
+@INPROCEEDINGS{Noordende_asecure,
+    author = {Guido Van ’t Noordende and Ádám Balogh and Rutger Hofman and Frances M. T. Brazier and Andrew S. Tanenbaum},
+    title = {A secure jailing system for confining untrusted applications},
+    booktitle = {International Conference on Security and Cryptography (SECRYPT},
+    year = {},
+    pages = {28-31}
+}
+%JANUS THESIS 
+@ARTICLE{Janus, 
+title={Janus: an approach for confinement of untrusted application},
+author={David A. Wagner},
+}
+
+@ARTICLE{Systrace, 
+title={Improving Host Security with System Call Policies},
+author={Pervos}, 
+}
+@inproceedings{sfi,
+ author = {Wahbe, Robert and Lucco, Steven and Anderson, Thomas E. and Graham, Susan L.},
+ title = {Efficient software-based fault isolation},
+ booktitle = {Proceedings of the fourteenth ACM symposium on Operating systems principles},
+ series = {SOSP '93},
+ year = {1993},
+ isbn = {0-89791-632-8},
+ location = {Asheville, North Carolina, USA},
+ pages = {203--216},
+ numpages = {14},
+ url = {http://doi.acm.org/10.1145/168619.168635},
+ doi = {10.1145/168619.168635},
+ acmid = {168635},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+@ARTICLE{Kosoresow97intrusiondetection,
+    author = {Andrew P. Kosoresow and Steven A. Hofmeyr},
+    title = {Intrusion detection via system call traces},
+    journal = {IEEE Software},
+    year = {1997},
+    volume = {14},
+    pages = {35--42}
+}
+
+@INPROCEEDINGS{MapBox,
+    author = {Anurag Acharya and Mandar Raje and Ar Raje},
+    title = {MAPbox: Using Parameterized Behavior Classes to Confine Applications},
+    booktitle = {In Proceedings of the 9th USENIX Security Symposium},
+    year = {2000},
+    pages = {1--17}
+}
+
+@inproceedings{mvupdates:hotswup12,
+author = {Cristian Cadar, Petr Hosek},
+title = {Multi-Version Software Updates},
+booktitle = {Workshop on Hot Topics in Software Upgrades (HotSWUp 2012),},
+year = {2012},
+month = {6},
+location = {Zurich, Switzerland},
+}
+
+
