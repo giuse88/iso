@@ -13,6 +13,4 @@
 *.dvi
 .itmp 
 .directory
-.btmp
-*~
-*.texshop 
+.btmp  

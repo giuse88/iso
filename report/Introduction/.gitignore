@@ -11,8 +11,7 @@
 *.gz 
 *.lol 
 *.dvi
+*.texshop 
 .itmp 
 .directory
-.btmp
-*~
-*.texshop 
+.btmp  

@@ -22,7 +22,7 @@ Ptrace supports numerous different type of actions, for a comprehensive list see
 	  an event of interest occurs ( e.g. a system-call is invoked).
 \end{itemize} 
 
-WHEN A PROCESS CAN ATTACH TO ANOTHER PROCESS
+%WHEN A PROCESS CAN ATTACH TO ANOTHER PROCESS
 The tracer process gains extensive control over the operations of the tracee process. This includes manipulation of its file descriptors, memory, and registers. It can single-step through the tracee's code, observe and intercept system calls and their results. Furthermore, it can manipulate the tracee's signal handlers and both receive and send signals on its behalf. While a process is being traced, all events such as attempting to invoke a system call or receiving a signal are turned into a  \lstinline$SIGCHLD$ \footnote{The communication between the tracee and the tracer is performed using the standard UNIX parent/child signaling over \emph{waitpid} system call}  signals that are delivered to the tracer process. Every time the tracee receives a signal, it is stopped so that the tracer may analyses its status and if necessary changes its execution. 
 
 
@@ -235,7 +235,7 @@ If the previous checks are not respected an \lstinline$ESRCH$ error is retrieved
  
 \textbf{Cross memory attach}\\
 The space memory of a running process can be also accessed using \emph{cross memory attach}, a new mechanism that has been recently introduced in the Linux kernel
- \ref{cross_memory_attach}. This mechanism is implement by two new system calls \cite{cross memory attach_syscall} that transfer data between the address space of the calling process and the process identified by pid.  The data moves directly between the address spaces of the two processes, without passing through kernel space improving the performance respect to the previous  approach. t has been successfully employed in \cite{mx:icse13} to access the system call's parameters. 
+ \ref{cross_memory_attach}. This mechanism is implement by two new system calls \cite{cross_memory_attach_syscall} that transfer data between the address space of the calling process and the process identified by pid.  The data moves directly between the address spaces of the two processes, without passing through kernel space improving the performance respect to the previous  approach. t has been successfully employed in \cite{mx:icse13} to access the system call's parameters. 
  
 For obvious security reasons, there are some restrictions that a process must respect in order to access the memory of another process. In order to perform the copy both process must have the same ownership or the calling process must have the \lstinline$CAP_SYS_PTRACE$ capability. The permission required is exactly the same as that required to perform a ptrace attach to another process. 
 

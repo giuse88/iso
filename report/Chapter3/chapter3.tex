@@ -1,7 +1,56 @@
 \chapter{Binary Rewriting}
+Binary rewriting is a software mechanism that transforms an executable by maintaining its original behaviour, while improving it in one or more aspects such runtime performance, security and reliability. The research literature is full of examples of binary-rewriting methods applied to a variety of topics, including optimization \cite{}, code instrumentation \cite{}, security enhancements \cite{vx32}, software caching and software virtualisation \cite{}. 
+Consequent to the advantages of binary rewriting, numerous binary rewriters have been developed. Typically they fall into two main categories \emph{static rewriters} and \emph{dynamic rewriters}, which can be further divided in \emph{fully rewriting}, where all instructions are rewritten and \emph{selectively rewriting} where only relevant instructions are modified. 
+\begin{description}
+
+\item[Static binary] rewriters modify the executable file off-line allowing them to perform complex analysis and transformations. Due to their offline nature, \emph{relocation information} are required to identify code regions and address locations. The identification of the code region is necessary to ensure a fully disassembly of the binary file. Just merely disassembling  the entire code segment is an invalid solution, as  compilers often insert data within the code segment ( such as jump table, padding bytes). The identification of address locations is required to adjust addresses during the relocation phase. The necessity of relocation information can be avoided using a selective binary-rewriting approach \cite{seccomp-sandbox} as the original code remains the same to the greatest extend possible. Although this approach allows only minimal transformations such as, insertion of trampoline instruction to jump into an instrumentation block and peephole optimizations \footnote{A peephole optimization is : }
+
+\item[Dynamic binary] rewriters modify the executable during its execution. The key advantage of this methods is that it does not require any relocation or symbolic information as at runtime the identification of the code regions and the address locations is trivial. Unfortunately, dynamic rewriters introduce a remarkable overhead in the software execution as all rewriting operations occur at runtime. This makes infeasible to use a binary rewriter to perform complex transformation such as automatic parallelization as the overhead introduced is prohibitive. Consequent to this limitation, dynamic binary rewriters have been only employed for simply code instrumentation, and even in this case the overhead introduced is significant, for DinamoRIO 20 \% and PIN 54\%.
+\end{description}
+
+Despite the potential of this technique, its shortcomings entailed that it has not been adopted in any commercial solution. The only exception is DynamoRio that has been appreciate for its security checks. Although their limitations both static rewriting as well as dynamic rewriting can be successful used to intercept system calls. The section \ref{static_rewriting} introduces in more details techniques for static binary rewriting as well as issues that raise when a static rewriting is used for modifying \emph{ELF} binaries within an architecture which supports  a set of instructions with different length ( such as Intel x86 and x86\_64 instructions). The section \ref{dynamic_rewriting} presents the general approach adopted by most of the dynamic binary rewriters. 
+
+(to do) WE MUST INTRODUCE THE DIFFERENT METHOD TO INVOKE A SYSTEM CALL IN LINUX			
+SYSTERN 
+INT 
+VDSO 
+
+(to do) WE focus on  instrumentation code
 
 \section{Static binary rewriting}
+
+Static binary rewriting  is a powerful technique that transforms a binary file such as executables or libraries into a partially or totally new version. It allows to perform complex transformations ( for example, automatic parallelization and porting binary between different architectures) as well as to insert instrumentation code ( for example, for tracking purposes and security enhancements). This section presents a possible approach for implementing a system call interceptor using a sound static binary rewriting methods and all issues that this technique involves.  The primary target of this mechanism are Elf binary files that run on the Linux/x86 platforms, including both x32 and x64 architectures. Several static binary rewriters can be found in the research literature \cite{PEBIL, BIRD, SECONDWRITER, REINS}, but none of them has been exclusively designed for system call interposition, though they can be used for accomplishing such task. Our goal is to instrument the executable by placing a branch instruction at each system call invocation within the application which transfers the control to the instrumentation code. The instrumentation code executes a pre-routine, might execute the system call and might execute a post routine and then return the control to the application. The routines must be designed in such way to ensure that the program state is preserved across their execution, for example saving the state registers in the stack before their execution and restoring their values after. 
+  
+There are numerous challenges that a static binary rewriter must address in order to ensure effectiveness as well as correctness, the largest of which include how correctly interpret the instructions within the text segment ( MORE SPECIFIC HOW corectly indentify the instruction which invokes a system call), how to accommodate the extra code needed by the extension routines and how to deal with variable-length instructions. 
+
+%CODE DISCOVERY 
+The first step of the rewriting (INSTRUMENTATION) process is the identification of all instructions, this process is usually referred to as \emph{code discovery}. Unfortunately, identifying all instructions cannot be accomplished merely by disassembling the text segment of a binary file, as compilers often produce a ELF binary whose text segment might contain data. They usually store small data structures for providing convenient and efficient lookup of data such as identifiers and descriptors. In order to guarantee correctness of the executable, all parts of the text segment containing instructions must be identified as not carefully dealing with the data within the text section might result in a different application's behaviour from the original behaviour.  Diverse code discovery algorithms have been designed \cite{SECONDWRITER , codediscovery} such as \emph{linear sweep},which dissasemble each location in a linear fashion used in \cite{PEBIL} ( this does not guarantee correctnees)  or \emph{recursive traversal}, which identifies instructions by following only valid control flow edges. When control transfer instructions are encoutred the algorithm continues discovery at the target location. A difficult problem is raised when a\emph{indirect} transfer instruction  ( such as : jump \_entry ) is identified as the target address is not identifiable statically. Different techiniques has been developed to overcome this problem: 
+\begin{itemize}
+\item The easiest solution is to rely upon \emph{relocation entries}\footnote{Relocation entries are generate by the compiler when an absolute address is not available during compiling time, for example a function in a library}, unfortunately these are not included in commercial applications which narrows the applicability of this approach to few application. % I have the address of the library once the binary is full written
+
+\item A different approach that does not rely on relocation entries is\emph{peephole examination},  used  in \cite{PEBIL}. Peephole examination consists of analysing the instructions nearby the indirect transfer function  in order to determine the target address of the indirect branch. This methods works, but it cannot guarantee a 100\% code discover. 
+
+\item A Speculative recurive transversal execution... used in \cite{SECONDWRITER} it guarantee 100%
+
+  
+\end{itemize}       
+
+%RELOCATION 
+   
+ On platform with fixed-instruction lenght instruction sets, a common approach is to subtitued an instruction with another introduction PEBIL 
+ 
+ BIRD relocation instruction 
+ PEBIL FUNCTION DISPLACHEMNT 
+ SECONDREWRITING   LLVM and IR
+ 
+
+%INSTRUMENTATION  
+
+
+\label{static_rewriting}
+
 \section{Dynamic binary rewriting}
+\label{dynamic_rewriting}
 
 %-----------------------------------------------------------------------
 
