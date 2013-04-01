@@ -43,13 +43,30 @@
 @ONLINE {SystemTap:Online, 
 url = {http://sourceware.org/systemtap/},
 }
-%KPROBE OVERHEAD 
+
 
 @ONLINE{plashglibc,
 author={Mark Seaborn},
 title={PlashGLibc},
 year={2008},
 url={http://plash.beasts.org/wiki/PlashGlibc},
+}
+
+@ONLINE{soft:vx32,
+author={Bryan Ford and Russ Cox},
+title={Vx32 },
+year={2008},
+url={http://pdos.csail.mit.edu/~baford/vm/},
+}
+
+
+
+@ONLINE{seccompsandbox,
+author={Google},
+title={Seccompsandbox},
+year={2010},
+url={https://code.google.com/p/seccompsandbox/
+},
 }
 
 
@@ -338,9 +355,103 @@ location = {Zurich, Switzerland},
  doi = {10.1145/2420950.2420995},
  acmid = {2420995},
  publisher = {ACM},
- address = {New York, NY, USA},
+ address = {New York, NY, USA}
+} 
+
+@INPROCEEDINGS{Romer97instrumentationand,
+    author = {Ted Romer and Geoff Voelker and Dennis Lee and Alec Wolman and Wayne Wong and Hank Levy and Brian Bershad and Brad Chen},
+    title = {Instrumentation and Optimization of Win32/Intel Executables Using Etch},
+    booktitle = {In Proceedings of the USENIX Windows NT Workshop},
+    year = {1997},
+    pages = {1--7}
+}
+
+
+@inproceedings{vx32,
+ author = {Ford, Bryan and Cox, Russ},
+ title = {Vx32: lightweight user-level sandboxing on the x86},
+ booktitle = {USENIX 2008 Annual Technical Conference on Annual Technical Conference},
+ series = {ATC'08},
+ year = {2008},
+ location = {Boston, Massachusetts},
+ pages = {293--306},
+ numpages = {14},
+ url = {http://dl.acm.org/citation.cfm?id=1404014.1404039},
+ acmid = {1404039},
+ publisher = {USENIX Association},
+ address = {Berkeley, CA, USA}
 } 
 
 
+@inproceedings{Valgrind,
+ author = {Nethercote, Nicholas and Seward, Julian},
+ title = {Valgrind: a framework for heavyweight dynamic binary instrumentation},
+ booktitle = {Proceedings of the 2007 ACM SIGPLAN conference on Programming language design and implementation},
+ series = {PLDI '07},
+ year = {2007},
+ isbn = {978-1-59593-633-2},
+ location = {San Diego, California, USA},
+ pages = {89--100},
+ numpages = {12},
+ url = {http://doi.acm.org/10.1145/1250734.1250746},
+ doi = {10.1145/1250734.1250746},
+ acmid = {1250746},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Memcheck, Valgrind, dynamic binary analysis, dynamic binary instrumentation, shadow values},
+} 
 
+@inproceedings{DynamoRio,
+ author = {Bruening, Derek and Zhao, Qin and Amarasinghe, Saman},
+ title = {Transparent dynamic instrumentation},
+ booktitle = {Proceedings of the 8th ACM SIGPLAN/SIGOPS conference on Virtual Execution Environments},
+ series = {VEE '12},
+ year = {2012},
+ isbn = {978-1-4503-1176-2},
+ location = {London, England, UK},
+ pages = {133--144},
+ numpages = {12},
+ url = {http://doi.acm.org/10.1145/2151024.2151043},
+ doi = {10.1145/2151024.2151043},
+ acmid = {2151043},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {dynamic instrumentation, process virtualization, runtime system, transparency},
+} 
 
+@inproceedings{Qemu,
+ author = {Bellard, Fabrice},
+ title = {QEMU, a fast and portable dynamic translator},
+ booktitle = {Proceedings of the annual conference on USENIX Annual Technical Conference},
+ series = {ATEC '05},
+ year = {2005},
+ location = {Anaheim, CA},
+ pages = {41--41},
+ numpages = {1},
+ url = {http://dl.acm.org/citation.cfm?id=1247360.1247401},
+ acmid = {1247401},
+ publisher = {USENIX Association},
+ address = {Berkeley, CA, USA},
+} 
+
+@MISC{Ebcioglu97daisy:dynamic,
+    author = {Kemal Ebcioglu and Erik R. Altman},
+    title = {DAISY: Dynamic Compilation for 100% Architectural Compatibility},
+    year = {1997}
+}
+
+@INPROCEEDINGS{Witchel96embra:fast,
+    author = {Emmett Witchel and Mendel Rosenblum},
+    title = {Embra: Fast and Flexible Machine Simulation},
+    booktitle = {In Measurement and Modeling of Computer Systems},
+    year = {1996},
+    pages = {68--79}
+}
+
+@INPROCEEDINGS{Strata,
+    author = {Kevin Scott and Jack Davidson},
+    title = {Safe virtual execution using software dynamic translation},
+    booktitle = {Annual Computer Security Applications Conference},
+    year = {2002},
+    pages = {209--218}
+}

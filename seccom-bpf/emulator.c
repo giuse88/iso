@@ -83,11 +83,9 @@ static void emulator(int nr, siginfo_t *info, void *void_context)
 		return;
 	if (ctx->uc_mcontext.gregs[REG_ARG0] != STDERR_FILENO)
 		return;
-	/* Redirect stderr messages to stdout. Doesn't handle EINTR, etc */
-	ctx->uc_mcontext.gregs[REG_RESULT] = -1;
-	if (write(STDOUT_FILENO, "hope", 5) > 0) {;
-		ctx->uc_mcontext.gregs[REG_RESULT] = STDOUT_FILENO;
-	}
+
+	 ctx->uc_mcontext.gregs[REG_RESULT] = STDOUT_FILENO;
+
 	return;
 }
 
@@ -190,7 +188,7 @@ int main(int argc, char **argv)
 	if ( (fd=open("/etc/passwd", O_RDWR)) < 0 ) 
 		perror("Open"); 
 
-	if (write(fd, "Hello",6) < 0) 
+	if (write(fd, "Hello I am seccom-bpf \n",24) < 0) 
 		perror("Write");  
 
 	return 0;

@@ -128,6 +128,7 @@ It is worth mentioning the concurrent strategy adopted in this intercepting mode
 
 
 \section{Kernel delegating  architecture}
+\label{delegating_architecture}
 
 The interceptor model presented in \ref{interceptor_mechanism} suffers of a series of security problems ( race condition [ref] ) which makes its design and implementation substantially error prone to race conditions. This is due to the fact the action of checking a resource such as the system call parameters and the action of use is not an atomic operation therefore the resource may change between the two moments. This is usually called TOCTOU race condition.  In order to overcome the limit of this architecture an alternative  intercepting architecture has been developed  in \cite{Garfinkel03ostia:a}. It is usually referred as \textit{delegating architecture}. 
 
