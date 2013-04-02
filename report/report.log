@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.21)  1 APR 2013 20:52
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.21)  2 APR 2013 16:40
 entering extended mode
  %&-line parsing enabled.
 **report.tex
@@ -211,22 +211,6 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 130.
 )
-(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
-Package: caption 2009/10/09 v3.1k Customizing captions (AR)
-
-(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
-Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
-\captionmargin=\dimen122
-\captionmargin@=\dimen123
-\captionwidth=\dimen124
-\caption@indent=\dimen125
-\caption@parindent=\dimen126
-\caption@hangindent=\dimen127
-)
-\c@ContinuedFloat=\count111
-Package caption Info: float package is loaded.
-Package caption Info: listings package is loaded.
-)
 (/usr/share/texmf-texlive/tex/latex/psnfss/courier.sty
 Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
@@ -312,26 +296,25 @@ File: lstlang1.sty 2004/09/05 1.3 listings language file
 (/usr/share/texmf-texlive/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 )
-(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
 
-(/etc/texmf/tex/latex/config/color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
+\captionmargin=\dimen122
+\captionmargin@=\dimen123
+\captionwidth=\dimen124
+\caption@indent=\dimen125
+\caption@parindent=\dimen126
+\caption@hangindent=\dimen127
 )
-Package xcolor Info: Driver file: pdftex.def on input line 225.
-LaTeX Info: Redefining \color on input line 702.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
-Package xcolor Info: Model `RGB' extended on input line 1353.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
-) (./report.aux (./Abstract/abstract.aux) (./Acknowledgement/acknowledgement.au
-x) (./Introduction/introduction.aux)
-(./Chapter1/chapter1.aux) (./Chapter2/chapter2.aux
+\c@ContinuedFloat=\count111
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+) (./report.aux
+(./Abstract/abstract.aux) (./Acknowledgement/acknowledgement.aux)
+(./Introduction/introduction.aux) (./Chapter1/chapter1.aux)
+(./Chapter2/chapter2.aux
 
 LaTeX Warning: Label `DescriptiveLabel' multiply defined.
 
@@ -351,48 +334,46 @@ LaTeX Warning: Label `DescriptiveLabel' multiply defined.
 
 LaTeX Warning: Label `DescriptiveLabel' multiply defined.
 
-) (./Chapter4/chapter4.aux) (./Appendix1/appendix1.aux)
-(./Appendix2/appendix2.aux))
+) (./Chapter4/chapter4.aux) (./Chapter5/chapter5.aux)
+(./Appendix1/appendix1.aux) (./Appendix2/appendix2.aux))
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/pxmi/m/it on input line 119.
-LaTeX Font Info:    Try loading font information for OML+pxmi on input line 119
-.
+LaTeX Font Info:    Checking defaults for OML/pxmi/m/it on input line 95.
+LaTeX Font Info:    Try loading font information for OML+pxmi on input line 95.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omlpxmi.fd
 File: omlpxmi.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 119.
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMS/pxsy/m/n on input line 119.
-LaTeX Font Info:    Try loading font information for OMS+pxsy on input line 119
-.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMS/pxsy/m/n on input line 95.
+LaTeX Font Info:    Try loading font information for OMS+pxsy on input line 95.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omspxsy.fd
 File: omspxsy.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for OMX/pxex/m/n on input line 119.
-LaTeX Font Info:    Try loading font information for OMX+pxex on input line 119
-.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMX/pxex/m/n on input line 95.
+LaTeX Font Info:    Try loading font information for OMX+pxex on input line 95.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omxpxex.fd
 File: omxpxex.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Checking defaults for U/pxexa/m/n on input line 119.
-LaTeX Font Info:    Try loading font information for U+pxexa on input line 119.
-
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for U/pxexa/m/n on input line 95.
+LaTeX Font Info:    Try loading font information for U+pxexa on input line 95.
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxexa.fd
 File: upxexa.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 119.
-LaTeX Font Info:    Try loading font information for OT1+pxr on input line 119.
-
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Try loading font information for OT1+pxr on input line 95.
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/ot1pxr.fd
 File: ot1pxr.fd 2000/12/14 v1.0
@@ -454,24 +435,24 @@ driver: pdftex
 \c@lstlisting=\count117
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+pxmia on input line 124.
+LaTeX Font Info:    Try loading font information for U+pxmia on input line 100.
 
  (/usr/share/texmf-texlive/tex/latex/pxfonts/upxmia.fd
 File: upxmia.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+pxsya on input line 124.
+LaTeX Font Info:    Try loading font information for U+pxsya on input line 100.
 
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxsya.fd
 File: upxsya.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+pxsyb on input line 124.
+LaTeX Font Info:    Try loading font information for U+pxsyb on input line 100.
 
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxsyb.fd
 File: utxsyb.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+pxsyc on input line 124.
+LaTeX Font Info:    Try loading font information for U+pxsyc on input line 100.
 
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxsyc.fd
@@ -553,21 +534,6 @@ LaTeX Font Info:    Try loading font information for OT1+pxtt on input line 71.
 File: ot1pxtt.fd 2000/12/14 v1.0
 )
 
-Package xcolor Warning: Incompatible color definition on input line 71.
-
-
-Package xcolor Warning: Incompatible color definition on input line 71.
-
-
-Package xcolor Warning: Incompatible color definition on input line 71.
-
-
-Package xcolor Warning: Incompatible color definition on input line 71.
-
-
-Package xcolor Warning: Incompatible color definition on input line 71.
-
-
 LaTeX Warning: Citation `seccompsandboxe' on page 3 undefined on input line 71.
 
 
@@ -596,206 +562,20 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 10--10
 [][][][][][][] 
  []
 
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 10.
-
-
-Package xcolor Warning: Incompatible color definition on input line 12.
-
-
-Package xcolor Warning: Incompatible color definition on input line 12.
-
-
-Package xcolor Warning: Incompatible color definition on input line 12.
-
 LaTeX Font Info:    Try loading font information for OMS+pxr on input line 18.
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omspxr.fd
 File: omspxr.fd 2000/12/14 v1.0
 )
 LaTeX Font Info:    Font shape `OMS/pxr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/pxsy/m/n' tried instead on input line 18.
-
-
-Package xcolor Warning: Incompatible color definition on input line 26.
-
-[5
+ [5
 
 
 
-]
-
-Package xcolor Warning: Incompatible color definition on input line 74.
-
-
-Package xcolor Warning: Incompatible color definition on input line 74.
-
-
-Package xcolor Warning: Incompatible color definition on input line 74.
-
-[6]
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
-Package xcolor Warning: Incompatible color definition on input line 81.
-
-
+] [6]
 Overfull \hbox (6.0pt too wide) in paragraph at lines 87--87
 [][][][][][][] 
  []
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 87.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 88.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 89.
-
-
-Package xcolor Warning: Incompatible color definition on input line 90.
-
-
-Package xcolor Warning: Incompatible color definition on input line 90.
-
-
-Package xcolor Warning: Incompatible color definition on input line 90.
-
-
-Package xcolor Warning: Incompatible color definition on input line 92.
-
-
-Package xcolor Warning: Incompatible color definition on input line 96.
 
 
 <Chapter1/Chapter1Figs/ptrace_systemcall.png, id=47, 441.14813pt x 311.66437pt>
@@ -809,88 +589,10 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 111--111
 [][][][][][][] 
  []
 
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 111.
-
-
-Package xcolor Warning: Incompatible color definition on input line 113.
-
-
-Package xcolor Warning: Incompatible color definition on input line 113.
-
-
-Package xcolor Warning: Incompatible color definition on input line 113.
-
-
-Package xcolor Warning: Incompatible color definition on input line 117.
-
-
-Package xcolor Warning: Incompatible color definition on input line 117.
-
 [7]
 Overfull \hbox (6.0pt too wide) in paragraph at lines 120--120
 [][][][][][][] 
  []
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 122.
-
-
-Package xcolor Warning: Incompatible color definition on input line 122.
-
-
-Package xcolor Warning: Incompatible color definition on input line 122.
 
 
 LaTeX Warning: Reference `system_V_abi' on page 8 undefined on input line 128.
@@ -901,498 +603,11 @@ Overfull \hbox (252.84843pt too wide) in paragraph at lines 133--133
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 133.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 134.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 138.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 139.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 140.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 141.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 142.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 143.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 145.
-
-
-Package xcolor Warning: Incompatible color definition on input line 150.
-
-
-Package xcolor Warning: Incompatible color definition on input line 150.
-
-
-Package xcolor Warning: Incompatible color definition on input line 150.
-
-
 Overfull \hbox (252.84843pt too wide) in paragraph at lines 154--154
 [][][][][][][] 
  []
 
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 154.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 155.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 159.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 160.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 161.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 162.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 163.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 164.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 166.
-
-
-Package xcolor Warning: Incompatible color definition on input line 171.
-
-
-Package xcolor Warning: Incompatible color definition on input line 171.
-
-
-Package xcolor Warning: Incompatible color definition on input line 171.
-
 [8 <./Chapter1/Chapter1Figs/ptrace_systemcall.png (PNG copy)>]
-
-Package xcolor Warning: Incompatible color definition on input line 195.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 200--210
 
  []
@@ -1415,18 +630,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 224--227
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 229.
-
-
-Package xcolor Warning: Incompatible color definition on input line 229.
-
-
-Package xcolor Warning: Incompatible color definition on input line 231.
-
-
-Package xcolor Warning: Incompatible color definition on input line 234.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 234--235
 
  []
@@ -1434,12 +637,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 234--235
 
 LaTeX Warning: Reference `cross_memory_attach' on page 11 undefined on input li
 ne 238.
-
-
-Package xcolor Warning: Incompatible color definition on input line 240.
-
-
-Package xcolor Warning: Incompatible color definition on input line 250.
 
 [11]
 Overfull \hbox (74.13454pt too wide) in paragraph at lines 254--257
@@ -1468,7 +665,7 @@ Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
 )
-Underfull \hbox (badness 10000) in paragraph at lines 265--139
+Underfull \hbox (badness 10000) in paragraph at lines 265--115
 
  []
 
@@ -1495,81 +692,9 @@ Overfull \hbox (6.0pt too wide) in paragraph at lines 64--64
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 64.
-
-
-Package xcolor Warning: Incompatible color definition on input line 69.
-
-
-Package xcolor Warning: Incompatible color definition on input line 69.
-
-
-Package xcolor Warning: Incompatible color definition on input line 69.
-
-
 Overfull \hbox (6.0pt too wide) in paragraph at lines 76--76
 [][][][][][][] 
  []
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 76.
-
-
-Package xcolor Warning: Incompatible color definition on input line 80.
-
-
-Package xcolor Warning: Incompatible color definition on input line 80.
-
-
-Package xcolor Warning: Incompatible color definition on input line 80.
 
 [16] [17]
 
@@ -1585,23 +710,7 @@ Chapter 4.
 
 
 
-]
-
-Package xcolor Warning: Incompatible color definition on input line 18.
-
-
-Package xcolor Warning: Incompatible color definition on input line 20.
-
-
-Package xcolor Warning: Incompatible color definition on input line 20.
-
-
-Package xcolor Warning: Incompatible color definition on input line 20.
-
-
-Package xcolor Warning: Incompatible color definition on input line 20.
-
-(/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
+] (/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
 (/usr/share/texmf-texlive/tex/latex/listings/lstlang2.sty
@@ -1610,239 +719,39 @@ File: lstlang2.sty 2004/09/05 1.3 listings language file
 (/usr/share/texmf-texlive/tex/latex/listings/lstlang3.sty
 File: lstlang3.sty 2004/09/05 1.3 listings language file
 )
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-
-Package xcolor Warning: Incompatible color definition on input line 30.
-
-LaTeX Font Info:    Font shape `OT1/pxtt/bx/n' in size <8> not available
-(Font)              Font shape `OT1/pxtt/b/n' tried instead on input line 31.
-
-Package xcolor Warning: Incompatible color definition on input line 36.
-
-
-Package xcolor Warning: Incompatible color definition on input line 36.
-
-
-Package xcolor Warning: Incompatible color definition on input line 36.
-
-
-Overfull \hbox (335.13126pt too wide) in paragraph at lines 36--36
+Overfull \hbox (335.13126pt too wide) in paragraph at lines 30--30
 [][][][][][][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 41.
-
-
-Package xcolor Warning: Incompatible color definition on input line 47.
-
-
-Package xcolor Warning: Incompatible color definition on input line 47.
-
-
-Package xcolor Warning: Incompatible color definition on input line 47.
-
-
-Overfull \hbox (335.13126pt too wide) in paragraph at lines 47--47
+Overfull \hbox (335.13126pt too wide) in paragraph at lines 41--41
 [][][][][][][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 52.
-
-
-Package xcolor Warning: Incompatible color definition on input line 59.
-
-
-Package xcolor Warning: Incompatible color definition on input line 59.
-
-
-Package xcolor Warning: Incompatible color definition on input line 59.
-
-
-Overfull \hbox (335.13126pt too wide) in paragraph at lines 59--59
+Overfull \hbox (335.13126pt too wide) in paragraph at lines 52--52
 [][][][][][][] 
  []
 
-[23]
-
-LaTeX Warning: Citation `SECONDWRITER ' on page 24 undefined on input line 77.
-
-
-LaTeX Warning: Citation `codediscovery' on page 24 undefined on input line 77.
-
-[24]
-
-Package xcolor Warning: Incompatible color definition on input line 92.
-
-
-Package xcolor Warning: Incompatible color definition on input line 92.
-
+[23] [24]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
 
-Package xcolor Warning: Incompatible color definition on input line 96.
-
-
-Overfull \hbox (252.84843pt too wide) in paragraph at lines 114--114
+Overfull \hbox (6.0pt too wide) in paragraph at lines 112--112
 [][][][][][][] 
  []
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 114.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Package xcolor Warning: Incompatible color definition on input line 120.
-
-
-Overfull \hbox (252.84843pt too wide) in paragraph at lines 124--124
-[][][][][][][] 
- []
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 124.
-
-
-Package xcolor Warning: Incompatible color definition on input line 130.
-
-
-Package xcolor Warning: Incompatible color definition on input line 130.
-
-
-Package xcolor Warning: Incompatible color definition on input line 130.
 
 [25]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 125--125
+[][][][][][][] 
+ []
 
-LaTeX Warning: Citation `LLVM' on page 26 undefined on input line 135.
+
+LaTeX Warning: Citation `LLVM' on page 26 undefined on input line 143.
 
 
-Package xcolor Warning: Incompatible color definition on input line 156.
+LaTeX Warning: Citation `ELF_inj' on page 26 undefined on input line 147.
 
 [26]
 Missing character: There is no ‚ in font pxr!
@@ -1852,15 +761,11 @@ Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
 
-<Chapter3/Chapter3Figs/dynamic_algorithm.png, id=114, 190.7928pt x 172.7253pt>
+<Chapter3/Chapter3Figs/dynamic_algorithm.png, id=113, 190.7928pt x 172.7253pt>
 File: Chapter3/Chapter3Figs/dynamic_algorithm.png Graphic file (type png)
 
-<use Chapter3/Chapter3Figs/dynamic_algorithm.png> [27 <./Chapter3/Chapter3Figs/
-dynamic_algorithm.png (PNG copy)>]
-
-LaTeX Warning: Citation `sata' on page 28 undefined on input line 178.
-
-) [28]
+<use Chapter3/Chapter3Figs/dynamic_algorithm.png> [27]) [28 <./Chapter3/Chapter
+3Figs/dynamic_algorithm.png (PNG copy)>]
 \openout2 = `Chapter4/chapter4.aux'.
 
  (./Chapter4/chapter4.tex
@@ -1870,11 +775,20 @@ Chapter 5.
 
 
 ]
+\openout2 = `Chapter5/chapter5.aux'.
+
+ (./Chapter5/chapter5.tex
+Chapter 6.
+) [30
+
+
+
+]
 \openout2 = `Appendix1/appendix1.aux'.
 
  (./Appendix1/appendix1.tex
 Appendix A.
-) [30
+) [31
 
 
 
@@ -1883,7 +797,7 @@ Appendix A.
 
  (./Appendix2/appendix2.tex
 Appendix B.
-) [31
+) [32
 
 
 
@@ -1894,7 +808,7 @@ Missing character: There is no Ä in font pxr!
 Missing character: There is no Ô in font pxr!
 Missing character: There is no ¨ in font pxr!
 Missing character: There is no Ä in font pxr!
- [32
+ [33
 
 
 ]
@@ -1904,7 +818,7 @@ Missing character: There is no î in font pxr!
 Missing character: There is no ‚ in font pxi!
 Missing character: There is no Ä in font pxi!
 Missing character: There is no ô in font pxi!
- [33]
+ [34]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
@@ -1912,10 +826,10 @@ Missing character: There is no √ in font pxr!
 Missing character: There is no Å in font pxr!
 Missing character: There is no √ in font pxr!
 Missing character: There is no ° in font pxr!
-) [34] (./report.aux (./Abstract/abstract.aux)
+) [35] (./report.aux (./Abstract/abstract.aux)
 (./Acknowledgement/acknowledgement.aux) (./Introduction/introduction.aux)
 (./Chapter1/chapter1.aux) (./Chapter2/chapter2.aux) (./Chapter3/chapter3.aux)
-(./Chapter4/chapter4.aux) (./Appendix1/appendix1.aux)
+(./Chapter4/chapter4.aux) (./Chapter5/chapter5.aux) (./Appendix1/appendix1.aux)
 (./Appendix2/appendix2.aux))
 
 LaTeX Warning: There were undefined references.
@@ -1925,25 +839,24 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6610 strings out of 495061
- 90523 string characters out of 1182621
- 480862 words of memory out of 3000000
- 9579 multiletter control sequences out of 15000+50000
- 43664 words of font info for 124 fonts, out of 3000000 for 9000
+ 6228 strings out of 495061
+ 86217 string characters out of 1182621
+ 463885 words of memory out of 3000000
+ 9196 multiletter control sequences out of 15000+50000
+ 43378 words of font info for 123 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 53i,12n,97p,1731b,1722s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,12n,97p,1729b,1805s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
 ve/fonts/type1/public/pxfonts/pxsy.pfb></usr/share/texmf-texlive/fonts/type1/pu
 blic/pxfonts/rpxb.pfb></usr/share/texmf-texlive/fonts/type1/public/pxfonts/rpxi
 .pfb></usr/share/texmf-texlive/fonts/type1/public/pxfonts/rpxr.pfb></usr/share/
-texmf-texlive/fonts/type1/public/txfonts/txbtt.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/txfonts/txtt.pfb></usr/share/texmf-texlive/fonts/type1/urw/pal
-atino/uplb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplbi8a.pfb
-></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texm
-f-texlive/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on report.pdf (40 pages, 314983 bytes).
+texmf-texlive/fonts/type1/public/txfonts/txtt.pfb></usr/share/texmf-texlive/fon
+ts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/pala
+tino/uplbi8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb>
+</usr/share/texmf-texlive/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on report.pdf (41 pages, 312421 bytes).
 PDF statistics:
- 175 PDF objects out of 1000 (max. 8388607)
+ 174 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
