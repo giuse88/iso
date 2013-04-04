@@ -1,59 +1,84 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "trace.h"
+
+//extern int extra;
+//extern memory_access_type memory_access;
+
+
 
 int main(int argc, char *argv[])
 {
-/*     pid_t app1; */
-/*     int status; */
-/*     int entry =1; //used to check the system call entry or exit */
-/*     struct user_regs_struct app1_regs, prev_sys_regs; */
-/*     int flag=1; */
-/*     long app1_syscall; */
-/*     if(argc < 2) */
-/*     { */
-/*         printf("Usage: %s <pid to be traced>\n", argv[0], argv[1]); */
-/*         exit(1); */
- 
-/*     } */
-/*      app1 = atoi(argv[1]); */
-/*     ptrace(PTRACE_ATTACH, app1, NULL, NULL); */
-    
-/*     while (1){ */
-/*         waitpid(app1,&status,0); */
-/*         app1_syscall = ptrace(PTRACE_PEEKUSER, app1, 4 * ORIG_EAX, NULL); */
-/*         ptrace(PTRACE_GETREGS, app1, NULL, &app1_regs); */
-/*         if(entry){//system call entry */
-/*             entry = 0; */
-/*             printf("System Call Number: %ld", app1_syscall); */
-/*             if(app1_syscall == SYS_write && flag ==1){ */
-/*                 flag=0;    //I want to do this only once     */
-/*                 ptrace(PTRACE_SETREGS, app1, NULL, &prev_sys_regs); */
-/*             } */
-/*         } */
-/*         else{ //system call exit */
-/*             entry = 1; */
-/*             if (flag ==1) */
-/*                 prev_sys_regs = app1_regs; */
-/*             if(WIFEXITED(status)) */
-/*             return 0; */
-/*         } */
+  pid_t child; 
+  int enter=1; 
+  syscall_info* sys_info; 
+  int sysgood=0, sig; 
+  int  opt;
+  
+  sys_info=malloc(sizeof(syscall_info)); 
+  memset(sys_info, 0, sizeof(syscall_info)); 
+  
+  while ((opt = getopt(argc, argv, "em:")) != -1) {
+        switch (opt) {
+        case 'e':
+	    puts("Extra info enabled");
+            extra = 1;
+            break;
+        case 'm':
+            memory_access = atoi(optarg);
+	    print_memory_access();
+            break;
+        default: /* '?' */
+            fprintf(stderr, "Usage: %s [-m memory] [-e] binary\n",
+                    argv[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+  
+  
+  child = fork();
+  
+  if (child < 0) {
+	perror("fork");
+	exit(1);
+  }
+  
+  
+  if (child == 0) {
+      /* TRACEE */
+      ptrace(PTRACE_TRACEME, NULL, NULL, NULL); 
+      argv= argv+(argc-1);
+      execvp(argv[0],argv);
+  }
+  else 
+  {
+  	/*TRACER*/
+  while (1) {
 
-/*     ptrace(PTRACE_SYSCALL, app1, NULL, NULL); */
-/*     } */
-        
-/* return 0; */
-
-#ifdef X32 
-  printf("I am 32 \n"); 
-#elif defined  X64
- printf("I am 64\n"); 
-#else
- printf("Unknow architecture "); 
-#endif
-
-
-
-
-}
+      sig=wait_systemcall(child); 
+	 
+      if (sysgood) {
+	set_sysgood(child); 
+	sysgood=0; 
+      }
+	  
+      switch (sig) {
+	   case TRACEE_TERMINATION: 
+		  return; 
+	   case TRACEE_ENTER : 
+		  syscall_entry(child, sys_info); 
+		  break;
+	   case TRACEE_EXIT: 
+		  syscall_exit(child, sys_info); 
+		  print_syscall_info(sys_info); 
+		  break;
+	   default: 
+		  fprintf(stderr, "Signal unknown\n"); 
+      }
+	  
+      next_syscall_event(child); 
+      
+   }// loop	  
+ }  // else
+}//function 

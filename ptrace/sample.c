@@ -10,7 +10,7 @@ int main () {
    int fd; 
   char fileName[100]="/etc/passwd";
 
-  printf ("The address of the path name is 0x%X \n", (unsigned)fileName); 
+  printf ("The address of the path name is 0x%lX \n", (unsigned long )fileName); 
   
   fd=open(fileName,O_RDONLY); 
   close(fd); 
