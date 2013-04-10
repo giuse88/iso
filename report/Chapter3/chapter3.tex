@@ -1,68 +1,72 @@
 \chapter{Binary Rewriting}
 \label{binary_rewriting}
 
-Binary rewriting is a software technique that transforms an executable by maintaining its original behaviour, while improving it in one or more aspects such runtime performance, security and reliability. The research literature is full of examples of binary-rewriting methods applied to a variety of topics, including optimization \cite{Romer97instrumentationand}, code instrumentation \cite{PEBIL, BIRD}, security enhancements \cite{vx32}, software caching \cite{Valgrind, DynamoRio} and emulation \cite{Qemu}. Consequent to the advantages of binary rewriting, numerous binary rewriters have been developed. Typically they fall into two main categories \emph{static rewriters} and \emph{dynamic rewriters}, which can be further subdivided according the approach taken in the rewriting process, \emph{full rewriting} where the entire file is rewritten and \emph{selective rewriting} where only relevant instructions are modified. 
+Binary rewriting is a software technique that transforms an executable by maintaining its original behaviour, while improving it in one or more aspects such as runtime performance, security and reliability. The research literature is full of examples of binary-rewriting methods applied to a variety of topics, including optimization \cite{Romer97instrumentationand}, code instrumentation \cite{PEBIL, BIRD}, security enhancements \cite{vx32}, software caching \cite{Valgrind, DynamoRio} and emulation \cite{Qemu}. Consequent to the advantages of binary rewriting, numerous binary rewriters have been developed. Typically they fall into two main categories \emph{static rewriters} and \emph{dynamic rewriters}, which can be further subdivided according the approach taken in the rewriting process, \emph{full rewriting} where the entire binary is rewritten and \emph{selective rewriting} where only relevant instructions are modified. 
 \begin{description}
 
-\item[Static binary rewriters] modify the executable file off-line allowing them to perform complex analysis and transformations. Due to their offline nature, \emph{relocation information} are required to identify code regions and address locations. The identification of the code region is necessary to ensure a fully disassembly of the binary file. Just merely disassembling  the entire code segment is an invalid solution, as  compilers often insert data within the code segment (such as jump table, padding bytes). The identification of address locations is required to adjust addresses during the relocation phase. The necessity of relocation information can be avoided using a selective binary-rewriting approach \cite{BIRD, seccompsandbox} as the original code remains the same to the greatest extend possible. Although this approach allows only minimal transformations such as, insertion of trampoline instruction to jump into an instrumentation block and peephole optimizations \footnote{A peephole optimization is an optimisation performed over a small set of instructions. It works by recognising sets of instructions that can be replaced by shorter or faster set of instructions.}.
+\item[Static binary rewriters] modify the executable file off-line allowing them to perform complex analysis and transformations. Due to their offline nature, \emph{relocation information} is required to identify code regions and address locations. The identification of code regions is necessary to ensure a full disassembly of the binary file. Disassembling  the entire code segment is an insufficient solution, as  compilers often insert data within the code segment (such as jump tables and padding). The identification of address locations is required to adjust addresses during the relocation phase. The necessity of relocate information can be avoided using a selective binary-rewriting approach \cite{BIRD, seccompsandbox} as the original code remains the same to the greatest extent possible. However, this approach allows only minimal transformations such as insertion of a trampoline instruction to jump into an instrumentation block and peephole optimizations. \footnote{A peephole optimization is an optimisation performed over a small set of instructions. It works by recognising sets of instructions that can be replaced by shorter or faster set of instructions.}
 
-\item[Dynamic binary rewriters] modify the executable during its execution. The key advantage of this methods is that it does not require any relocation or symbolic information as at runtime the identification of the code regions and the address locations is trivial. Unfortunately, dynamic rewriters introduce a remarkable overhead in the software execution as all rewriting operations occur at runtime. This makes infeasible to use a binary rewriter to perform complex transformation such as automatic parallelization as the overhead introduced is prohibitive. Consequent to this limitation, dynamic binary rewriters have been only employed for simply code instrumentation, and even in this case the overhead introduced is significant, for DinamoRIO 20 \% and PIN 54\%.
+\item[Dynamic binary rewriters] modify the executable during its execution. The key advantage of this methods is that it does not require any relocation or symbolic information as at runtime the identification of the code regions and the address locations is straightforward. Unfortunately, dynamic rewriters introduce a significant overhead during execution, as all rewriting operations occur at runtime. This makes it infeasible to use a binary rewriter to perform complex transformation such as automatic parallelization as the overhead introduced is prohibitive. Consequent to this limitation, dynamic binary rewriters have been only employed for simply code instrumentation, and even in this case the overhead introduced is significant, for DinamoRIO 20\% and PIN 54\% as reported in \cite{Strata}. 
 \end{description}
 
-Although their limitations both static rewriting as well as dynamic rewriting can be successfully used to intercept system calls. The primary target of the system-call interceptor based on a binary rewriting approach described in this chapter, are ELF binary files that run on the Linux platforms, including both x32 and x64 architectures. Several instrumentation tools have been implemented \cite{PEBIL, BIRD, REINS}, but none of them has been exclusively designed for intercepting system call, though they can be used for accomplishing such task. 
+Despite their limitations, both static rewriting and dynamic rewriting can be successfully used to intercept system calls. In this section we focus on ELF\footnote{Executable and Linkable Format (ELF, formerly called Extensible Linking Format) is a common standard file format for executables, object code, shared libraries, and core dumps.} binary files that run on the Linux platforms, including both x86\_32 and x64 architectures. Several instrumentation tools have been implemented \cite{PEBIL, BIRD, REINS}, but none of them has been exclusively designed for intercepting system calls, though they can be used for accomplishing such a task. 
 
-A system call interceptor based on binary rewriting method, works by placing a branch instruction at each system call invocation within the application code which transfers control to the instrumentation code. As the previous interceptor mechanisms, a way to pre and post process a system call invocation is to be provided. This is accomplished by the instrumentation code, which executes a pre-routine, the system call and a post routine in sequence, and then return the control to the application. A routine must be designed in such way to ensure that the program state is preserved across its execution, for example saving the state registers in the stack before their execution and restoring their values after. This guarantees that the behaviour of the modified binary is the same as the behaviour of the original file.  In addition this system call interceptor must be able to identify all instructions that issue a request for a system call. Linux provides three different ways to invoke a system call:
+A system call interceptor based on binary rewriting, works by placing a branch instruction at each system call invocation within the application code to transfer control to the instrumentation code. As in the case of previous interceptor mechanisms, a way to pre and post process a system call invocation needs to be provided. This is accomplished by the instrumentation code, which executes a pre-routine, the system call and a post-routine in sequence, and then returns control to the application. A routine must be designed in such way to ensure that the program state is preserved across its execution, for example saving the state registers in the stack before their execution and restoring their values afterwards. This guarantees that the behaviour of the modified binary is the same as the behaviour of the original file.  In addition, this system call interceptor must be able to identify all instructions that issue a request for a system call. Linux provides three different ways to invoke a system call:
 
 \begin{description}
 
-\item[Interrupts] have been used by Linux to implement system calls on all x86 platforms since its first release. To execute a system call, a user process can copy the desired system call number to the eax register ( both x32 and x64) and execute the instruction \lstinline$int 0x80$. This generates the interrupt 0x80 and the corresponding interrupt service routine is called. The task of this routine is to save the current state and call the appropriate system call handler based on the value of the eax register, further information regarding the implementation of this routine can be found in the \emph{entry.S} file in the source of the kernel. However, this mechanism has turned out to be really slow since Pentium IV architectures raising the need of a new efficient way to make system call. 
+\item[Interrupts] have been used by Linux to implement system calls on all x86 platforms since its first release. To execute a system call, a user process can copy the desired system call number to the eax register ( both x86\_32 and x64) and execute the instruction \lstinline$int 0x80$. This generates the interrupt 0x80 and the corresponding interrupt service routine is called. The task of this routine is to save the current state and call the appropriate system call handler based on the value of the eax register.Further information regarding the implementation of this routine can be found in the \emph{entry.S} file in the source of the kernel. However, this mechanism has turned out to be really slow since Pentium IV architectures, arising the need of a new efficient way to make system call. 
 
-\item[Sysenter/Sysexit] instructions were introduced by Intel from the Pentium II and later CPUs to fix the overhead issue correlated to the use of interrupts as mechanism to invoke system call. \lstinline$SYSENTER$ can be executed by any application, while  \lstinline$SYSRET$ can only be executed by ring 0 programs.These instructions are used as a fast way to transfer control from a user mode (ring 3) to a privileged mode (ring 0), and back quickly, allowing a fast and safe way to execute system routines from user mode.These instruction directly rely on the \textit{Model Specific Registers} MSR which complicates that way to invoke a system call for an user, for a comprehensive explication of this mechanism refers to. Instead of using this mechanism directly, it is strongly recommended to use the system call entry/exit point exported in user space by the kernel since version 2.6. Kernel creates a single page in the memory and attaches it to all processes' address space when they are loaded into memory. This page contains the actual implementation of the system call entry/exit mechanism and it is called \emph{linux-gate.so}. This mechanism is usualy referred to as  \textit{Virtual Dynamically linked Shared Objects} (VDSO). It was first introduced to reduce the calling overhead on simple kernel routines ( i.e. \lstinline$getpid()$ and \lstinline$gettimeofday()$ ). Then it has been extend to work as a way to select the best system call method available in the architecture. This approach is available only on x32 architecture as x64 architecture  provides an afficient instruction that satisfy the system call invocation requirement.  
-
-\item[Syscall] is a new instruction that has been introduced to support fast system call on x64 architectures. The number of the syscall has to be passed in register rax and its arguments go into the other general CPU registers, similarly to the interrupt approach. Returning from the syscall, register rax contains the result of the system-call. In addition, this new instruction fully supports six arguments, therefore no argument is passed directly on the stack.
-
-\end{description} 
-
-\begin{multicols}{3}
 
 \begin{center}
 \lstset{escapechar=@,style=asm}
-\begin{lstlisting}[caption=\relax]
-       movl    $len,%edx       
-       movl    $msg,%ecx       
-       movl    $1,%ebx        
-       movl    $4,%eax         
-       int 	   $0x80
+\begin{lstlisting}[label=list:int,caption=Write system call invocation via interrupt on x86\_32 architecture]
+  											     movl    $len,%edx       
+  							  					 movl    $msg,%ecx       
+       				 							 movl    $1,%ebx        
+       				 			 				 movl    $4,%eax         
+      							 				 int 	   $0x80
 \end{lstlisting}
 \end{center}
+
+
+
+
+\item[Sysenter/Sysexit] instructions were introduced by Intel from the Pentium II and later CPUs to fix the overhead issue correlated to the use of interrupts as mechanism to invoke system calls. \lstinline$SYSENTER$ can be executed by any application, while  \lstinline$SYSRET$ can only be executed by ring 0 programs.These instructions are used as a fast way to transfer control from user mode (ring 3) to privileged mode (ring 0) and back quickly, allowing a fast and safe way to execute system routines from user mode.These instructions directly rely on the \textit{Model Specific Registers} (MSR) \cite{Intel} which complicates that way to invoke a system call for an user. Instead of using this mechanism directly, it is strongly recommended to use the system call entry/exit point exported in user space by the kernel since version 2.6 as presented in Listing \ref{vsdo}. Kernel creates a single page in the memory and attaches it to all processes' address space when they are loaded into memory. This page contains the actual implementation of the system call entry/exit mechanism and it is called \emph{linux-gate.so}. This mechanism is usualy referred to as  \textit{Virtual Dynamically linked Shared Objects} (VDSO). It was first introduced to reduce the calling overhead on simple kernel routines ( i.e. \lstinline$getpid()$ and \lstinline$gettimeofday()$ ). Then it has been extend to work as a way to select the best system call method available in the architecture. This approach is available only on x86\_32 architecture as x64 architecture  provides an efficient instruction that satisfies the system call invocation requirement.  
+
+
+\lstset{escapechar=@,style=asm}
+\begin{lstlisting}[label=list:vsdo,caption=Write system call invocation via VDSO gate on x86\_32 architecture.Note that the offset may change in a different platform.]
+ 												    movl    $len,%edx       
+    												movl    $msg,%ecx       
+  													movl    $1,%ebx        
+  													movl    $4,%eax         
+    												call    *%gs:0x10
+\end{lstlisting}
+
+
+\item[Syscall] is a new instruction that has been introduced to support fast system call on x64 architectures. The number of the syscall has to be passed in register rax and its arguments go into the other general CPU registers, similarly to the interrupt approach. Returning from the syscall, register rax contains the result of the system-call. In addition, this new instruction fully supports six arguments, therefore no argument is passed directly on the stack. A short code sample that uses this method for making a system call is presented above. 
+
+
 
 \begin{center}
 \lstset{escapechar=@,style=asm}
-\begin{lstlisting}[caption=\relax]
-     movl    $len,%edx       
-     movl    $msg,%ecx       
-     movl    $1,%ebx        
-     movl    $4,%eax         
-     call    *%gs:0x10
+\label{list:syscall}
+\begin{lstlisting}[caption=Write system call invocation via syscall on x64 architecture.]
+ 													mov    $1,   %rax          
+													mov    $1,   %rdi         
+													mov    $mes, %rsi     
+													mov    $len, %rdx      
+													syscall
 \end{lstlisting}
 \end{center}
 
-\begin{center}
-\lstset{escapechar=@,style=asm}
-\begin{lstlisting}[caption=\relax]
-  mov    $1,   %rax          
-  mov    $1,   %rdi         
-  mov    $mes, %rsi     
-  mov    $len, %rdx      
-  syscall
-
-\end{lstlisting}
-\end{center}
-
-\end{multicols}
+\end{description}
 
 
-A system call interceptor whose aim is to work with both x32 and x64 files must be able to correctly identify all previous instructions. When using a rewriting approach to intercept a system call, all libraries linked with this file must be instrumented as well to ensure that all system calls are caught. In the rest of this chapter we discus how to implement a system call interceptor using a binary rewriting approach, both dynamic and static. The section \ref{static_rewriting} introduces in more details techniques for static binary rewriting as well as issues that raise when a static rewriting is used for modifying ELF binaries within an architecture which supports  a set of instructions with different length ( such as Intel x86 and x86\_64 instructions). The section \ref{dynamic_rewriting} presents the general approach adopted by most of the dynamic binary rewriters. 
+
+A system call interceptor whose aim is to work with both x86\_32 and x64 files must be able to correctly identify all previous instructions. When using a rewriting approach to intercept a system call, all libraries linked with the program must be instrumented as well to ensure that all system calls are caught. In the rest of this chapter we discus how to implement a system call interceptor using a binary rewriting approach, both dynamic and static. Section \ref{static_rewriting} introduces in more detail techniques for static binary rewriting as well as issues that arise when a static rewriting is used for modifying ELF binaries within an architecture which supports  a set of instructions with different length (such as Intel x86 and x86\_64 instructions). Section \ref{dynamic_rewriting} presents the general approach adopted by most of the dynamic binary rewriters. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      STATIC REWRITTING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -185,5 +189,203 @@ If a translation for the target instruction does not exist, then the translation
 In the research literature, there are two examples of system call interceptor that are implemented following the approach previously discussed. The first is called Strata ,described in \cite{Strata}, where a system call interceptor has been used to ensure a safe virtual execution for an untrusted binary.  A 40\% of overhead is introduce in the execution of binary using the Strata tool, this is due principally to the rewriting process.  Strata has been implemented by following an easy approach concerning more about portability rather than performance and no optimizations have been introduced. A better and more complex example is implemented in vx32 \cite{vx32}. Vx32 is a lightweight sandbox that relies on segment protection as well as binary translation to confine an untrusted application.Vx32 is provided as static library that can be used to implement security tools. \emph{VxLinux} is a small system call interceptor implemented using vx32 library, it can be found at \cite{soft:vx32}. The interceptor mechanism is implemented following a delegating approach similar to that describe in chapter \ref{delegating_architecture}, it is able to run unmodified binary introducing an overhead spanning from 10\% to 50\% worst case. 
 
 
+\section{Seccomp}
+
+A system call interceptor has been often employed in building sandboxing tools \cite{Janus,Garfinkel03ostia:a,MapBox, others}.The crucial aspect of these tools is security as a sandbox must guarantee that all system calls made by the sandboxed processes are correctly intercepted and verified. Current interposition-based mechanisms offer a wide variety of properties that make them an attractive approach for building sandboxing systems. Unfortunately, these are affects by numerous shortcomings that make their implementation difficult and a possible source of vulnerabilities. For instance, independently from the interceptor mechanism used, a sandbox has to deal with different type of race conditions such as arguments races, relative path races and symbolic link race, for a comprehensive list see \cite{garfinkel:traps, Watson_exploitingconcurrency}. These are sometimes referred to as \textit{Time of Check to Time of Use (TOCTOU)} races. In general, a race condition arises when there is a shared resource among different threads and the following actions occur : 
+\begin{enumerate}
+
+\item A sandbox grants permission to perform an operation A, that relies on some mutable shared state. For example, a shared buffer containing the name of a file is the arguments of a system call. 
+
+\item Before the operating system starts performing the request, the shared resource is changed by another thread, making the operation A illegal. The sandbox will not intercept this action because a thread can modified a shared buffer without invoking a system call as the shared buffer is located in its own space memory. 
+
+\item The operation A is performed by the operating system on the illegal values. 
+\end{enumerate}  
+
+This type of race condition is a significant problem for sandboxing tools and can be used to mislead introduction detections system and perform not authorized operations. In order to tackle these problems and simplify the implementation of sandboxing tools, a simple sandboxing mechanism called \textbf{seccomp} (short for secure computing mode)  has been introduced in Linux kernel 2.6.12. Seccomp isolates the execution of an untrusted process in its own address space by limiting the available system calls that the untrusted process can invoke. Seccomp mode can be enabled via the \lstinline$prctl$ \cite{prctl}  system call using \lstinline$PR_SET_SECCOMP$  as first argument, when the system call returns,  the caller process enters seccomp mode. Seccomp has two different working modalities that can be selected via its second arguments:  
+
+\begin{description}
+\item[SECCOMP\_MODE\_STRICT] sets the most restrictive working mode where the only system calls that the thread is permitted to make are read, write, exit, an 
+						sigreturn.  Other system calls result in the delivery of a SIGKILL signal that terminates the application's execution. Strict secure computing mode is
+						useful for applications that may need to execute untrusted byte code obtained from an external source, for example, by	reading from a pipe or socket.
+						Seccomp was first devised by Andrea Arcangeli in January 2005 for safely running numerical applications in public grid computing. It has also been
+						used by Google to build a sandbox environment within Chrome called \textit{seccompsandbox} \cite{seccompsandbox}. This is used to restrict the execution
+						of Adobe Flash Player and video renderers.
+						
+\item[SECCOMP\_MODE\_FILTER] has been recently introduced in Linux 3.5. This approach provides more flexibility respect the strict mode as it allows to define which system call
+						should be denied via a Berkeley Packet Filter \cite{bpf} passed as third argument.This can be designed to filter arbitrary system calls and system call
+						arguments. This approach has been used to implement \textit{minijail}  \cite{minijail} an new sandbox used in Chrome and in VSFTP \cite{vsftp}. 
+
+\end{description}
+
+In the remainder of this section the two seccom modes are analysed in better details. The  section \ref{seccompsandbox} introduces \textit{seccompsandbox}, the sandbox implemented in Chromium which uses a selective dynamic binary rewriting approach to implement a delegating system call interposition. While \ref{filter} present the features provided by the filtering mode of seccomp. 
+
+\subsection{Seccomp mode strict}
+\label{seccompsandbox}
 
 
+Creating a sandbox in which to run untrusted code is a difficult problem. The successful sandbox implementations tend to come with completely new languages (e.g. Java) that are specifically designed to support that functionality. Try to sandbox an application at system call level as in Janus \cite{Janus}, Ostia \cite{Garfinkel03ostia:a} is a much more difficult task due principally to the problems discussed in the previous section.
+Seccomp offers a perfect solution for implementing a sandbox because it reduces the kernel attack surface to just four system calls. This ensures that, even though the application is compromise, an attacker cannot perform any permanent damage in the system. The only system calls allowed in seccom strict mode are : 
+\begin{itemize}
+\item  read/write can be used to write to or read from a file descriptor. Note that the file descriptor must be already open. 
+\item  sigreturn is necessary to support correctly signal in Linux. This system call is called every time the signal handler has completed its task in order to return the control 	   to the original process. 
+\item  exit	is used to terminate the process. 
+\end{itemize}
+
+If a process attempts to call any other system call, the entire process is terminated. This behaviour is very desirable from a security point of view, as it means that any failure in the sandbox causes the termination of the sandboxed process preventing possible unsafe actions.Seccomp was originally designed to isolate number-crunching applications in grid computing. Numerical applications usually do not require a large amount of system calls and thus they can be successfully executed just with these few system calls. However, this is not true in general; the four system calls allowed by seccomp are insufficient for most applications to run successfully. 
+
+To overcome this limitation both \emph{seccompsandbox} and \emph{seccomp-nurse} run a trusted helper thread that does not enable seccomp. The helper thread opens a communication channel with the untrusted thread (e.g. using a socketpair or pipe). Now, any time the sandboxed thread wants to make a system call other than one of the four unrestricted system calls, it serializes the request and writes it over the communication channel with the helper thread.The helper then inspects the request and if it is a valid request, it executes it  on behalf of the sandboxed thread.This architecture has been depicted in Figure \ref{fig:seccomp}. 
+
+\begin{figure}[b]
+\centering
+\includegraphics[scale=0.5]{Chapter3/Chapter3Figs/seccomp.png} 
+\caption{Seccomp delegating architecture}
+\label{fig:seccomp}
+\end{figure}
+
+
+This delegating architecture works for correctly most system calls, but a small number of system calls that manipulate the thread state need to be emulated differently. Notable and relevant examples are thread-local storage, and POSIX signals. Fortunately, TLS is a non-issue as it gets set up once at thread creation and is then not touched any more.Signals are more difficult and they are emulated in user-space. For an application that makes heavy use of signals, this could turn out to be a problem.
+
+One of the requirement of a sandbox is to run untrusted binaries without requiring sources modifications and recompilation. In order to satisfy this requirement the delegating architecture presented so far must solve two problems. 
+\begin{itemize}
+\item  The first is how to insert the untrusted application in seccomp mode. The request to enter seccomp mode must be issued by the untrusted application, but none application 		   has been natively designed to work on seccomp mode.
+\item The second problem is how to prevent the untrusted process from issuing system calls. All system call requests should be intercepted and routed to the helper thread before 		  the operating system start processing them, otherwise the application will be terminated. 
+\end{itemize}
+
+In order to insert the untrusted application in seccomp, a prtcl request must be inject into the untrusted application before its execution starts. This can be accomplished in different ways, for example by tracing the untrusted process and substituting its first system call request with a prctl request. While, seccompsandbox and seccomp-nurse use an approach based on LD\_PRELOAD\footnote{LD\_PRELOAD is a environment variable that contains a location of a shared object. During the linking phase this object will be linked to the binary allowing for symbols to be overwritten.} feature to solve this problem. 
+
+
+The entry point of an executable file is the \emph{\_start} routine provided by the compiler. The main task of this routine is to initialize the stack and call the \lstinline$__libc_start_main$  provided by the GNU libc. The \lstinline$__libc_start_main$ routine performs some initialisation actions to set up the execution environment and then runs the application by calling its main function. The LD\_PRELOAD feature can be used to override the \lstinline$__libc_start_main$ function in order to call an arbitrary function. Seccomp-nurse uses this mechanism to initialize the sandbox environment and inject the prtcl request. The \lstinline$__libc_start_main$ is overridden by the function presented in Listing \ref{preload} during the load phase. This function retrieves the address of the original \lstinline$__libc_start_main$ function from the GUN libc library (lines) and then calls it by replacing the original main by a modified version called \lstinline$wrap_main$. This causes the execution environment to be properly initialised and the wrapper function to be executed. The aim of this wrapper function is to perform all those essential actions to correctly set up the sandbox environment, for example installing the communication channel with the helper thread. Once the initialisation phase is completed, a prctl request is issued and the application enters strict seccomp mode execution.  
+
+\begin{center}
+\label{preload}
+\begin{lstlisting}[caption={Wrapper \_\_libc\_start\_main used in seccomp-nurse}]
+typedef int (*main_t)(int, char **, char **);
+main_t realmain;
+
+int __libc_start_main(main_t main,
+                      int argc,
+                      char *__unbounded *__unbounded ubp_av,
+                      ElfW(auxv_t) *__unbounded auxvec,
+                      __typeof (main) init,
+                      void (*fini) (void),
+                      void (*rtld_fini) (void), void *__unbounded
+                      stack_end)
+{
+        void *libc;
+        int (*libc_start_main)(main_t main,
+                               int,
+                               char *__unbounded *__unbounded,
+                               ElfW(auxv_t) *,
+                               __typeof (main),
+                               void (*fini) (void),
+                               void (*rtld_fini) (void),
+                               void *__unbounded stack_end);
+
+        libc = dlopen("libc.so.6", RTLD_LOCAL  | RTLD_LAZY);
+        if (!libc)
+                ERROR("  dlopen() failed: %s\n", dlerror());
+        libc_start_main = dlsym(libc, "__libc_start_main");
+        if (!libc_start_main)
+                ERROR("     Failed: %s\n", dlerror());
+
+        realmain = main;
+        return (*libc_start_main)(wrap_main, argc, ubp_av, auxvec,
+        init, fini, rtld_fini, stack_end);
+        
+ 		int wrap_main(int argc, char **argv, char **environ)
+{
+		if (socketpair(AF_UNIX, SOCK_STREAM, 0, fds) < 0) {
+			    perror("socketpair failed");
+                exit(1);
+		
+		}
+
+        if (prctl(PR_SET_SECCOMP, 1, 0, 0) == -1) {
+                perror("prctl(PR_SET_SECCOMP) failed");
+                printf("Maybe you don't have the CONFIG_SECCOMP support built into your kernel?\n");
+                exit(1);
+        }
+
+        (*realmain)(argc, argv, environ);
+}       
+}
+\end{lstlisting}
+\end{center}
+
+Note that this method is affected by a serious vulnerability. A binary file can be generate in such way that the \emph{\_start} routine does not call the \lstinline$__libc_start_main$. In that case, the prtcl routine would not be called and the program would not run in a sandboxed environment. Seccompsandbox uses a similar approach, it loads am initialization function in memory using LD\_PRELOAD but it redirect the execution to this function using ptrace (i.e. it explicitly sets the pointer register to the entry within the object load via LD\_PRELOAD). This approach avoids the vulnerability previously discussed.  
+
+Once the untrusted process has entered seccomp mode process, its attempts to invoke a system call must be intercepted before the operating system starts processing them and redirect to the helper thread. The helper thread then can thoroughly verify the system call and its arguments and decide whether execute or deny it. Seccompsandbox  uses a selective dynamic rewriter to intercept system call invocations made by the untrusted thread and the libraries to which it has been linked, this process is usually referred to as patching phase. The patching phase occurs during the initialization phase before the application enters seccomp mode. 
+
+Seccompsandbox uses the rewriting method presented in BIRD \cite{BIRD} in a dynamic manner. The first difference between seccompsandbox and the binary methods previously discussed is that seccombsandbox reduces the discovery code phase to merely disassembling the application code segment. This implementation choice has been taken because it does not compromise the security of the sandbox as any failure to find the system call sites or any failure to correctly rewrite them would result in the termination of the application. 
+
+System call instructions are rewritten with an unconditional jump instruction.  During the rewriting process, some instructions nearby the system call instruction may be relocate to provide enough space to locate the jump instruction. The target of the jump instruction is a routine that is dynamically allocated during the rewriting process via memmap system call. This routine accomplishes the following tasks in order to ensure that the application's behaviour has not been changed during the rewriting process :
+
+\begin{itemize}
+\item Executes the instructions that have been relocated during the rewriting process by guaranteeing the original order. Usually these instructions are referred to as preamble 		  and postable. 
+\item Performs a translation between the system call convention (system call arguments within the registers) to the C function convention (functions arguments in the stack)   	  		  and call a dispatch routine which routes the system call invocation to the correct system call handler. 
+\item Ensures that the rewriting process is fully transparent to the untrusted thread. This accomplished by saving the state before calling the dispatcher routine ans restoring 
+	  it with the exception of the register that contains the result of the system call. 
+\end{itemize}
+
+Once the patching phase is completed, the system call requests are routed to the helper thread using the communication channel installed during the initialisation phase. This method and more in general a delegating architecture, requires to implement a dedicate handler for almost all system calls implemented in Linux. This is not a trivial implementation effort due principally to the high number of system calls (over 300) and their complexity. Some system calls, for example signal handling,memory mapping and process management, cannot be just executed on behalf of the untrusted thread as these system call may change the thread state.
+The approach followed to address this problem usually consist of emulating kernel functionalities  at user space. However, in some case this is not possible as in the case of the clone system call and mmap. This is  one of the the main reason that has driven to develop an alternative solution.   
+
+An exemple of this routine for x86\_32 architecture is presented in . 
+
+\begin{lstlisting} 
+	
+	execute_preable()
+	salve_state(); 
+	// transform system call invocation to the c convention	
+ 	push %edi
+    push %esi
+    push %edx
+    push %ecx
+    push %ebx
+    push %eax
+    
+    // Call default handler.
+ 	"call playground$defaultSystemCallHandler@PLT\n"
+ 	//clean the stack
+ 	"add  $24, %esp\n"
+    restore_state(); 
+    execute_
+//
+
+\end{lstlisting}
+
+\subsection{Seccomp mode filter}
+\label{filter}
+           
+           A large number of system calls are exposed to every userland process
+with many of them going unused for the entire lifetime of the process.
+As system calls change and mature, bugs are found and eradicated.  A
+certain subset of userland applications benefit by having a reduced set
+of available system calls.  The resulting set reduces the total kernel
+surface exposed to the application.  System call filtering is meant for
+use with those applications.
+
+Seccomp filtering provides a means for a process to specify a filter for
+incoming system calls.  The filter is expressed as a Berkeley Packet
+Filter (BPF) program, as with socket filters, except that the data
+operated on is related to the system call being made: system call
+number and the system call arguments.  This allows for expressive
+filtering of system calls using a filter program language with a long
+history of being exposed to userland and a straightforward data set.
+
+Additionally, BPF makes it impossible for users of seccomp to fall prey
+to time-of-check-time-of-use (TOCTOU) attacks that are common in system
+call interposition frameworks.  BPF programs may not dereference
+pointers which constrains all filters to solely evaluating the system
+call arguments directly.
+
+   If \lstinline$SECCOMP_MODE_FILTER$ filters permit fork(2), then the seccomp mode
+              is inherited by children created by fork(2); if execve(2) is
+              permitted, then the seccomp mode is preserved across execve(2).  If
+              the filters permit prctl() calls, then additional filters can be
+              added; they are run in order until the first non-allow result is
+              seen.
+           
+
+
+             

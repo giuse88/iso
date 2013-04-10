@@ -20,6 +20,7 @@
 \usepackage{pxfonts}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{black}{rgb}{0,0,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \definecolor{Brown}{cmyk}{0,0.81,1,0.60}
@@ -30,13 +31,15 @@
 \definecolor{background}{cmyk}{0.43, 0.35, 0.35,0.01}
 
 \lstset{ %  
-  backgroundcolor=\color{lightlightgray},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\ttfamily\scriptsize,
+  backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\ttfamily\small,
   breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
   breaklines=true,                % sets automatic line breaking
+  captionpos=b,   
+  frame=tb,   
   commentstyle=\color{dkgreen},   % comment style
   deletekeywords={...},           % if you want to delete keywords from the given language
-  keywordstyle=\color{blue},      % keyword style
+  keywordstyle=\bfseries,      % keyword style
   language=C,                % the language of the code
   morekeywords={*, pid_t, ...},           % if you want to add more keywords to the set
   numbersep=5pt,                  % how far the line-numbers are from the code
@@ -50,26 +53,15 @@
   tabsize=2,                      % sets default tabsize to 2 spaces
   title=\lstname ,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
   stepnumber=1,                           % Step between two line-numbers
-  frame=single,      
-   rulecolor=\color{lightgreen},
-   xleftmargin=3.5pt,
-   framexleftmargin=0pt,
-   framexrightmargin=2.5pt,
+  %frame=single
 }
 
-%\DeclareCaptionFont{blue}{\color{blue}} 
-
-  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
-\usepackage{caption}
-\DeclareCaptionFont{white}{\color{white}}
-\DeclareCaptionFormat{listing}{\colorbox{lightgreen}{\parbox{\textwidth}{\hspace{10pt}#1#2#3}}}
-\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={scriptsize}} 
-
-
+\usepackage[center,font=small,labelfont=bf]{caption}
 
 \lstdefinestyle{asm}{
   language=[x86masm]Assembler,
-  morekeywords={*, movl, mov, int, call, syscall, jmpq, leaveq, retq, ...}
+  morekeywords={*, movl, mov, int, call, syscall, jmpq, leaveq, retq, ...}, 
+  deletekeywords={eax, ebx, ecx, edi, edx, gs, ...}
 }
 
 
@@ -115,8 +107,8 @@
 \include{Chapter1/chapter1}
 \include{Chapter2/chapter2}
 \include{Chapter3/chapter3}
-\include{Chapter4/chapter4}
-\include{Chapter5/chapter5}
+%\include{Chapter4/chapter4}
+%\include{Chapter5/chapter5}
 %\include{Conclusions/conclusions}
 
 \appendix

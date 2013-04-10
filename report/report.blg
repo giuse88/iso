@@ -1,0 +1,112 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: report.aux
+A level-1 auxiliary file: Abstract/abstract.aux
+A level-1 auxiliary file: Acknowledgement/acknowledgement.aux
+A level-1 auxiliary file: Introduction/introduction.aux
+A level-1 auxiliary file: Chapter1/chapter1.aux
+A level-1 auxiliary file: Chapter2/chapter2.aux
+A level-1 auxiliary file: Chapter3/chapter3.aux
+A level-1 auxiliary file: Chapter4/chapter4.aux
+A level-1 auxiliary file: Chapter5/chapter5.aux
+A level-1 auxiliary file: Appendix1/appendix1.aux
+A level-1 auxiliary file: Appendix2/appendix2.aux
+The style file: plain.bst
+Database file #1: References/references.bib
+Warning--entry type for "clone" isn't style-file defined
+--line 4 of file References/references.bib
+Warning--entry type for "ptrace" isn't style-file defined
+--line 13 of file References/references.bib
+Warning--entry type for "cross_memory_attach_syscall" isn't style-file defined
+--line 22 of file References/references.bib
+Warning--entry type for "prctl" isn't style-file defined
+--line 32 of file References/references.bib
+Warning--entry type for "strace" isn't style-file defined
+--line 44 of file References/references.bib
+Warning--entry type for "SystemTap:Online" isn't style-file defined
+--line 53 of file References/references.bib
+Warning--entry type for "plashglibc" isn't style-file defined
+--line 58 of file References/references.bib
+Warning--entry type for "soft:vx32" isn't style-file defined
+--line 65 of file References/references.bib
+Warning--entry type for "seccompsandbox" isn't style-file defined
+--line 74 of file References/references.bib
+Warning--entry type for "minijail" isn't style-file defined
+--line 81 of file References/references.bib
+Warning--entry type for "vsftp" isn't style-file defined
+--line 88 of file References/references.bib
+Warning--entry type for "ptrace_seize" isn't style-file defined
+--line 110 of file References/references.bib
+Warning--entry type for "mem_vul" isn't style-file defined
+--line 119 of file References/references.bib
+Warning--entry type for "Sudhanshu:2006:Online" isn't style-file defined
+--line 220 of file References/references.bib
+Warning--string name "april" is undefined
+--line 223 of file References/references.bib
+Warning--entry type for "RenzoDavoli:2007:Online" isn't style-file defined
+--line 234 of file References/references.bib
+A bad cross reference---entry "PEBIL"
+refers to entry "conf/ispass/2010", which doesn't exist
+Warning--I didn't find a database entry for "Systrace"
+Warning--I didn't find a database entry for "dinamo"
+Warning--I didn't find a database entry for "valgrid"
+Warning--I didn't find a database entry for "seccompsandboxe"
+Warning--I didn't find a database entry for "seccompnurse"
+Warning--I didn't find a database entry for "race_condition"
+Warning--I didn't find a database entry for "LLVM"
+Warning--I didn't find a database entry for "ELF_inj"
+Warning--I didn't find a database entry for "others"
+Warning--I didn't find a database entry for "conf/ispass/2010"
+Warning--to sort, need author or key in SystemTap:Online
+Warning--empty journal in lttng
+Warning--empty journal in UML_2
+Warning--empty journal in UML_1
+Warning--empty journal in CDE
+Warning--empty booktitle in Kprobes:2006
+Warning--empty booktitle in bpf
+Warning--empty booktitle in Djprobe:2007
+Warning--empty booktitle in OcvtavianPurdila:2006:Utrace
+Warning--empty journal in Janus
+Warning--empty year in Janus
+Warning--empty year in Noordende_asecure
+You've used 49 entries,
+            2118 wiz_defined-function locations,
+            764 strings with 10992 characters,
+and the built_in function-call counts, 14969 in all, are:
+= -- 1436
+> -- 611
+< -- 15
++ -- 251
+- -- 196
+* -- 801
+:= -- 2354
+add.period$ -- 142
+call.type$ -- 49
+change.case$ -- 244
+chr.to.int$ -- 0
+cite$ -- 61
+duplicate$ -- 644
+empty$ -- 1352
+format.name$ -- 196
+if$ -- 3294
+int.to.chr$ -- 0
+int.to.str$ -- 49
+missing$ -- 31
+newline$ -- 235
+num.names$ -- 96
+pop$ -- 395
+preamble$ -- 1
+purify$ -- 196
+quote$ -- 0
+skip$ -- 530
+stack$ -- 0
+substring$ -- 709
+swap$ -- 174
+text.length$ -- 15
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 196
+warning$ -- 12
+while$ -- 143
+width$ -- 51
+write$ -- 490
+(There was 1 error message)

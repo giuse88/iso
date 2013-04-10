@@ -12,7 +12,7 @@
 
 @ONLINE{ptrace, 
 	author={Linux man-page Project}, 
-	title = {Linux Programmer's Manual CLONE},
+	title = {Linux Programmer's Manual PTRACE},
  	year = {2013},
  	urldate = {2013},
   	howpublished = "\url{http://man7.org/linux/man-pages/man2/ptrace.2.html}"
@@ -21,10 +21,20 @@
 
 @ONLINE{cross_memory_attach_syscall, 
 	author={Linux man-page Project}, 
-	title = {Linux Programmer's Manual CLONE},
+	title = {Linux Programmer's Manual CROSS MEMORY ATTACH },
  	year = {2013},
  	urldate = {2013},
   	howpublished = "\url{http://man7.org/linux/man-pages/man2/process_vm_readv.2.html}"
+}
+
+
+
+@ONLINE{prctl, 
+	author={Linux man-page Project}, 
+	title = {Linux Programmer's Manual PRCTL},
+ 	year = {2013},
+ 	urldate = {2013},
+  	howpublished = "\url{http://man7.org/linux/man-pages/man2/prctl.2.html}"
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,9 +75,23 @@ url={http://pdos.csail.mit.edu/~baford/vm/},
 author={Google},
 title={Seccompsandbox},
 year={2010},
-url={https://code.google.com/p/seccompsandbox/
-},
+url={https://code.google.com/p/seccompsandbox/}
 }
+
+@ONLINE{minijail,
+author={Google},
+title={minijail},
+year={2013},
+url={http://www.chromium.org/chromium-os/chromiumos-design-docs/system-hardening}
+}
+
+@ONLINE{vsftp,
+author={vsftp},
+title={vsftp},
+year={2013},
+url={https://security.appspot.com/vsftpd.html}
+}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -454,4 +478,37 @@ location = {Zurich, Switzerland},
     booktitle = {Annual Computer Security Applications Conference},
     year = {2002},
     pages = {209--218}
+}
+
+@INPROCEEDINGS{garfinkel:traps,
+    author = "Tal Garfinkel",
+    title = "Traps and Pitfalls: Practical Problems in in System Call
+    Interposition based Security Tools",
+    booktitle = "Proc. Network and Distributed Systems
+    Security Symposium",
+    month = "February",
+    year = "2003"
+}
+
+@MISC{Watson_exploitingconcurrency,
+    author = {Robert N. M. Watson},
+    title = { Exploiting Concurrency Vulnerabilities in System Call Wrappers},
+    year = {}
+}
+
+@INPROCEEDINGS{bpf,
+    author = {Steven Mccanne and Van Jacobson},
+    title = {The BSD Packet Filter: A New Architecture for User-level Packet Capture},
+    booktitle = {},
+    year = {1992},
+    pages = {259--269}
+}
+
+@Book{Intel,
+ALTauthor = {Intel},
+ALTeditor = {Intel},
+title = {Intel 64 and IA-32 Architecure Software Developer's Manual},
+publisher = {Intel},
+year = {2013},
+OPTvolume = {3},
 }
