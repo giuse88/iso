@@ -15,11 +15,16 @@ int main(int argc, char *argv[])
   syscall_info* sys_info; 
   int sysgood=0, sig; 
   int  opt;
+
+  if ( argc < 2 ) {
+	fprintf(stderr, "Usage: %s [-m memory] [-e] binary\n",argv[0]);
+        exit(EXIT_FAILURE);
+ }
   
   sys_info=malloc(sizeof(syscall_info)); 
   memset(sys_info, 0, sizeof(syscall_info)); 
   
-  while ((opt = getopt(argc, argv, "em:")) != -1) {
+  while ((opt = getopt(argc, argv, "+e" "m:")) != EOF) {
         switch (opt) {
         case 'e':
 	    puts("Extra info enabled");
@@ -35,7 +40,13 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
     }
-  
+    argv += optind;
+    
+    /*printf("Program name %s\n", argv[0]); 
+      printf("Program first arguemtn %s\n", argv[1]); 
+      printf("Program second arguemtn %s\n", argv[2]); 
+     fflush(0); 
+  */
   
   child = fork();
   
@@ -48,7 +59,6 @@ int main(int argc, char *argv[])
   if (child == 0) {
       /* TRACEE */
       ptrace(PTRACE_TRACEME, NULL, NULL, NULL); 
-      argv= argv+(argc-1);
       execvp(argv[0],argv);
   }
   else 
@@ -62,6 +72,7 @@ int main(int argc, char *argv[])
 	set_sysgood(child); 
 	sysgood=0; 
       }
+
 	  
       switch (sig) {
 	   case TRACEE_TERMINATION: 
