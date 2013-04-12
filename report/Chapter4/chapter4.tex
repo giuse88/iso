@@ -1,10 +1,90 @@
-\chapter{Seccomp}
-\label{Seccomp}
+\chapter{Ptrace  case study}
 
-\section{Seccomp Version 1} 
-\section{seccompsandbox}
-\section{seccompnurse}
+In this section we analyse the performance of a user-level system call interceptor based on \emph{ptrace} system call. We Implemented a simple tracing prototype   by following the approach described in \ref{Ptrace_tracing_mechanism}. This tools, called tracer, allows to collect basic information regarding system calls made by an application such as system call arguments and return values. The source code of this tool can be found in the Appendix. The process being traced by the application is usually referred to as tracee process while the tracing tools is referred to as tracer or monitored process. 
 
-\section{Seccomp bpf}
-\section{bfp}
-\section{system call interceptor}
+The main goal of our performance experiments is to assess the impact of the additional overhead introduced by the intercepting mechanism. There are two primary sources of overhead : 
+
+\begin{itemize}
+\item Ptrace transfers control from the tracee process to the tracer process twice for each system call request made by the 		  tracee. Consequentially while a process is being traced, numerous additional context switches are added to the normal 		  process's execution, decreasing its performance. To evaluate the impact of this additional overhead on program 		
+	  execution, we performed a series of tests, where we compared the execution time of a monitored execution with an
+	  unmonitored one in different scenarios. The results of these tests are presented in the macrobenchmark section.
+
+\item A second factor that decreases noticeably the performance of a traced execution is the access of tracee's memory space in order to fetch the indirect arguments of system call such as file names and IP addresses. We analyses the different methods introduced in the chapter \ref{memory_access} using the execution time as comparison method. The result of these test are presented in the section Microbenchmark. 
+
+The rest of this chapter presents the result of the various tests performed. 
+
+INFO regarding test 
+e measured its overhead on the execution time of
+single system calls and on several applications. All
+measurements were repeated at least five times on a
+1.14 GHz Pentium III running OpenBSD. The results
+are displayed as averages with corresponding standard
+deviation.
+\end{itemize}
+
+
+\section{Macrobenchmarks}
+We have primarily analysed two main categories of applications: 
+	  CPU-intensive (low number of system call requests) and disk I/O  intensive (high number of system call requests).
+	  The overhead is measured as increase in execution time between the unmonitored execution and the monitor one. 
+
+\section{Microbenchmarks}
+
+The tracer prototype provides three different methods to access the tracee's memory. This can be specified using the \ci{-m X} parameter in the command line where \ci{X} can assume the following values : 0 for using ptrace, 1 for using proc interface and 2 for using cross-memory attach.  
+
+To determine the performance impact of fetching arguments from the tracee's memory space, we execute a sample application that makes hundred thousands writes and reads over a file by varying the method used by the tracer to retrieve the content of the buffer specified in the system call request. In addition, we varied the size of the buffer used in order to determine which method is best for which scenario, the buffer size spans from 1 byte to 9192 bytes. The result obtained have been resumed in table. 
+
+\begin{center}
+    \begin{tabular}{ | x{3.7cm}| x{3.7cm}|x{3.7cm}| x{3.7cm}|}
+    \hline
+    \textbf{Buffer Size}&  \textbf{Ptrace} & /\textbf{proc/pid/mem} & \textbf{Cross memory attach} \\ \hline
+    1 &  10.37 & 13.35 & 10.41  \\ \hline
+    2 &  9.57 & 12.45 & 9.50  \\ \hline
+    4 & 1 & 1 & 1  \\ \hline
+    8 & 10.10 & 12.28 & 10.09  \\ \hline
+    16 & 10.21 & 12.39 & 10.69  \\ \hline
+    32 & 10.80 & 13.05 & 10.12  \\ \hline
+    64 & 11.31 & 13.54 & 10.51  \\ \hline
+    128 & 1 & 1 & 1  \\ \hline
+    256 & 1 & 1 & 1  \\ \hline
+    512 & 1 & 1 & 1  \\ \hline
+    1024 & 1 & 1 & 1  \\ \hline
+    2048 & 1 & 1 & 1  \\ \hline
+    4096 & 1 & 1 & 1  \\ \hline
+    9192 & 141.09  & 18.89 & 11.19 \\ \hline
+    \end{tabular}
+\end{center}
+
+
+
+
+
+0:12.06
+0:17.07
+0:12.74
+
+0:13.95
+0:11.66
+0:10.20
+
+0:22.75
+0:14.19
+0:10.05
+0:36.16
+0:12.60
+0:09.87
+0:45.47
+0:11.93
+0:09.91
+1:23.42
+0:12.69
+0:09.84
+2:21.09
+0:18.89
+0:11.19
+
+
+
+
+Our experiments show that the time spend to transfer a buffer using ptrace increases linearly with the buffer size, 
+

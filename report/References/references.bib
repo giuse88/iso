@@ -1,4 +1,4 @@
-%------------------------------------------------------------------------
+s%------------------------------------------------------------------------
 % SYSTEM CALLS REFERENCES 
 %------------------------------------------------------------------------
 @ONLINE{clone,
@@ -69,7 +69,20 @@ year={2008},
 url={http://pdos.csail.mit.edu/~baford/vm/},
 }
 
+@ONLINE{LLVM, 
+author={University of Illinois at Urbana-Champaign.},
+title={The LLVM Compiler Infrastructure },
+year={2011},
+howpublished = "\url{http://llvm.org/}"
+}
 
+
+@ONLINE{nurse, 
+author={Nicolas Bareil},
+title={Seccomp Nurse },
+year={2011},
+howpublished = "\url{http://chdir.org/~nico/seccomp-nurse/}"
+}
 
 @ONLINE{seccompsandbox,
 author={Google},
@@ -122,6 +135,16 @@ url={https://security.appspot.com/vsftpd.html}
  	year = { 2012},
  	urldate = { 2012},
   	howpublished = "\url{http://lwn.net/Articles/476947/}"
+}
+
+
+
+@ONLINE{ELF_inj, 
+	author={ mayhem}, 
+	title = { The Cerberus ELF Interface },
+ 	year = { 2012},
+ 	urldate = { 2012},
+  	howpublished = "\url{http://www.phrack.org/issues.html?issue=61&id=8}"
 }
 
 
@@ -359,11 +382,6 @@ location = {Zurich, Switzerland},
     title = {BIRD: Binary Interpretation using Runtime Disassembly},
     year = {}
 }
-@MISC{SECONDWRITER,
-    author = {Matthew Smithson, Kapil Anand, Aparna Kotha, Khaled Elwazeer, Nathan Giles and  Rajeev Barua},
-    title = {Binary Rewriting without Relocation Information},
-    year = {}
-}
 
 @inproceedings{REINS,
  author = {Wartell, Richard and Mohan, Vishwath and Hamlen, Kevin W. and Lin, Zhiqiang},
@@ -422,7 +440,7 @@ location = {Zurich, Switzerland},
  acmid = {1250746},
  publisher = {ACM},
  address = {New York, NY, USA},
- keywords = {Memcheck, Valgrind, dynamic binary analysis, dynamic binary instrumentation, shadow values},
+ keywords = {Memcheck, Valgrind, dynamic binary analysis, dynamic binary instrumentation, shadow values}
 } 
 
 @inproceedings{DynamoRio,
@@ -440,7 +458,7 @@ location = {Zurich, Switzerland},
  acmid = {2151043},
  publisher = {ACM},
  address = {New York, NY, USA},
- keywords = {dynamic instrumentation, process virtualization, runtime system, transparency},
+ keywords = {dynamic instrumentation, process virtualization, runtime system, transparency}
 } 
 
 @inproceedings{Qemu,
@@ -455,7 +473,7 @@ location = {Zurich, Switzerland},
  url = {http://dl.acm.org/citation.cfm?id=1247360.1247401},
  acmid = {1247401},
  publisher = {USENIX Association},
- address = {Berkeley, CA, USA},
+ address = {Berkeley, CA, USA}
 } 
 
 @MISC{Ebcioglu97daisy:dynamic,
@@ -511,4 +529,84 @@ title = {Intel 64 and IA-32 Architecure Software Developer's Manual},
 publisher = {Intel},
 year = {2013},
 OPTvolume = {3},
+}
+
+%@Online{filtering,
+%author = {Linux Documentation},
+%title = {seccomp_filter},
+%year = {2013},
+%urldate = {2013},
+%howpublished = "\url{http://lwn.net/Articles/498231/}"
+%}
+
+@Online{libseccomp,
+author = {Jake Edge},
+title = {A library for seccomp filters},
+year = {2013},
+urldate = {2013},
+howpublished = "\url{http://lwn.net/Articles/494252/}"
+}
+
+@inproceedings{Kotha:2010:APB:1934902.1934997,
+ author = {Kotha, Aparna and Anand, Kapil and Smithson, Matthew and Yellareddy, Greeshma and Barua, Rajeev},
+ title = {Automatic Parallelization in a Binary Rewriter},
+ booktitle = {Proceedings of the 2010 43rd Annual IEEE/ACM International Symposium on Microarchitecture},
+ series = {MICRO '43},
+ year = {2010},
+ isbn = {978-0-7695-4299-7},
+ pages = {547--557},
+ numpages = {11},
+ url = {http://dx.doi.org/10.1109/MICRO.2010.27},
+ doi = {10.1109/MICRO.2010.27},
+ acmid = {1934997},
+ publisher = {IEEE Computer Society},
+ address = {Washington, DC, USA},
+ keywords = {Automatic Parallelization, Binary Rewriting, Affine Dependence Analysis}
+} 
+
+@article{Sites:1993:BT:151220.151227,
+ author = {Sites, Richard L. and Chernoff, Anton and Kirk, Matthew B. and Marks, Maurice P. and Robinson, Scott G.},
+ title = {Binary translation},
+ journal = {Commun. ACM},
+ issue_date = {Feb. 1993},
+ volume = {36},
+ number = {2},
+ month = feb,
+ year = {1993},
+ issn = {0001-0782},
+ pages = {69--81},
+ numpages = {13},
+ url = {http://doi.acm.org/10.1145/151220.151227},
+ doi = {10.1145/151220.151227},
+ acmid = {151227},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {CISC computers, RISC computers, binary translation, computer architecture, processor architecture translation}
+} 
+
+@inproceedings{SEC1,
+  author = {O'Sullivan, Pádraig and Anand, Kapil and Kotha, Aparna and Smithson, Matthew and Barua, Rajeev and Keromytis, Angelos D.},
+  title={Retrofitting Security in COTS Software with Binary Rewriting},
+  booktitle = {SEC},
+  crossref = {conf/sec/2011},
+  editor = {Camenisch, Jan and Fischer-Hübner, Simone and Murayama, Yuko and Portmann, Armand and Rieder, Carlos},
+  ee = {http://dx.doi.org/10.1007/978-3-642-21424-0_13},
+  interhash = {ffbfe541ec4d587e3c94109392770b60},
+  intrahash = {f86a0b776b74fa3f11eacb557a9fc2fb},
+  isbn = {978-3-642-21423-3},
+  keywords = {dblp},
+  pages = {154-172},
+}
+
+@inproceedings{SEC2,
+  author = {Matthew Smithson and Kapil Anand and Aparna Kotha and Khaled Elwazeer and Nathan Giles and Rajeev Barua},
+  title={Binary Rewriting without Relocation Information},
+  year={2010},
+}
+
+@INPROCEEDINGS{Jain99user-levelinfrastructure,
+    author = {K. Jain and R. Sekar},
+    title = {User-Level Infrastructure for System Call Interposition: A Platform for Intrusion Detection and Confinement},
+    booktitle = {In Proc. Network and Distributed Systems Security Symposium},
+    year = {1999}
 }

@@ -15,7 +15,7 @@ A system call interceptor based on binary rewriting, works by placing a branch i
 
 \begin{description}
 
-\item[Interrupts] have been used by Linux to implement system calls on all x86 platforms since its first release. To execute a system call, a user process can copy the desired system call number to the eax register ( both x86\_32 and x64) and execute the instruction \lstinline$int 0x80$. This generates the interrupt 0x80 and the corresponding interrupt service routine is called. The task of this routine is to save the current state and call the appropriate system call handler based on the value of the eax register.Further information regarding the implementation of this routine can be found in the \emph{entry.S} file in the source of the kernel. However, this mechanism has turned out to be really slow since Pentium IV architectures, arising the need of a new efficient way to make system call. 
+\item[Interrupts] have been used by Linux to implement system calls on all x86 platforms since its first release. To execute a system call, a user process can copy the desired system call number to the \ci{EAX} register ( both x86\_32 and x64) and execute the instruction \ci{int 0x80}. This generates the interrupt 0x80 and the corresponding interrupt service routine is called. The task of this routine is to save the current state and call the appropriate system call handler based on the value of the \ci{EAX} register.Further information regarding the implementation of this routine can be found in the \emph{entry.S} file in the source of the kernel. However, this mechanism has turned out to be really slow since Pentium IV architectures, arising the need of a new efficient way to make system call. 
 
 
 \begin{center}
@@ -73,88 +73,112 @@ A system call interceptor whose aim is to work with both x86\_32 and x64 files m
 \section{Static binary rewriting}
 \label{static_rewriting}
 
-Static binary rewriting  is a powerful technique that transforms a binary file such as executables or libraries into a partially or totally new file. It allows to perform complex transformations (for example, automatic parallelization and porting binary between different architectures) as well as insert instrumentation code ( for example, for tracking purposes and security enhancements).Binary instrumentation offers a way for monitoring and controlling the execution of an instruction by allowing a extra code to be executed before or after of the instruction of interest. In this section, we describe how static binary instrumentation methods can be employed for the purpose of intercepting system calls. 
-Although static code instrumentation introduces a minor number of changes than other  binary transformations, it must address all issues that affect a generic static binary rewriter. There are numerous challenges that a static binary rewriter must address in order to ensure effectiveness as well as correctness, the largest of which include how correctly interpret the instructions within the text segment, how to relocate the code maintaining the original behaviour,  how to accommodate the extra code needed by the extension routines and how to deal with variable-length instructions. 
+Static binary rewriting  is a powerful technique that transforms a binary file such as executables or libraries into a partially or completely new file. It allows to perform complex transformations (e.g. automatic parallelization \cite{Kotha:2010:APB:1934902.1934997} and porting binary between different architectures \cite{Sites:1993:BT:151220.151227}) as well as insert instrumentation code (e.g. for tracking purposes \cite{PEBIL} and security enhancements \cite{SEC1, SEC2}). Binary instrumentation  is particularly interesting for system call intercepting purpose as it offers a way for monitoring and controlling the execution of an instruction by allowing extra code to be executed before or after the instruction of interest. In this section, we describe how static binary instrumentation methods can be employed for the purpose of intercepting system calls.
+
+There are numerous challenges that a static binary rewriter must address in order to ensure effectiveness as well as correctness, the largest of which include how to correctly interpret the instructions within the text segment, how to relocate the code while maintain the original behaviour,  how to accommodate the extra code needed by the extension routines and how to deal with variable-length instructions. 
 
 %CODE DISCOVERY 
-The first step of the rewriting process is the identification of all instructions, this process is usually referred to as \emph{code discovery}. Unfortunately, identifying all instructions cannot be accomplished merely by disassembling the text segment of a binary file, as compilers often produce a ELF binary whose text segment might contain data. Compilers usually store small data structures for providing convenient and efficient lookup of data such as identifiers and descriptors.In order to guarantee correctness of the executable, the portions of the text segment containing instructions must be identified as mishandling the data within the text segment might result in a different application's behaviour from the original one.
+The first step of the rewriting process is the identification of all instructions, this process is usually referred to as \emph{code discovery}. Unfortunately, identifying all instructions cannot be accomplished merely by disassembling the text segment of a binary file, as compilers often produce ELF binaries whose text segment might contain data. Compilers usually store small data structures in the text segment for providing convenient and efficient lookup of data such as identifiers and descriptors. In order to guarantee correctness of the executable, the portions of the text segment containing instructions must be identified, as mishandling the data within the text segment might result in a incorrect code discovery.
 
-Diverse code discovery algorithms have been designed such as \emph{linear sweep},which disassemble each location in a linear fashion, but it does not guarantee 100\% disassembly. PEBIL uses a \emph{recursive traversal}, which identifies instructions by following only valid control flow edges. When control transfer instructions are encountered the algorithm continues discovery at the target location. A difficult problem is raised when an \emph{indirect} transfer instruction  ( e.g. \lstinline$jump _entry$ ) is identified as the target address is not identifiable statically. Different techniques have been developed to overcome this problem: 
+Diverse code discovery algorithms have been designed \cite{PEBIL, REINS, SEC1, SEC2} such as \emph{linear sweep},which disassembles each location in a linear fashion, but it does not guarantee 100\% disassembly. PEBIL \cite{PEBIL} uses a \emph{recursive traversal}, which identifies instructions by following only valid control flow edges. When control transfer instructions are encountered the algorithm continues discovery at the target location. A difficult problem is raised when an \emph{indirect} transfer instruction  (e.g. \ci{jump _entry}) is identified as the target address is not identifiable statically. Different techniques have been developed to overcome this problem: 
+
 \begin{itemize}
-\item The easiest solution is to rely upon \emph{relocation entries}\footnote{Relocation entries are generate by the compiler when an absolute address is not available during compiling time, for example a function in a library}, unfortunately these are not included in commercial applications which narrows the applicability of this approach to few application. % I have the address of the library once the binary is full written
+\item The easiest solution is to rely upon \emph{relocation entries},\footnote{Relocation entries are generated by the compiler when an absolute address is not available during compilation, for example a function in a library.} unfortunately these are not included in deployed applications which narrows the applicability of this approach to few application. % I have the address of the library once the binary is full written
 
-\item A different approach that does not rely on relocation entries is \emph{peephole examination},  used  in \cite{PEBIL}. Peephole examination consists of analysing the instructions nearby the indirect transfer function  in order to determine the target address of the indirect branch. This methods works, but it cannot guarantee a 100\% code discover. 
+\item A different approach that does not rely on relocation entries is \emph{peephole examination},  used  in \cite{PEBIL}. Peephole examination consists of analysing the instructions nearby the indirect transfer function  in order to determine the target address of the indirect branch. Although this method provides a possible solution, it does not guarantee a 100\% code discovery. 
 \end{itemize}  
     
 
-Another problem to be addressed by a binary rewriter is that some instructions will contain operands which reference other location within the binary file. During the rewriting process the target of these instructions might change due to the relocation of the referenced block. Load and store instructions reference to locations containing data. Maintaining the original data segment and all data portions to their original address in the rewritten binary ensures that the these instructions can be relocated without changing their operand. While the operand of call and jump instructions contain the address of other instructions. If the address of the target instruction can identified statically, it can be adjusted to point to the relocated instruction. In the case this is not possible, the address of an indirect branch must be identified using the techniques discussed in the code discovery code phase. 
+Another problem to be addressed by a binary rewriter is that some instructions will contain operands which reference often locations within the binary file. During the rewriting process the target of these instructions might change due to the relocation of the referenced block. Load and store instructions reference locations containing data. Maintaining the original data segment and all data portions to their original address in the rewritten binary ensures that the these instructions can be relocated without changing their operands. While \ci{call} and \ci{jump} instructions reference location containing instructions. If the address of the target instruction can be identified statically, it can be adjusted to point to the relocated instruction. In the case this is not possible, the address of an indirect branch must be identified using the techniques discussed in the code discovery code phase. 
 
 %RELOCATION 
 
-A common approach to transfer control from the application code to the instrumentation routine is to replace a single instruction or more with an unconditional branch instruction that performs the transfer. On platform with fixed-instruction length instruction sets, such as MIPS, this approach is straightforward as all instructions can be replaced with another one without consequence. While on platform that uses a \emph{variable-length} instructions (i.e, x86), it may not always be possible to instrument an arbitrary point using a replacement technique. The amount of space available at the instrumentation point may be insufficient to accommodate an unconditional branch instruction, large enough to reach the instrumentation code. 
+A common approach to transfer control from the application code to the instrumentation routine is to replace one or more instructions with an unconditional branch instruction that performs the transfer. On platforms characterized by an instruction sets with fixed length, such as MIPS, this approach is straightforward as all instructions can be replaced with another one without consequence. On platforms that use  \emph{variable-length} instructions (i.e, x86), it may not always be possible to instrument an arbitrary point using a replacement technique. The amount of space available at the instrumentation point may be insufficient to accommodate an unconditional branch instruction large enough to reach the instrumentation code. 
 
-In x86 architecture both x32 and x64, an unconditional branch that uses an offset of 32 bits requires 5 bytes. The instructions of interest for a system call interceptor introduced in the previous chapter, are of size 1 for \lstinline$INT$ and 2 byte for \lstinline$syscall/systenter$.Therefore, simply replacing a system-call instruction with a branch to the instrumentation code is not feasible way to accomplish the instrumentation of all system call invocations  within the binary file. Different techniques have been used to transfer control to the instrumentation code. 
+On x86 architecture (both x86\_32 and x64), an unconditional branch that uses an offset of 32 bits requires 5 bytes. The instructions of interest for a system call interceptor introduced in the previous chapter, are of size 1 for \ci{int} and 2 byte for \ci{syscall/systenter}. Therefore, simply replacing a system-call instruction with a branch to the instrumentation code is not a feasible way to accomplish the instrumentation of all system call invocations  within the binary file. Different techniques have to be used to transfer control to the instrumentation code. 
 
-The first alternative is the method proposed by the BIRD project \cite{BIRD}. When the instruction at the instrumentation point is shorter than 5 bytes, additional bytes could come from the first one or two instructions immediately following or preceding the instruction at the instrumentation point as long as doing so does not affect the program’s execution semantics. In general, an instruction is safe to be replaced if it is not the target of any branch instruction. When BIRD cannot find any additional safe bytes to locate the branch instruction, it uses an interrupt instruction (i.e. \lstinline$int3$). This is instruction fits perfectly the instrumentation requirements because it is of a single byte size and transfers the control to an arbitrary routine via the exception handling facilities provided by the operating system. Unfortunately, it is unsuitable for accomplishing this efficiently as the INT introduces a large overhead due to the  heavyweight switch from user space  to kernel space  and back. A similar approach has been used in \emph{seccomsandbox} in a dynamic fashion.
+The first alternative is the method proposed by the BIRD project \cite{BIRD}. When the instruction at the instrumentation point is shorter than 5 bytes, additional bytes could come from the first one or two instructions immediately following or preceding the instruction at the instrumentation point as long as doing so does not affect the program’s execution semantics. In general, an instruction is safe to be replaced if it is not the target of any branch instruction. When BIRD cannot find any additional safe bytes to locate the branch instruction, it uses an interrupt instruction (i.e. \ci{int3}). This instruction fits perfectly the instrumentation requirements because it is of a single byte size and transfers the control to an arbitrary routine via the exception handling facilities provided by the operating system. Unfortunately, it is unsuitable for accomplishing this efficiently as the \ci{int} introduces a large overhead due to the  heavyweight switch from user space  to kernel space  and back. A similar approach has been used in \emph{seccompsandbox} in a dynamic fashion.
 
-Another option is the method presented in PEBIL\cite{PEBIL}, which is ideal for implementing a system call interceptor as it allows to insert a instrumentation code at an arbitrary points within the code application. The instrumentation code might be inserted before and after a system call instruction in order to control its execution. It uses a relocation and reorganization of the code at the function level in such a way that guarantee that 5 bytes are always available at the instrumentation point. This process consists of 4 different steps : 
+Another option is the method presented in PEBIL \cite{PEBIL}, which is ideal for implementing a system call interceptor as it allows for an instrumentation routine to be inserted  at any arbitrary point into the binary file. The instrumentation code might be inserted before and after a system call instruction in order to control its execution. It uses a relocation and reorganization of the code at the function level in such a way that guarantee that 5 bytes are always available at the instrumentation point. This process consists of 4 different steps : 
 
 \begin{enumerate}
 
-\item \emph{Function Displacement} relocates the contents of a function to an area of the text section for use of the instrumentation test. Then the original entry point of the 									   function is linked to the new location via an unconditional branch.   
-\item \emph{Branch conversion}	   The address of all branches are extended to use 32-bits offset in order to make them able to reach every target within the application memory 									   space ( typically 4Gb)  
-\item \emph{Instruction Padding}   pads each instrumentation point with enough empty space so that a 5-byte instruction can be inserted.  
-\item \emph{Instrumentation}	   replace the instructions at each instrumentation point with a branch that transfer control to the instrumetation code. 
+\item \emph{Function Displacement} relocates the contents of a function to an area of
+								   the text section. Then the original entry point of 	
+								   the function is linked to the new location via an	
+								   unconditional branch. For example, the function \emph{foo} (Listing \ref{foo}) 
+								   which was originally located at the address 0xc000, in the listing  					
+								   \ref{relocated_foo} it is relocated to the address 0x800.
+								   The  body of the original function has been rewritten by a \ci{jumpq
+								   0x800} instruction whose aim is to link the original version with the relocated
+								   one.
+								    
+\item \emph{Instruction Padding}   pads each instrumentation point with enough empty space so that a 5-byte 
+								   instruction can be inserted. The result of this phase can be seen in the Listing    								   \ref{relocated_foo} where every instruction is preceded by 5 \ci{nop} instructions
+								   (binary code 0x90). These assembly instructions do not perform any operations, thus 
+								   they can be rewritten without any consequence in instrumentation phase.
+								  
+								   
+\item \emph{Branch conversion}	  adjusts the address of all branch instructions in order to make them reference the 
+								  correct instruction within the relocated code. In addition, the address of all 
+								  branches are extended to use 32-bit offsets in order to make them able to reach 
+								  every target within the application memory space (typically 4Gb on x86\_32). 
+								  In the example Listing \ref{relocated_foo}, the operand of the instruction \ci{jne 
+								  0xc004} has been modified in the relocated version such that, it points to the same
+								  instruction (i.e. \ci{pop \%rsi}) as the original function.   
+
+
+								
+\item \emph{Instrumentation}	 replace the instructions at each instrumentation point with a branch that transfer
+								 control to the instrumentation code. In this phase, the padding instructions inserted 
+								 in the padding phase may be rewritten to allocate a \ci{jump} instruction with a 32-
+								 bit address in order to transfer control to the instrumentation code.
 
 \end{enumerate}
 
-This method can be specialised for the purpose of system call interceptor by relocating only the function which contains a system call invocation. The padding instructions should be inserted before and after of a system call invocation. This allows a pre-routine to be inserted before the system call invocation and one just after the system call. Note in this case the instrumentation code does not execute the system call, while in the previous solution the system call instruction was rewritten and thus it must be executed by the instrumentation code. 
+This method can be specialised for the purpose of a system call interceptor by relocating only the function which contains a system call invocation. The padding instructions should be inserted before and after of a system call invocation. This allows a pre-routine to be inserted before the system call invocation and one just after the system call. Notice that the instrumentation code does not execute the system call in, while in the previous solution the system call instruction was rewritten and thus it must be executed by the instrumentation code. 
 
-
-\begin{center}
-\lstset{escapechar=@,style=asm}
-\begin{lstlisting}[caption={Original instructions, x64 architecture}]
+\begin{asm_top}[caption={Original instructions, x64 architecture}, label={foo}]
    	0000c000: <foo>: 
-   	c000: 48 89 7d f8	mov %rdi, -0x8(%rdb)
-   	c004: 5e			pop %rsi
-   	c005: 75 f8			jne 0xc004
-   	c007: c9			leaveq	
-   	c008: c3			retq
+   	c000: 48 89 7d f8				mov %rdi, -0x8(%rdb)
+   	c004: 5e         				pop %rsi
+   	c005: 75 f8	     				jne 0xc004
+   	c007: c9         				leaveq	
+   	c008: c3         				retq
    	
-\end{lstlisting}
-\end{center}
+\end{asm_top}
 
-\begin{center}
-\lstset{escapechar=@,style=asm}
-\begin{lstlisting}[caption={Instructions after the rewriting process using a relocation code approach at functional level}]
+
+\begin{asm_top}[label=relocated_foo, caption={Instructions after the rewriting process using a relocation code approach at functional level}]
 00008000: <_rel_foo>: 
     8000: 90 90 90 90 90		[empty space]
-   	8005: 48 89 7d f8				mov %rdi, -0x8(%rdb)
+   	8005: 48 89 7d f8   		mov %rdi, -0x8(%rdb)
    	8009: 90 90 90 90 90 		[empty space]
-   	800d: 5e								pop %rsi
-   	800e: 0f 85 f8 ff ff ff	jne 0x8009
+   	800d: 5e            		pop %rsi
+   	800e: 0f 85 f8 ff ff		jne 0x8009
    	8014: 90 90 90 90 90 		[empty space]
-   	8019: c9								leaveq	
-   	801a: c3								retq
+   	8019: c9            		leaveq	
+   	801a: c3            		retq
 
 0000c000: <foo>: 
-   	c000: 48 89 7d f8				jmpq 0x8000
+   	c000: 48 89 7d f8   		jmpq 0x8000
    	c005: 90 90 90 90 			[empty space]
-\end{lstlisting}
-\end{center}
+
+\end{asm_top}
 
 
-A totally different approach is that taken by binary rewriters that performs a full rewrite of the entire file as in the case of \emph{SecondWrite, REINS}.  In this case the problem of finding new space for the instrumentation code does not occur as it can be inserted during the rewriting process. Usually, following this approach a binary file is translated in a intermediary language, optimised and then translated back to the binary format. For example, \emph{SecondWriter} integrates binary rewriting technologies with the complier LLVM \cite{LLVM} by translating the binary file into LLVM's intermediate language IR. When the application is represented in IR, is passed through a series of analysis and transformation. The result then is given an code generation routine which recompile the application.   
+A totally different approach is that taken by binary rewriters that performs a full rewrite of the entire file as in the case of \emph{SecondWrite} \cite{SEC1, SEC2} and \emph{REINS} \cite{REINS}.  In this case the problem of finding new space for the instrumentation code does not occur as it can be inserted during the rewriting process. Usually, following this approach a binary file is translated into a intermediary language, optimised, and then translated back to the binary format. For example, \emph{SecondWriter} integrates binary rewriting technologies with the  LLVM\footnote{The LLVM Project is a collection of modular and reusable compiler and toolchain technologies.} \cite{LLVM} compiler infrastructure by translating the binary file into LLVM's intermediate language IR. When the application is represented in IR, is passed through a series of analyses and transformations. The result is then given to an code generation routine which recompiles the application.   
 
 
 %INSTRUMENTATION  
-When a selective rewriting approach is used such as in PEBIL and BIRD, the problem to insert the instrumentation code within the binary file raises. In order to insert  additional code and data into an executable, additional space needs to be allocated within the executable in such a way that will be correctly treated at load time. Two additional segment should be inserted, one containing the instrumentation code and the other containing the data required by the instrumentation code. Furthermore, in the case of the PEBIL approach also the size of the code segment of the original binary should be modified as more space is needed to support the padding instructions. The ELF code segment might be extended using similar approach as for ELF injection \cite{ELF_inj}
+When a selective rewriting approach is used, such as in PEBIL and BIRD, the problem of inserting the instrumentation code within the binary file arises.In order to insert  additional code and data into an executable, additional space needs to be allocated within the executable in such a way that it will be correctly treated at load time. Two additional segment should be inserted, one containing the instrumentation code and the other containing the data required by the instrumentation code. Furthermore, in the case of the PEBIL approach the size of the code segment of the original binary should be modified as more space is needed to support the padding instructions. The ELF code segment might be extended using similar approach as for ELF injection \cite{ELF_inj}
 
 
-The static binary approach for implementing a system call interceptor is more difficult to implement with respect to the previous approaches discussed in this document as require to  effectively solve all previous shortcomings as well as ensuring the correctness of the translated binary. In spite of the implementation difficulties, it provides a very low overhead due to the tracing mechanism, around 5\%. This intercepting mechanism does not require a monitor thread as the "monitoring code" resides in the same memory space of the controlled process. This is an remarkable advantage as it avoids all overhead due to accessing the memory of another process. 
-Furthermore, it can be used also to implement a delegating architecture where a binary file is statically patched in order to issue requests for a system call to another process, as in the case of \cite{seccompsandbox,vx32} (they use a dynamic rewriting technique but the same approach can be implemented in a static manner). 
+The static binary approach for implementing a system call interceptor is more difficult to implement with respect to the previous approaches discussed in this document as it require to implement a effective code discovery and relocation process  as well as ensuring the correctness of the translated binary. In spite of the implementation difficulties, it provides a very low overhead due to the tracing mechanism, around 5\% \cite{PEBIL}. This intercepting mechanism does not require a monitor thread as the "monitoring code" resides in the same memory space as the controlled process. This is a remarkable advantage as it avoids all overhead due to accessing the memory of another process. Furthermore, it can be also used to implement a delegating architecture where a binary file is statically patched in order to issue requests for a system call to another process, as in the case of \cite{seccompsandbox,vx32} (they use a dynamic rewriting technique but the same approach can be implemented in a static manner). 
 
-In the case of this typology of system call interceptor is used for security purpose,  it must be ensured that the instrumentation code cannot be rewritten by the application's instruction. This can be accomplished through \emph{software fault isolation} techniques \cite{sfi}. Only instrumenting the binary file is not sufficient to guarantee that all system calls are intercepted as, usually, programs use  wrapper functions provided by an external library to make requests for external resource. The libraries linked with the program must be instrumented as well. This can be done by implementing a specialised version of elf-loader, that inserts the code in the libraries before loading them in the memory. An alternative could be to statically link the program to the libraries and then perform the binary instrumentation on the entire file which contain application and libraries.        
+When this approach is used for security purposes  it must be ensured that the instrumentation code cannot be rewritten by the application's instruction. This can be accomplished through \emph{software fault isolation} techniques \cite{sfi}. Only instrumenting the binary file is not sufficient to guarantee that all system calls are intercepted as, usually, programs use  wrapper functions provided by an external library to make requests for external resources. 
+
+The libraries linked with the program must be instrumented as well. This can be done by implementing a specialised version of a dynamic ELF loader, that inserts the code in the libraries before loading them in the memory. An alternative could be to statically link the program to the libraries and then perform the binary instrumentation on the entire file which contains application and libraries.        
 
 
 
@@ -191,7 +215,7 @@ In the research literature, there are two examples of system call interceptor th
 
 \section{Seccomp}
 
-A system call interceptor has been often employed in building sandboxing tools \cite{Janus,Garfinkel03ostia:a,MapBox, others}.The crucial aspect of these tools is security as a sandbox must guarantee that all system calls made by the sandboxed processes are correctly intercepted and verified. Current interposition-based mechanisms offer a wide variety of properties that make them an attractive approach for building sandboxing systems. Unfortunately, these are affects by numerous shortcomings that make their implementation difficult and a possible source of vulnerabilities. For instance, independently from the interceptor mechanism used, a sandbox has to deal with different type of race conditions such as arguments races, relative path races and symbolic link race, for a comprehensive list see \cite{garfinkel:traps, Watson_exploitingconcurrency}. These are sometimes referred to as \textit{Time of Check to Time of Use (TOCTOU)} races. In general, a race condition arises when there is a shared resource among different threads and the following actions occur : 
+A system call interceptor has been often employed in building sandboxing tools \cite{Janus, Garfinkel03ostia:a,MapBox, others}.The crucial aspect of these tools is security as a sandbox must guarantee that all system calls made by the sandboxed processes are correctly intercepted and verified. Current interposition-based mechanisms offer a wide variety of properties that make them an attractive approach for building sandboxing systems. Unfortunately, these are affects by numerous shortcomings that make their implementation difficult and a possible source of vulnerabilities. For instance, independently from the interceptor mechanism used, a sandbox has to deal with different type of race conditions such as arguments races, relative path races and symbolic link race, for a comprehensive list see \cite{garfinkel:traps, Watson_exploitingconcurrency}. These are sometimes referred to as \textit{Time of Check to Time of Use (TOCTOU)} races. In general, a race condition arises when there is a shared resource among different threads and the following actions occur : 
 \begin{enumerate}
 
 \item A sandbox grants permission to perform an operation A, that relies on some mutable shared state. For example, a shared buffer containing the name of a file is the arguments of a system call. 
@@ -201,7 +225,7 @@ A system call interceptor has been often employed in building sandboxing tools \
 \item The operation A is performed by the operating system on the illegal values. 
 \end{enumerate}  
 
-This type of race condition is a significant problem for sandboxing tools and can be used to mislead introduction detections system and perform not authorized operations. In order to tackle these problems and simplify the implementation of sandboxing tools, a simple sandboxing mechanism called \textbf{seccomp} (short for secure computing mode)  has been introduced in Linux kernel 2.6.12. Seccomp isolates the execution of an untrusted process in its own address space by limiting the available system calls that the untrusted process can invoke. Seccomp mode can be enabled via the \lstinline$prctl$ \cite{prctl}  system call using \lstinline$PR_SET_SECCOMP$  as first argument, when the system call returns,  the caller process enters seccomp mode. Seccomp has two different working modalities that can be selected via its second arguments:  
+This type of race condition is a significant problem for sandboxing tools and can be used to mislead introduction detections system and perform not authorized operations. In order to tackle these problems and simplify the implementation of sandboxing tools, a simple sandboxing mechanism called \textbf{seccomp} (short for secure computing mode)  has been introduced in Linux kernel 2.6.12. Seccomp isolates the execution of an untrusted process in its own address space by limiting the available system calls that the untrusted process can invoke. Seccomp mode can be enabled via the \ci{prctl} \cite{prctl}  system call using \ci{PR_SET_SECCOMP}  as first argument, when the system call returns,  the caller process enters seccomp mode. Seccomp has two different working modalities that can be selected via its second arguments:  
 
 \begin{description}
 \item[SECCOMP\_MODE\_STRICT] sets the most restrictive working mode where the only system calls that the thread is permitted to make are read, write, exit, an 
@@ -223,7 +247,7 @@ In the remainder of this section the two seccom modes are analysed in better det
 \label{seccompsandbox}
 
 
-Creating a sandbox in which to run untrusted code is a difficult problem. The successful sandbox implementations tend to come with completely new languages (e.g. Java) that are specifically designed to support that functionality. Try to sandbox an application at system call level as in Janus \cite{Janus}, Ostia \cite{Garfinkel03ostia:a} is a much more difficult task due principally to the problems discussed in the previous section.
+Creating a sandbox in which to run untrusted code is a difficult problem. The successful sandbox implementations tend to come with completely new languages (e.g. Java) that are specifically designed to support that functionality. Try to sandbox an application at system call level as in Janus \cite{ Janus}, Ostia \cite{Garfinkel03ostia:a} is a much more difficult task due principally to the problems discussed in the previous section.
 Seccomp offers a perfect solution for implementing a sandbox because it reduces the kernel attack surface to just four system calls. This ensures that, even though the application is compromise, an attacker cannot perform any permanent damage in the system. The only system calls allowed in seccom strict mode are : 
 \begin{itemize}
 \item  read/write can be used to write to or read from a file descriptor. Note that the file descriptor must be already open. 
@@ -354,38 +378,61 @@ An exemple of this routine for x86\_32 architecture is presented in .
 
 \end{lstlisting}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SECCOMP BPF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Seccomp mode filter}
 \label{filter}
            
-           A large number of system calls are exposed to every userland process
-with many of them going unused for the entire lifetime of the process.
-As system calls change and mature, bugs are found and eradicated.  A
-certain subset of userland applications benefit by having a reduced set
-of available system calls.  The resulting set reduces the total kernel
-surface exposed to the application.  System call filtering is meant for
-use with those applications.
 
-Seccomp filtering provides a means for a process to specify a filter for
-incoming system calls.  The filter is expressed as a Berkeley Packet
-Filter (BPF) program, as with socket filters, except that the data
-operated on is related to the system call being made: system call
-number and the system call arguments.  This allows for expressive
-filtering of system calls using a filter program language with a long
-history of being exposed to userland and a straightforward data set.
+System call filtering architectures have been attempted many times \cite{Janus , others}, but none of them has been capable to successfully address all problems correlated to race conditions discussed in \ref{}. Seccomp mode filtering is a promising technology that has been recently introduce in the Linux kernel (version 3.5) in order to provide a means of filtering the system call made by a program. Seccomp BPF is not a sandbox, but it provides a clearly defined mechanism for minimizing the exposed kernel surface which has been designed principally to be used by sandbox developers. 
 
-Additionally, BPF makes it impossible for users of seccomp to fall prey
-to time-of-check-time-of-use (TOCTOU) attacks that are common in system
-call interposition frameworks.  BPF programs may not dereference
-pointers which constrains all filters to solely evaluating the system
-call arguments directly.
+The filter capabilities are expressed through a Berkeley Packet Filter (BPF) program \cite{bpf}. When a program is in a seccomp mode, each system call request is  turned into a specific data structure so that, it can be processed by the BPF machine within the kernel. The fact the machine resides within the kernel provides a solution for time-of-check-time-of-use (TOCTOU) attacks that are common in system call interposition frameworks. Once the data has been fetched by the machine and thus it resides in kernel space, it cannot be changed by any other thread in user space. However, this also implies some constrains in writing BPF filters. Most notably, a BPF program can't have loops, which bounds their execution time by a function of their size. Another advantages of this approach respect those analyses in the previous chapters is that the seccomp filter mode is automatically inherited by the children process created by the application via \ci{clone} or \ci{fork} system calls.
 
-   If \lstinline$SECCOMP_MODE_FILTER$ filters permit fork(2), then the seccomp mode
-              is inherited by children created by fork(2); if execve(2) is
-              permitted, then the seccomp mode is preserved across execve(2).  If
-              the filters permit prctl() calls, then additional filters can be
-              added; they are run in order until the first non-allow result is
-              seen.
-           
+Seccomp filtering mode can be enabled by issuing the following request : 
 
+\begin{center}
+\lstset{escapechar=@,style=c}
+\begin{lstlisting}[caption={Request for entering seccomp filtering mode}]
+												prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, bpf_filter);
+\end{lstlisting}
+\end{center}
 
-             
+The \ci{bpf_filter} argument is a pointer to a struct \ci{sock_fprog} which contain the filter program.  If the program is invalid, the call will fail. The BPF program will be executed over struct \ci{seccomp_data} reflecting the system call number, arguments, and other metadata necessary to correctly analyse it. Once the program has entered seccomp filtering mode, each time it makes a system call, the BPF filter program is executed in order to verify whether the system call should be executed or not. The execution of the filter may introduce a significant overhead on the application's execution, therefore the BPF program should be as shorter as possible to reduce this overhead. The BPF program must return a values to inform the kernel which action should be taken. A seccomp filter supports many different returning values, we focus only on those interesting for implementing a system call interceptor, for an complete list see \cite{filtering}.  
+
+\begin{description}
+\item[SECCOMP\_RET\_KILL]  Results in the task exiting immediately without executing the system call. 
+\item[SECCOMP\_RET\_TRAP]  Results in the kernel sending a \ci{SIGSYS} signal to the triggering task without executing the system call. 
+\item[SECCOMP\_RET\_ALLOW] Results in the system call being executed.
+\end{description}
+
+The BPF machine abstraction consists of an accumulator, an index register, a scratch memory store, and an implicit program counter.BPF filtering programs are expressed in pseudo assembler instructions. Each instruction consists of an OPCODE field that defines the instruction itself and tree additional arguments whose meaning depends on the value specified on the OPCODE field.  Programs expressed in BPF filtering language  are rather flexible, they can fetch data, perform arithmetic operations, and perform tests, and notify to the kernel whether an event (e.g. a system call) should be accepted or not via the return value. A full description of the BPF machine and its assembler language can be found in \cite{bpf}.
+
+Linsting \ref{bpf_filter} presents how to use a BPF filter within seccomp filtering mode for intercepting a system call. The task accomplished by this program is quite simple, it merely checks that a program uses the write system call only for writing to the standard output. A BPF program must begin by checking the underlying architecture in order to verify whether it can be run correctly. This is necessary because some architecture may use a different system call convention and therefore the filter is not applicable (for example, a filter written for x86\_32 is not portable on x64). Once the safety checks have been completed, the first operation is issued. The system call number is loaded into the accumulator register using the store instruction \ci{BPF_SRMT}. Then, the system call can be identified using a \ci{BPF_JUMP} instruction which compares the value within the accumulator register with a constant and jumps to the offset specified as second argument is the result is positive or to the third argument if the result is negative. If the system call invoked is not a write, the execution is redirected  to the last instruction which allows the system call. While if the system call requested is write, the first system call argument is retrieved using the macro \ci{LO_ARG}\footnote{\ci{LO_ARG} is a macro defined as follows : \\
+\ci{#define LO_ARG(idx) offsetof(struct seccomp_data, args[(idx)])}.
+}.The first argument contains the file descriptor used by the write system call.  The filter verifies if this descriptor is the standard output in a similar manner as the previous case. If an attempt of writing to a different file descriptor is found the system call is denied and the entire process in terminated. While, if the argument is correct the execution continues.   
+
+\begin{center}
+\lstset{escapechar=@,style=c_num}
+\begin{lstlisting}[label=bpf_filter,caption={BPF filter ensuring that a program can write only over the standard output}]
+		/* Validate Architecture */
+		BPF_STMT(BPF_LD+BPF_W+BPF_ABS, arch_nr), 
+		BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, ARCH_NR, 1, 0), 
+		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_KILL), 
+		
+		/* Load system call number in the accumulator */
+		BPF_STMT(BPF_LD+BPF_W+BPF_ABS, syscall_nr),
+		/* Check if the system call is read */
+		BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, __NR_write, 0, 4),
+		/* Access to its first argument */
+		BPF_STMT(BPF_LD+BPF_W+BPF_ABS, LO_ARG(0)),
+		/* Verify that the file descriptor points to STDIN */
+		BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, STDOUT_FILENO, 1, 0),
+		/* The system call is denied */
+		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_KILL),
+		/* The system call is allowed */
+		BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_ALLOW),
+
+\end{lstlisting}
+\end{center}
+
+Seccomp filter represent a valid and interesting solution for developing sandboxes. In  fact, it has been already employed to increase the security of two important software. The first is \emph{minijail} \cite{minijail}, the new sandbox realized by Google in order to increase the security of Chrome. The second is VSTP \cite{vstp} a secure FTP daemon largely used. However, the sandbox is not the only possible use of seccomp-bpf. The User Mode Linux project has expressed interest in seccomp-bpf, especially for the trap functionality which would allow them to emulate a system call without using ptrace. Finally another project that is worth mentioning, is a new library called \emph{libseccomp} \cite{libseccomp} that has been developed to ease the definition of BPF filter for a seccomp application.   

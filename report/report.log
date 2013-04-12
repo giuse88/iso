@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.21)  10 APR 2013 09:35
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.3.21)  13 APR 2013 00:28
 entering extended mode
  %&-line parsing enabled.
 **report.tex
@@ -290,7 +290,31 @@ LaTeX Font Info:    Overwriting symbol font `largesymbolsA' in version `bold'
 (Font)                  U/pxexa/m/n --> U/pxexa/bx/n on input line 129.
 LaTeX Info: Redefining \not on input line 997.
 )
-Package color Info: Redefining color black on input line 23.
+(/usr/share/texmf-texlive/tex/latex/tools/tabularx.sty
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+
+(/usr/share/texmf-texlive/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen122
+\extrarowheight=\dimen123
+\NC@list=\toks22
+\extratabsurround=\skip54
+\backup@length=\skip55
+)
+\TX@col@width=\dimen124
+\TX@old@table=\dimen125
+\TX@old@col=\dimen126
+\TX@target=\dimen127
+\TX@delta=\dimen128
+\TX@cols=\count111
+\TX@ftn=\toks23
+)
+(/usr/share/texmf-texlive/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 285.
+LaTeX Info: Redefining \nocite on input line 356.
+Package: cite 2009/08/29  v 5.2
+)
+Package color Info: Redefining color black on input line 30.
 
 (/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
@@ -303,14 +327,14 @@ Package: caption 2009/10/09 v3.1k Customizing captions (AR)
 
 (/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
 Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
-\captionmargin=\dimen122
-\captionmargin@=\dimen123
-\captionwidth=\dimen124
-\caption@indent=\dimen125
-\caption@parindent=\dimen126
-\caption@hangindent=\dimen127
+\captionmargin=\dimen129
+\captionmargin@=\dimen130
+\captionwidth=\dimen131
+\caption@indent=\dimen132
+\caption@parindent=\dimen133
+\caption@hangindent=\dimen134
 )
-\c@ContinuedFloat=\count111
+\c@ContinuedFloat=\count112
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 ) (./report.aux
@@ -333,48 +357,47 @@ LaTeX Warning: Label `DescriptiveLabel' multiply defined.
 
 LaTeX Warning: Label `DescriptiveLabel' multiply defined.
 
-
-LaTeX Warning: Label `DescriptiveLabel' multiply defined.
-
-) (./Appendix1/appendix1.aux) (./Appendix2/appendix2.aux))
+) (./Chapter4/chapter4.aux))
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/pxmi/m/it on input line 87.
-LaTeX Font Info:    Try loading font information for OML+pxmi on input line 87.
-
+LaTeX Font Info:    Checking defaults for OML/pxmi/m/it on input line 125.
+LaTeX Font Info:    Try loading font information for OML+pxmi on input line 125
+.
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omlpxmi.fd
 File: omlpxmi.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMS/pxsy/m/n on input line 87.
-LaTeX Font Info:    Try loading font information for OMS+pxsy on input line 87.
-
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 125.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OMS/pxsy/m/n on input line 125.
+LaTeX Font Info:    Try loading font information for OMS+pxsy on input line 125
+.
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omspxsy.fd
 File: omspxsy.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMX/pxex/m/n on input line 87.
-LaTeX Font Info:    Try loading font information for OMX+pxex on input line 87.
-
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OMX/pxex/m/n on input line 125.
+LaTeX Font Info:    Try loading font information for OMX+pxex on input line 125
+.
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omxpxex.fd
 File: omxpxex.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for U/pxexa/m/n on input line 87.
-LaTeX Font Info:    Try loading font information for U+pxexa on input line 87.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for U/pxexa/m/n on input line 125.
+LaTeX Font Info:    Try loading font information for U+pxexa on input line 125.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxexa.fd
 File: upxexa.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Try loading font information for OT1+pxr on input line 87.
+LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Try loading font information for OT1+pxr on input line 125.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/ot1pxr.fd
 File: ot1pxr.fd 2000/12/14 v1.0
@@ -422,35 +445,39 @@ driver: pdftex
 -----------------------
 (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count112
-\scratchdimen=\dimen128
+\scratchcounter=\count113
+\scratchdimen=\dimen135
 \scratchbox=\box56
-\nofMPsegments=\count113
-\nofMParguments=\count114
-\everyMPshowfont=\toks22
-\MPscratchCnt=\count115
-\MPscratchDim=\dimen129
-\MPnumerator=\count116
-\everyMPtoPDFconversion=\toks23
+\nofMPsegments=\count114
+\nofMParguments=\count115
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count116
+\MPscratchDim=\dimen136
+\MPnumerator=\count117
+\everyMPtoPDFconversion=\toks25
 )
-\c@lstlisting=\count117
+\c@lstlisting=\count118
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+pxmia on input line 92.
+LaTeX Font Info:    Try loading font information for U+pxmia on input line 130.
+
  (/usr/share/texmf-texlive/tex/latex/pxfonts/upxmia.fd
 File: upxmia.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+pxsya on input line 92.
+LaTeX Font Info:    Try loading font information for U+pxsya on input line 130.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxsya.fd
 File: upxsya.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+pxsyb on input line 92.
+LaTeX Font Info:    Try loading font information for U+pxsyb on input line 130.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxsyb.fd
 File: utxsyb.fd 2000/12/14 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+pxsyc on input line 92.
+LaTeX Font Info:    Try loading font information for U+pxsyc on input line 130.
+
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/upxsyc.fd
 File: upxsyc.fd 2000/12/14 v1.0
@@ -502,72 +529,58 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  (./Introduction/introduction.tex
 Chapter 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 19--21
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 24--25
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
-
-
-LaTeX Warning: Citation `Systrace' on page 1 undefined on input line 35.
 
 [1
 
 
 
-] [2]
+] [2] (/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
+(/usr/share/texmf-texlive/tex/latex/listings/lstlang2.sty
+File: lstlang2.sty 2004/09/05 1.3 listings language file
+)
+LaTeX Font Info:    Try loading font information for OT1+pxtt on input line 64.
 
-LaTeX Warning: Citation `dinamo' on page 3 undefined on input line 69.
-
-
-LaTeX Warning: Citation `valgrid' on page 3 undefined on input line 69.
-
-LaTeX Font Info:    Try loading font information for OT1+pxtt on input line 71.
 
 (/usr/share/texmf-texlive/tex/latex/pxfonts/ot1pxtt.fd
 File: ot1pxtt.fd 2000/12/14 v1.0
 )
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
 
-LaTeX Warning: Citation `seccompsandboxe' on page 3 undefined on input line 71.
+ []
 
-
-
-LaTeX Warning: Citation `seccompnurse' on page 3 undefined on input line 71.
-
+[3]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
-Missing character: There is no ‚ in font pxr!
-Missing character: There is no Ä in font pxr!
-Missing character: There is no ô in font pxr!
-Missing character: There is no ‚ in font pxr!
-Missing character: There is no Ä in font pxr!
-Missing character: There is no ú in font pxr!
-Missing character: There is no ‚ in font pxr!
-Missing character: There is no Ä in font pxr!
-Missing character: There is no ù in font pxr!
-[3]) [4]
+) [4]
 \openout2 = `Chapter1/chapter1.aux'.
 
  (./Chapter1/chapter1.tex
 Chapter 2.
-LaTeX Font Info:    Font shape `OT1/pxtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/pxtt/b/n' tried instead on input line 11.
-LaTeX Font Info:    Try loading font information for OMS+pxr on input line 18.
+LaTeX Font Info:    Font shape `OT1/pxtt/bx/n' in size <8> not available
+(Font)              Font shape `OT1/pxtt/b/n' tried instead on input line 12.
+LaTeX Font Info:    Try loading font information for OMS+pxr on input line 19.
 (/usr/share/texmf-texlive/tex/latex/pxfonts/omspxr.fd
 File: omspxr.fd 2000/12/14 v1.0
 )
 LaTeX Font Info:    Font shape `OMS/pxr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/pxsy/m/n' tried instead on input line 18.
+(Font)              Font shape `OMS/pxsy/m/n' tried instead on input line 19.
  [5
 
 
 
 ] [6]
-<Chapter1/Chapter1Figs/ptrace_systemcall.png, id=48, 441.14813pt x 311.66437pt>
+<Chapter1/Chapter1Figs/ptrace_systemcall.png, id=47, 441.14813pt x 311.66437pt>
 File: Chapter1/Chapter1Figs/ptrace_systemcall.png Graphic file (type png)
 <use Chapter1/Chapter1Figs/ptrace_systemcall.png>
 
@@ -575,76 +588,60 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [7]
 
-LaTeX Warning: Reference `system_V_abi' on page 8 undefined on input line 128.
+LaTeX Warning: Reference `system_V_abi' on page 8 undefined on input line 111.
 
 [8 <./Chapter1/Chapter1Figs/ptrace_systemcall.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 200--210
+Underfull \hbox (badness 10000) in paragraph at lines 186--188
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 218--220
+Underfull \hbox (badness 10000) in paragraph at lines 194--196
 
  []
 
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
+
+Underfull \hbox (badness 10000) in paragraph at lines 227--229
+
+ []
+
 [10]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
 
-Underfull \hbox (badness 10000) in paragraph at lines 224--227
+Underfull \hbox (badness 10000) in paragraph at lines 230--233
 
  []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 234--235
-
- []
-
-
-LaTeX Warning: Reference `cross_memory_attach' on page 11 undefined on input li
-ne 238.
 
 [11]
-Overfull \hbox (74.13454pt too wide) in paragraph at lines 254--257
-[]\OT1/pxr/m/n/10.95 Nevertheless, ptrace of-fers a so-lu-tion, though it is qu
-ite el-e-men-tary. Set-ting the op-tion PTRACE[]O[]TRACECLONE
- []
+
+LaTeX Warning: Reference `cross_memory_attach' on page 12 undefined on input li
+ne 266.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 254--257
-
- []
-
-Missing character: There is no ‚ in font pxr!
-Missing character: There is no Ä in font pxr!
-Missing character: There is no ô in font pxr!
-
-Underfull \hbox (badness 10000) in paragraph at lines 258--260
-
- []
+LaTeX Warning: Reference `cross:mem' on page 12 undefined on input line 266.
 
 [12]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
+ [13]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
-)
-Underfull \hbox (badness 10000) in paragraph at lines 265--107
-
- []
-
-[13]
+Missing character: There is no ‚ in font pxr!
+Missing character: There is no Ä in font pxr!
+Missing character: There is no ô in font pxr!
+) [14]
 \openout2 = `Chapter2/chapter2.aux'.
 
  (./Chapter2/chapter2.tex
 Chapter 3.
-[14
+[15
 
 
 
@@ -652,21 +649,23 @@ Chapter 3.
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
- [15]
+ [16]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
- [16] [17]
+LaTeX Font Info:    Font shape `OT1/pxtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/pxtt/b/n' tried instead on input line 65.
+ [17] [18]
 
-LaTeX Warning: Citation `race_condition' on page 18 undefined on input line 119
+LaTeX Warning: Citation `race_condition' on page 19 undefined on input line 119
 .
 
-[18] [19] [20]) [21]
+[19] [20] [21]) [22]
 \openout2 = `Chapter3/chapter3.aux'.
 
  (./Chapter3/chapter3.tex
 Chapter 4.
-[22
+[23
 
 
 
@@ -680,79 +679,78 @@ File: lstlang2.sty 2004/09/05 1.3 listings language file
 File: lstlang3.sty 2004/09/05 1.3 listings language file
 )
 
-LaTeX Warning: Citation `Intel' on page 23 undefined on input line 35.
+LaTeX Warning: Reference `vsdo' on page 24 undefined on input line 35.
 
-
-LaTeX Warning: Reference `vsdo' on page 23 undefined on input line 35.
-
-[23] [24]
+[24] [25]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
- [25]
+ [26]
+LaTeX Font Info:    Font shape `OT1/pxtt/m/it' in size <10> not available
+(Font)              Font shape `OT1/pxtt/m/sl' tried instead on input line 128.
 
-LaTeX Warning: Citation `LLVM' on page 26 undefined on input line 147.
-
-
-LaTeX Warning: Citation `ELF_inj' on page 26 undefined on input line 151.
-
-[26]
+ [27] [28]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
- [27]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
 
-<Chapter3/Chapter3Figs/dynamic_algorithm.png, id=117, 190.7928pt x 172.7253pt>
+<Chapter3/Chapter3Figs/dynamic_algorithm.png, id=121, 190.7928pt x 172.7253pt>
 File: Chapter3/Chapter3Figs/dynamic_algorithm.png Graphic file (type png)
 
-<use Chapter3/Chapter3Figs/dynamic_algorithm.png> [28 <./Chapter3/Chapter3Figs/
+<use Chapter3/Chapter3Figs/dynamic_algorithm.png> [29 <./Chapter3/Chapter3Figs/
 dynamic_algorithm.png (PNG copy)>]
 
-LaTeX Warning: Citation `others' on page 29 undefined on input line 194.
+LaTeX Warning: Citation `others' on page 30 undefined on input line 218.
 
-[29] <Chapter3/Chapter3Figs/seccomp.png, id=124, 555.07375pt x 349.305pt>
+[30] [31] <Chapter3/Chapter3Figs/seccomp.png, id=132, 555.07375pt x 349.305pt>
 File: Chapter3/Chapter3Figs/seccomp.png Graphic file (type png)
 
-<use Chapter3/Chapter3Figs/seccomp.png> [30] [31 <./Chapter3/Chapter3Figs/secco
-mp.png>] [32] [33]) [34]
-\openout2 = `Appendix1/appendix1.aux'.
+<use Chapter3/Chapter3Figs/seccomp.png> [32 <./Chapter3/Chapter3Figs/seccomp.pn
+g>] [33] [34]
 
- (./Appendix1/appendix1.tex
-Appendix A.
-) [35
+LaTeX Warning: Citation `others' on page 35 undefined on input line 387.
 
 
+LaTeX Warning: Reference `' on page 35 undefined on input line 387.
 
-]
-\openout2 = `Appendix2/appendix2.aux'.
+[35]
 
- (./Appendix2/appendix2.tex
-Appendix B.
-) [36
+LaTeX Warning: Citation `vstp' on page 36 undefined on input line 438.
+
+) [36] [37]
+\openout2 = `Chapter4/chapter4.aux'.
+
+ (./Chapter4/chapter4.tex
+Chapter 5.
+[38
 
 
 
-] (./report.bbl
+]) [39] (./report.bbl
 Missing character: There is no Ô in font pxr!
 Missing character: There is no ¨ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no Ô in font pxr!
 Missing character: There is no ¨ in font pxr!
 Missing character: There is no Ä in font pxr!
- [37
+ [40
 
 
 ]
+Missing character: There is no √ in font pxr!
+Missing character: There is no ° in font pxr!
+Missing character: There is no √ in font pxr!
+Missing character: There is no º in font pxr!
+ [41]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no î in font pxr!
 Missing character: There is no ‚ in font pxi!
 Missing character: There is no Ä in font pxi!
 Missing character: There is no ô in font pxi!
- [38]
 Missing character: There is no ‚ in font pxr!
 Missing character: There is no Ä in font pxr!
 Missing character: There is no ô in font pxr!
@@ -760,10 +758,10 @@ Missing character: There is no √ in font pxr!
 Missing character: There is no Å in font pxr!
 Missing character: There is no √ in font pxr!
 Missing character: There is no ° in font pxr!
-) [39] (./report.aux (./Abstract/abstract.aux)
-(./Acknowledgement/acknowledgement.aux) (./Introduction/introduction.aux)
+) [42] (./report.aux (./Abstract/abstract.aux) (./Acknowledgement/acknowledgeme
+nt.aux) (./Introduction/introduction.aux)
 (./Chapter1/chapter1.aux) (./Chapter2/chapter2.aux) (./Chapter3/chapter3.aux)
-(./Appendix1/appendix1.aux) (./Appendix2/appendix2.aux))
+(./Chapter4/chapter4.aux))
 
 LaTeX Warning: There were undefined references.
 
@@ -772,25 +770,26 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6312 strings out of 495061
- 87199 string characters out of 1182621
- 257475 words of memory out of 3000000
- 9292 multiletter control sequences out of 15000+50000
- 44960 words of font info for 127 fonts, out of 3000000 for 9000
+ 6771 strings out of 495061
+ 92757 string characters out of 1182621
+ 423365 words of memory out of 3000000
+ 9746 multiletter control sequences out of 15000+50000
+ 46130 words of font info for 131 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 53i,12n,97p,1718b,1808s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,12n,97p,1718b,1795s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
 ve/fonts/type1/public/pxfonts/pxsy.pfb></usr/share/texmf-texlive/fonts/type1/pu
 blic/pxfonts/rpxb.pfb></usr/share/texmf-texlive/fonts/type1/public/pxfonts/rpxi
 .pfb></usr/share/texmf-texlive/fonts/type1/public/pxfonts/rpxr.pfb></usr/share/
 texmf-texlive/fonts/type1/public/txfonts/txbtt.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/txfonts/txtt.pfb></usr/share/texmf-texlive/fonts/type1/urw/pal
-atino/uplb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplbi8a.pfb
-></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texm
-f-texlive/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on report.pdf (45 pages, 342073 bytes).
+nts/type1/public/txfonts/txtt.pfb></usr/share/texmf-texlive/fonts/type1/public/
+txfonts/txtt.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplb8a.pfb>
+</usr/share/texmf-texlive/fonts/type1/urw/palatino/uplbi8a.pfb></usr/share/texm
+f-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/t
+ype1/urw/palatino/uplri8a.pfb>
+Output written on report.pdf (48 pages, 365551 bytes).
 PDF statistics:
- 194 PDF objects out of 1000 (max. 8388607)
+ 207 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

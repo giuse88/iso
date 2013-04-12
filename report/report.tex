@@ -18,6 +18,13 @@
 \usepackage{color}
 \usepackage{courier}
 \usepackage{pxfonts}
+\usepackage{tabularx}
+\usepackage{cite}
+
+\usepackage{array}
+\newcolumntype{x}[1]{%
+>{\centering\arraybackslash}p{#1}}%
+
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{black}{rgb}{0,0,0}
@@ -30,39 +37,70 @@
 \definecolor{lightgreen}{cmyk}{0.39, 0.00, 0.39,0.07}
 \definecolor{background}{cmyk}{0.43, 0.35, 0.35,0.01}
 
+
+
+
 \lstset{ %  
-  backgroundcolor=\color{white},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  backgroundcolor=\color{white}, 
   basicstyle=\ttfamily\small,
   breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
   breaklines=true,                % sets automatic line breaking
   captionpos=b,   
   frame=tb,   
-  commentstyle=\color{dkgreen},   % comment style
-  deletekeywords={...},           % if you want to delete keywords from the given language
   keywordstyle=\bfseries,      % keyword style
   language=C,                % the language of the code
-  morekeywords={*, pid_t, ...},           % if you want to add more keywords to the set
   numbersep=5pt,                  % how far the line-numbers are from the code
   numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
   rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
   showspaces=false,               % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
   showstringspaces=false,         % underline spaces within strings only
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line will be numbered
+  showtabs=false,                 % show tabs within strings adding particular 
   stringstyle=\color{mauve}\ttfamily,      % string literal style
   tabsize=2,                      % sets default tabsize to 2 spaces
-  title=\lstname ,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
-  stepnumber=1,                           % Step between two line-numbers
-  %frame=single
+  title=\lstname ,                 % show the filename of files included with 
 }
 
 \usepackage[center,font=small,labelfont=bf]{caption}
 
 \lstdefinestyle{asm}{
   language=[x86masm]Assembler,
+  basicstyle=\ttfamily\small,
   morekeywords={*, movl, mov, int, call, syscall, jmpq, leaveq, retq, ...}, 
   deletekeywords={eax, ebx, ecx, edi, edx, gs, ...}
 }
+
+\lstnewenvironment{asm_top}[1][]
+  {\lstset{style=asm,float=t,#1}}% \begin{javalisting}[...]
+  {} % \end{javalisting}
+
+
+\lstdefinestyle{c}{
+  basicstyle=\ttfamily\scriptsize,
+  language=C,
+  morekeywords={*, pid_t, ...},           % if you want to add more keywords to the set
+  deletekeywords={...},
+  commentstyle=\color{dkgreen},   % comment style
+}
+
+\lstdefinestyle{c_num}{
+  basicstyle=\ttfamily\scriptsize,
+  language=C,
+  morekeywords={*, pid_t, ...},           
+  deletekeywords={...},
+  commentstyle=\color{dkgreen},   % comment style
+  numbers=left,                    %
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{lightlightgray},
+}
+
+
+\lstdefinestyle{clean}{
+  language=prolog, 
+  basicstyle=\ttfamily\small, 
+  deletekeywords={read, write, ...},
+}
+
+\newcommand{\ci}[1]{\lstinline[style=clean]$#1$}
 
 
 %% FANCY HEADER
@@ -107,13 +145,13 @@
 \include{Chapter1/chapter1}
 \include{Chapter2/chapter2}
 \include{Chapter3/chapter3}
-%\include{Chapter4/chapter4}
+\include{Chapter4/chapter4}
 %\include{Chapter5/chapter5}
 %\include{Conclusions/conclusions}
 
 \appendix
-\include{Appendix1/appendix1}
-\include{Appendix2/appendix2}
+%\include{Appendix1/appendix1}
+%\include{Appendix2/appendix2}
 
 
 \bibliography{References/references}{} % References file

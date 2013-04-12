@@ -1,13 +1,14 @@
 \relax 
 \citation{ptrace}
+\citation{Provos02improvinghost,Janus,MapBox,Noordende_asecure,Jain99user-levelinfrastructure}
+\citation{strace}
+\citation{Provos02improvinghost,Janus}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Ptrace}{5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {2.1}Synopsis ptrace system call}{5}}
 \citation{Noordende_asecure}
-\citation{UML_1}
-\citation{goanna}
-\citation{UML_2}
+\citation{UML_1,goanna,UML_2}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Ptrace tracing mechanism}{6}}
 \newlabel{Ptrace_tracing_mechanism}{{2.1}{6}}
 \citation{ptrace_seize}
@@ -19,22 +20,44 @@
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {2.4}Condition that identifies exclusively system call entry and exit}{8}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {2.5}Linux structures representing the general purpose registers of x64 CPU}{8}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {2.6}Linux structure representing the general purpose registers of x32 CPU}{8}}
+\citation{Provos02improvinghost,Janus,MapBox,Noordende_asecure}
+\citation{strace}
 \citation{ptrace}
+\citation{UML_1,UML_2}
+\citation{ptrace}
+\citation{goanna}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}System call virtualization}{9}}
 \newlabel{system_call_virtualization}{{2.2}{9}}
+\citation{Noordende_asecure}
+\citation{orchestra}
+\citation{garfinkel:traps}
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Memory access}{10}}
 \newlabel{memory_access}{{2.3}{10}}
-\citation{Garfinkel03ostia:a}
+\newlabel{ptrace:mem}{{2.7}{10}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.7}Function which retrieve a buffer of size count from the tracee memory. Note, the value retrivied by a single ptrace call has to be converted to the char type before being inserted in the buffer.}{10}}
+\citation{orchestra}
+\citation{Noordende_asecure}
 \citation{mem_vul}
 \citation{cross_memory_attach_syscall}
 \citation{mx:icse13}
 \citation{clone}
+\citation{ptrace}
+\citation{garfinkel:traps}
+\citation{Noordende_asecure}
+\newlabel{proc:mem}{{2.8}{12}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.8}Function which retrieve a buffer of size count from the tracee memory using the proc interface.}{12}}
+\newlabel{cross:mem}{{2.9}{12}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.9}Function which retrieve a buffer of size count from the tracee memory using cross memory attach method.}{12}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.4}Multi thread applications}{12}}
 \newlabel{multi_thread_application}{{2.4}{12}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Aborting a system call}{13}}
-\newlabel{aborting_systemcall}{{2.5}{13}}
+\citation{Jain99user-levelinfrastructure,Noordende_asecure,orchestra,strace,Provos02improvinghost}
+\citation{orchestra}
+\citation{Janus}
+\citation{Jain99user-levelinfrastructure,goanna}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Aborting a system call}{14}}
+\newlabel{aborting_systemcall}{{2.5}{14}}
 \@setckpt{Chapter1/chapter1}{
-\setcounter{page}{14}
+\setcounter{page}{15}
 \setcounter{equation}{0}
 \setcounter{enumi}{3}
 \setcounter{enumii}{0}
@@ -54,5 +77,5 @@
 \setcounter{float@type}{8}
 \setcounter{lstnumber}{1}
 \setcounter{ContinuedFloat}{0}
-\setcounter{lstlisting}{6}
+\setcounter{lstlisting}{9}
 }
