@@ -1,0 +1,163 @@
+Buffer Size : 1  Memory access via : ptrace
+./tracer -m 0 ./sample 1 100000
+0.53user 5.66system 0:10.37elapsed 59%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 1  Memory access via : proc
+./tracer -m 1 ./sample 1 100000
+0.81user 7.43system 0:13.35elapsed 61%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 1  Memory access via : cross memory
+./tracer -m 2 ./sample 1 100000
+0.58user 5.68system 0:10.41elapsed 60%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
+Buffer Size : 2  Memory access via : ptrace
+./tracer -m 0 ./sample 2 100000
+0.45user 5.23system 0:09.57elapsed 59%CPU (0avgtext+0avgdata 2256maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 2  Memory access via : proc
+./tracer -m 1 ./sample 2 100000
+0.82user 6.87system 0:12.45elapsed 61%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 2  Memory access via : cross memory
+./tracer -m 2 ./sample 2 100000
+0.42user 5.28system 0:09.50elapsed 60%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
+Buffer Size : 8  Memory access via : ptrace
+./tracer -m 0 ./sample 8 100000
+0.55user 5.26system 0:10.10elapsed 57%CPU (0avgtext+0avgdata 2256maxresident)k
+0inputs+0outputs (0major+364minor)pagefaults 0swaps
+Buffer Size : 8  Memory access via : proc
+./tracer -m 1 ./sample 8 100000
+0.67user 6.51system 0:12.28elapsed 58%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 8  Memory access via : cross memory
+./tracer -m 2 ./sample 8 100000
+0.51user 5.27system 0:10.09elapsed 57%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
+Buffer Size : 16  Memory access via : ptrace
+./tracer -m 0 ./sample 16 100000
+0.37user 5.48system 0:10.21elapsed 57%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 16  Memory access via : proc
+./tracer -m 1 ./sample 16 100000
+0.68user 6.69system 0:12.39elapsed 59%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 16  Memory access via : cross memory
+./tracer -m 2 ./sample 16 100000
+0.59user 5.50system 0:10.69elapsed 57%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+369minor)pagefaults 0swaps
+Buffer Size : 32  Memory access via : ptrace
+./tracer -m 0 ./sample 32 100000
+0.59user 5.58system 0:10.80elapsed 57%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 32  Memory access via : proc
+./tracer -m 1 ./sample 32 100000
+0.72user 7.02system 0:13.05elapsed 59%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 32  Memory access via : cross memory
+./tracer -m 2 ./sample 32 100000
+0.40user 5.40system 0:10.12elapsed 57%CPU (0avgtext+0avgdata 2288maxresident)k
+
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 64  Memory access via : ptrace
+./tracer -m 0 ./sample 64 100000
+0.57user 6.08system 0:11.31elapsed 58%CPU (0avgtext+0avgdata 2256maxresident)k
+0inputs+0outputs (0major+364minor)pagefaults 0swaps
+Buffer Size : 64  Memory access via : proc
+./tracer -m 1 ./sample 64 100000
+0.76user 7.24system 0:13.54elapsed 59%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 64  Memory access via : cross memory
+./tracer -m 2 ./sample 64 100000
+0.46user 5.47system 0:10.51elapsed 56%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+365minor)pagefaults 0swaps
+
+Buffer Size : 128  Memory access via : ptrace
+./tracer -m 0 ./sample 128 100000
+0.67user 6.64system 0:12.06elapsed 60%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 128  Memory access via : proc
+./tracer -m 1 ./sample 128 100000
+1.04user 9.45system 0:17.07elapsed 61%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 128  Memory access via : cross memory
+./tracer -m 2 ./sample 128 100000
+0.62user 7.01system 0:12.74elapsed 59%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+
+Buffer Size : 256  Memory access via : ptrace
+./tracer -m 0 ./sample 256 100000
+0.97user 8.35system 0:13.95elapsed 66%CPU (0avgtext+0avgdata 2256maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+
+Buffer Size : 256  Memory access via : proc
+./tracer -m 1 ./sample 256 100000
+0.76user 6.52system 0:11.66elapsed 62%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
+
+Buffer Size : 256  Memory access via : cross memory
+./tracer -m 2 ./sample 256 100000
+0.50user 5.45system 0:10.20elapsed 58%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+366minor)pagefaults 0swaps
+
+Buffer Size : 512  Memory access via : ptrace
+./tracer -m 0 ./sample 512 100000
+1.72user 14.67system 0:22.75elapsed 72%CPU (0avgtext+0avgdata 2256maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 512  Memory access via : proc
+./tracer -m 1 ./sample 512 100000
+0.98user 7.96system 0:14.19elapsed 63%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 512  Memory access via : cross memory
+./tracer -m 2 ./sample 512 100000
+0.47user 5.52system 0:10.05elapsed 59%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 1024  Memory access via : ptrace
+./tracer -m 0 ./sample 1024 100000
+3.60user 24.98system 0:36.16elapsed 79%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 1024  Memory access via : proc
+./tracer -m 1 ./sample 1024 100000
+0.81user 7.03system 0:12.60elapsed 62%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 1024  Memory access via : cross memory
+./tracer -m 2 ./sample 1024 100000
+0.54user 5.40system 0:09.87elapsed 60%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 2048  Memory access via : ptrace
+./tracer -m 0 ./sample 2048 100000
+5.04user 33.79system 0:45.47elapsed 85%CPU (0avgtext+0avgdata 2272maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 2048  Memory access via : proc
+./tracer -m 1 ./sample 2048 100000
+0.86user 6.65system 0:11.93elapsed 63%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+367minor)pagefaults 0swaps
+Buffer Size : 2048  Memory access via : cross memory
+./tracer -m 2 ./sample 2048 100000
+0.53user 5.44system 0:09.91elapsed 60%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 4096  Memory access via : ptrace
+./tracer -m 0 ./sample 4096 100000
+10.46user 65.57system 1:23.42elapsed 91%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+370minor)pagefaults 0swaps
+Buffer Size : 4096  Memory access via : proc
+./tracer -m 1 ./sample 4096 100000
+0.86user 7.02system 0:12.69elapsed 62%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+Buffer Size : 4096  Memory access via : cross memory
+./tracer -m 2 ./sample 4096 100000
+0.49user 5.45system 0:09.84elapsed 60%CPU (0avgtext+0avgdata 2288maxresident)k
+0inputs+0outputs (0major+368minor)pagefaults 0swaps
+
+Buffer Size : 9192  Memory access via : ptrace
+./tracer -m 0 ./sample 9192 100000
+19.29user 114.77system 2:21.09elapsed 95%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+371minor)pagefaults 0swaps
+Buffer Size : 9192  Memory access via : proc
+./tracer -m 1 ./sample 9192 100000
+1.20user 10.87system 0:18.89elapsed 63%CPU (0avgtext+0avgdata 2336maxresident)k
+0inputs+0outputs (0major+372minor)pagefaults 0swaps
+Buffer Size : 9192  Memory access via : cross memory
+./tracer -m 2 ./sample 9192 100000
+0.56user 6.20system 0:11.19elapsed 60%CPU (0avgtext+0avgdata 2304maxresident)k
+0inputs+0outputs (0major+370minor)pagefaults 0swaps

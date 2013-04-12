@@ -4,7 +4,7 @@ logfile=micro.txt
 sample=./sample
 tracer=./tracer
 timer=/usr/bin/time 
-system_call_number=10000
+system_call_number=100000
 
 name=("ptrace" "proc" "cross memory");
 tracer_options=('-m 0' '-m 1' '-m 2');
@@ -17,7 +17,7 @@ do
      
       for arg  in 0 1 2 
       do
-      echo "Buffer Size : $arg  Memory access via : ${name[$arg]}" >> $logfile; 
+      echo "Buffer Size : $buffer_size  Memory access via : ${name[$arg]}" >> $logfile; 
       echo $tracer -m $arg $sample $buffer_size $system_call_number >> $logfile;
       $timer --output=$logfile --append $tracer -m $arg $sample $buffer_size $system_call_number ;
       
