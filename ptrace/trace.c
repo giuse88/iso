@@ -4,24 +4,85 @@
 #include "trace.h"
 
 #if defined(__i386__)
-
     #define DWORD_SIZE 	     4
     #include "syscall_x32.h"
-
 #elif defined(__x86_64__)
-   
    #include "syscall_x64.h"
    #define DWORD_SIZE 	     8
-
 #endif   
 
+#include "seccomp-bpf.h" 
 
+#define GET_PTRACE_EVENT(status)                ((0xFF0000 & status) >> 16)
+
+
+struct sock_filter filter[] = {		
+		//	VALIDATE_ARCHITECTURE,
+	     BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_TRACE)
+	};
+	
+struct sock_fprog prog = {
+		.len = (unsigned short)(sizeof(filter)/sizeof(filter[0])),
+		.filter = filter,
+	};
 
 //type memory access 
 memory_access_type memory_access=PTRACE; 
+// mem file descriptor
+int mem_fd; 
+
 //extra information
 int extra=0;
+// bpf filter
+BOOL bpf=FALSE; 
+BOOL sync_process=FALSE; 
 
+
+void syncronisation (int d) {
+  sync_process=TRUE; 
+  printf("%d\n", getpid()); 
+  fflush(0);
+}  
+
+void error(const char  * str) {
+ perror(str); 
+ exit(1); 
+}
+
+void install_signal_handler() {
+  if (signal(SIGUSR1,syncronisation) < 0) 
+    error("Signal SIGUSER1"); 
+}
+
+
+void wait_syncronisation(pid_t tracee) {
+
+    int pid, status; 
+  
+    pid = waitpid(tracee,&status,0); 
+    
+    if ( pid < 0 )
+      error("Sync on child failed.");
+    else
+      printf("Threads thread synchronized\n");
+}
+
+void install_options(child) {
+
+      if (memory_access == PROC) 
+	open_memory_fd(child);
+      
+      if (bpf) 
+	set_seccomp(child); 
+      else 
+	set_sysgood(child); 
+}
+
+void resume_tracee( pid_t tracee) {
+  
+    if ( ptrace(PTRACE_CONT, tracee, NULL, NULL) < 0) 
+	error("Resume tracee failed"); 
+}
 
 void get_registers(pid_t tracee, registers * regs ) {
   
@@ -37,8 +98,11 @@ void print_syscall_info( syscall_info * info) {
     
     printf("\t arg0 = 0x%08lx,\t arg1 = 0x%08lx,\targ2 = 0x%08lx,\targ3 = 0x%08lx,\targ4 = 0x%08lx,\targ5 = 0x%08lx \t", 	
 		  info->arg0,info->arg1,info->arg2,info->arg3, info->arg4,info->arg5); 
-    printf("Result 0x%lx\n", info->ret); 
-    
+   
+    if (!bpf) 
+      printf("Result 0x%lx\n", info->ret); 
+    else 
+      puts(""); 
     if ( (info->syscall == __NR_write || info->syscall == __NR_read) && extra ) {
      
     printf("\tFile descritor   : %ld \n", info->arg0 ); 
@@ -119,19 +183,12 @@ void peek_data_ptrace (pid_t tracee, const void * source, size_t count, void * d
 }
 
 void peek_data_proc (pid_t tracee, const void * source, size_t count, void * dest){
-  
-  
-  char mem_file_name[100]={0};
-  int mem_fd; 
-  
-  sprintf(mem_file_name, "/proc/%d/mem", tracee);
-  // No need to open and close the file each time the tracee memory is accessed 
-  mem_fd = open(mem_file_name, O_RDONLY);
-  lseek(mem_fd, (__off_t)source, SEEK_SET);
-  read(mem_fd, dest, count);
-  close(mem_fd); 
-  
-  return;
+ 
+  int r; 
+
+  r=lseek(mem_fd, (__off_t)source, SEEK_SET);
+  r=read(mem_fd, dest, count);
+
 }
 
 void peek_data_cross (pid_t tracee, const void * source, size_t count, void * dest){
@@ -204,7 +261,9 @@ void syscall_entry(pid_t tracee,  syscall_info *sys_info) {
     get_registers(tracee, &regs); 
     
     get_syscall_info(&regs, sys_info);
-    get_syscall_extra_info(tracee, &regs, sys_info);
+    
+    if (extra) 
+      get_syscall_extra_info(tracee, &regs, sys_info);
   
 }
 
@@ -217,11 +276,17 @@ void syscall_exit(pid_t tracee , syscall_info *sys_info) {
 }
 
  void next_syscall_event(pid_t tracee) {
+    
+   enum __ptrace_request req=PTRACE_SYSCALL; 
    
-    if(ptrace(PTRACE_SYSCALL, tracee, NULL, NULL) <0 ){
+    if (bpf) 
+      req=PTRACE_CONT; 
+   
+    if(ptrace(req, tracee, NULL, NULL) <0 ){
       perror("Ptrace PTRACE_SYSCALL"); 
       exit(-1); 
     }
+    
  }
 
 int wait_systemcall(pid_t child){
@@ -240,6 +305,9 @@ int wait_systemcall(pid_t child){
   if (WIFEXITED(status)) 
       return TRACEE_TERMINATION; 
 
+ if( WIFSTOPPED(status) & WSTOPSIG(status)  | PTRACE_EVENT_SECCOMP << 8)
+    return TRACEE_SECCOMP; 
+  
   if (WSTOPSIG ( status ) & ( WIFSTOPPED ( status) | SIGSYSTRAP ))
       return (enter_status == 1) ? TRACEE_ENTER : TRACEE_EXIT; 
 
@@ -250,6 +318,14 @@ void set_sysgood(pid_t tracee) {
 
   if (ptrace(PTRACE_SETOPTIONS, tracee, 0, PTRACE_O_TRACESYSGOOD) < 0){
 	perror("PTRACE_O_TRACESYSGOOD");
+	exit(1);  
+  }
+}
+
+void set_seccomp(pid_t tracee) {
+
+  if (ptrace(PTRACE_SETOPTIONS, tracee, 0, PTRACE_O_TRACESECCOMP) < 0){
+	perror("PTRACE_O_TRACESECCOMP");
 	exit(1);  
   }
 }
@@ -267,4 +343,33 @@ void print_memory_access(){
   }
 }
 
+void open_memory_fd(pid_t tracee){   
+  char mem_file_name[100]={0};
+  sprintf(mem_file_name, "/proc/%d/mem", tracee);
+  mem_fd = open(mem_file_name, O_RDONLY);
+  
+  if (mem_fd < 0) {
+    perror("Open Proc"); 
+    exit(1); 
+  }
+}
 
+void install_filter(void)
+{
+
+	if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0))
+		error("prctl(NO_NEW_PRIVS)");
+	
+	if (prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, &prog))
+		error("prctl");
+	
+}
+
+
+void clean() {
+  close_memory_fd();
+}
+
+void close_memory_fd(){
+  close(mem_fd); 
+}
